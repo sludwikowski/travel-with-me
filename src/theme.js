@@ -3,22 +3,22 @@ import { createTheme } from '@mui/material'
 export const theme = createTheme({
   palette: {
     primary: {
-      main: '#BFBFBF'
+      main: '#EEEFF7'
     },
     secondary: {
-      main: '#8C8C8C'
+      main: '#31353D'
     },
     info: {
-      main: '#3498db'
+      main: '#A0CED9'
     },
     warning: {
       main: '#e67e22'
     },
     error: {
-      main: '#e74c3c'
+      main: '#DB0000'
     },
     success: {
-      main: '#2ecc71'
+      main: '#025930'
     },
     background: {
       default: '#f1f1f1'

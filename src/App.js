@@ -1,9 +1,10 @@
 import React from 'react'
 
-import { CssBaseline, ThemeProvider } from '@mui/material'
+import { Button, CssBaseline, ThemeProvider, Typography } from '@mui/material'
 
 import { theme } from './theme'
 import FullPageLoader from './components/FullPageLoader'
+import FullPageMessage from './components/FullPageMessage'
 
 export class App extends React.Component {
   state = {
@@ -41,7 +42,14 @@ export class App extends React.Component {
   }
 
   render () {
-    const { isLoading } = this.state
+    const {
+      isLoading,
+      isInfoDisplayed,
+      infoMessage,
+      hasError,
+      errorMessage
+    } = this.state
+
     return (
       <ThemeProvider theme={theme}>
         <CssBaseline/>
@@ -50,6 +58,60 @@ export class App extends React.Component {
         {
             isLoading ?
               <FullPageLoader/>
+              :
+              null
+          }
+        <Typography
+          variant={'h2'}
+        >
+          Header 1
+        </Typography>
+        <Typography
+          variant={'h4'}
+        >
+          Header 3
+        </Typography>
+        <Typography
+          variant={'button'}
+        >
+          Button
+        </Typography>
+        <Button
+          variant={'contained'}
+          color={'primary'}
+        >
+          CONTAINED PRIMARY
+        </Button>
+        <Button
+          variant={'contained'}
+          color={'secondary'}
+        >
+          CONTAINED SECONDARY
+        </Button>
+        <Button
+          variant={'text'}
+          color={'secondary'}
+        >
+          TEXT PRIMARY
+        </Button>
+        {
+            isInfoDisplayed ?
+              <FullPageMessage
+                message={infoMessage}
+                iconVariant={'info'}
+                onButtonClick={console.log}
+              />
+              :
+              null
+          }
+
+        {
+            hasError ?
+              <FullPageMessage
+                message={errorMessage}
+                iconVariant={'error'}
+                onButtonClick={console.log}
+              />
               :
               null
           }
