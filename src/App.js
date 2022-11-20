@@ -1,8 +1,9 @@
 import React from 'react'
 
-import { Container, CssBaseline, ThemeProvider } from '@mui/material'
+import { CssBaseline, ThemeProvider } from '@mui/material'
 
 import { theme } from './theme'
+import FullPageLoader from './components/FullPageLoader'
 
 export class App extends React.Component {
   state = {
@@ -40,12 +41,19 @@ export class App extends React.Component {
   }
 
   render () {
+    const { isLoading } = this.state
     return (
       <ThemeProvider theme={theme}>
         <CssBaseline/>
-        <Container maxWidth={'xl'}>
-          Simon Travel
-        </Container>
+
+        <h1>Simon Travel</h1>
+        {
+            isLoading ?
+              <FullPageLoader/>
+              :
+              null
+          }
+
       </ThemeProvider>
     )
   }
