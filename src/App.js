@@ -1,11 +1,12 @@
 import React from 'react'
 
-import { Button, CssBaseline, ThemeProvider, Typography } from '@mui/material'
+import { CssBaseline, ThemeProvider } from '@mui/material'
 
 import { theme } from './theme'
 
 import FullPageMessage from './components/FullPageMessage'
 import FullPageLoader from './components/FullPageLoader'
+import LoginForm from './components/LoginForm'
 
 export class App extends React.Component {
   state = {
@@ -23,7 +24,7 @@ export class App extends React.Component {
     userAvatar: '',
 
     // router state
-    notLoginUserRoute: 'LOGIN', // 'NEW-ACCOUNT' or 'FORGOT PASSWORD'
+    notLoginUserRoute: 'LOGIN', // 'NEW-ACCOUNT' or 'FORGOT-PASSWORD'
 
     // login page state
     loginEmail: '',
@@ -44,57 +45,39 @@ export class App extends React.Component {
 
   render () {
     const {
+      loginEmail,
+      loginPassword,
       isLoading,
       isInfoDisplayed,
       infoMessage,
       hasError,
-      errorMessage
+      errorMessage,
+      notLoginUserRoute
     } = this.state
 
     return (
       <ThemeProvider theme={theme}>
         <CssBaseline/>
-
-        <h1>Simon Travel</h1>
+        {
+            notLoginUserRoute === 'LOGIN' ?
+              <LoginForm
+                email={loginEmail}
+                password={loginPassword}
+                onChangeEmail={(e) => this.setState(() => ({ loginEmail: e.target.value }))}
+                onChangePassword={(e) => this.setState(() => ({ loginPassword: e.target.value }))}
+                onClickLogin={() => console.log('onClickLogin')}
+                onClickCreateAccount={() => console.log('onClickCreateAccount')}
+                onClickForgotPassword={() => console.log('onClickForgotPassword')}
+              />
+              :
+              null
+          }
         {
             isLoading ?
               <FullPageLoader/>
               :
               null
           }
-        <Typography
-          variant={'h2'}
-        >
-          Header 1
-        </Typography>
-        <Typography
-          variant={'h4'}
-        >
-          Header 3
-        </Typography>
-        <Typography
-          variant={'button'}
-        >
-          Button
-        </Typography>
-        <Button
-          variant={'contained'}
-          color={'primary'}
-        >
-          CONTAINED PRIMARY
-        </Button>
-        <Button
-          variant={'contained'}
-          color={'secondary'}
-        >
-          CONTAINED SECONDARY
-        </Button>
-        <Button
-          variant={'text'}
-          color={'secondary'}
-        >
-          TEXT PRIMARY
-        </Button>
         {
             isInfoDisplayed ?
               <FullPageMessage
@@ -105,7 +88,6 @@ export class App extends React.Component {
               :
               null
           }
-
         {
             hasError ?
               <FullPageMessage
