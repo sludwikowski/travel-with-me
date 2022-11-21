@@ -1,36 +1,20 @@
-import * as React from 'react'
-import PropTypes from 'prop-types'
-// import RocketIcon from '@mui/icons-material/Rocket';
-import { Box, CircularProgress } from '@mui/material'
+import React from 'react'
+
+import FullPageLayout from '../FullPageLayout'
+import Loader from '../Loader'
 
 export function FullPageLoader (props) {
-  const { sx } = props
-  return (
-    <Box
-      sx={{
-        position: 'fixed',
-        top: 0,
-        left: 0,
-        zIndex: 9999,
-        display: 'flex',
-        justifyContent: 'center',
-        alignItems: 'center',
-        height: '100vh',
-        width: '100vw',
-        backgroundColor: 'white',
-        ...sx
-      }}
-    >
-      <CircularProgress
-        color={'success'}
-        size={70}
-      />
-    </Box>
-  )
-}
+  const {
+    ...otherProps
+  } = props
 
-FullPageLoader.propTypes = {
-  sx: PropTypes.object
+  return (
+    <FullPageLayout>
+      <Loader
+        {...otherProps}
+      />
+    </FullPageLayout>
+  )
 }
 
 export default FullPageLoader

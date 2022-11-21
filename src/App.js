@@ -3,8 +3,9 @@ import React from 'react'
 import { Button, CssBaseline, ThemeProvider, Typography } from '@mui/material'
 
 import { theme } from './theme'
-import FullPageLoader from './components/FullPageLoader'
+
 import FullPageMessage from './components/FullPageMessage'
+import FullPageLoader from './components/FullPageLoader'
 
 export class App extends React.Component {
   state = {
