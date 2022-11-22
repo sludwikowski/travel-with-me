@@ -7,6 +7,7 @@ import { theme } from './theme'
 import FullPageMessage from './components/FullPageMessage'
 import FullPageLoader from './components/FullPageLoader'
 import LoginForm from './components/LoginForm'
+import CreateAccountForm from './components/CreateAccountForm'
 
 export class App extends React.Component {
   state = {
@@ -24,7 +25,7 @@ export class App extends React.Component {
     userAvatar: '',
 
     // router state
-    notLoginUserRoute: 'LOGIN', // 'NEW-ACCOUNT' or 'FORGOT-PASSWORD'
+    notLoginUserRoute: 'CREATE-ACCOUNT', // 'CREATE-ACCOUNT' or 'FORGOT-PASSWORD'
 
     // login page state
     loginEmail: '',
@@ -52,7 +53,10 @@ export class App extends React.Component {
       infoMessage,
       hasError,
       errorMessage,
-      notLoginUserRoute
+      notLoginUserRoute,
+      createAccountEmail,
+      createAccountPassword,
+      createAccountRepeatPassword
     } = this.state
 
     return (
@@ -70,7 +74,19 @@ export class App extends React.Component {
                 onClickForgotPassword={() => console.log('onClickForgotPassword')}
               />
               :
-              null
+              notLoginUserRoute === 'CREATE-ACCOUNT' ?
+                <CreateAccountForm
+                  email={createAccountEmail}
+                  password={createAccountPassword}
+                  repeatPassword={createAccountRepeatPassword}
+                  onChangeEmail={(e) => this.setState(() => ({ createAccountEmail: e.target.value }))}
+                  onChangePassword={(e) => this.setState(() => ({ createAccountPassword: e.target.value }))}
+                  onChangeRepeatPassword={(e) => this.setState(() => ({ createAccountRepeatPassword: e.target.value }))}
+                  onClickCreateAccount={() => console.log('onClickCreateAccount')}
+                  onClickBackToLogin={() => console.log('onClickBackToLogin')}
+                />
+                :
+                null
           }
         {
             isLoading ?
