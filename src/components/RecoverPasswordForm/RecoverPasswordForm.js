@@ -85,7 +85,7 @@ export function RecoverPasswordForm (props) {
               sx={{ mt: 3, mb: 2 }}
               onClick={onClickRecover}
             >
-              CREATE ACCOUNT
+              RECOVER PASSWORD
             </Button>
             <Button
               type={'button'}
