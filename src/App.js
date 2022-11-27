@@ -12,6 +12,8 @@ import FullPageLoader from './components/FullPageLoader'
 import LoginForm from './components/LoginForm'
 import CreateAccountForm from './components/CreateAccountForm/CreateAccountForm'
 import RecoverPasswordForm from './components/RecoverPasswordForm'
+import MenuAppBar from './components/MenuAppBar'
+import UserDropdown from './components/UserDropdown/UserDropdown'
 
 import { signIn, signUp, getIdToken, decodeToken, checkIfUserIsLoggedIn, sendPasswordResetEmail } from './auth'
 
@@ -167,6 +169,9 @@ export class App extends React.Component {
   render () {
     const {
       isUserLoggedIn,
+      userDisplayName,
+      userEmail,
+      userAvatar,
       loginEmail,
       loginEmailError,
       loginPassword,
@@ -195,7 +200,13 @@ export class App extends React.Component {
         <CssBaseline/>
         {
           isUserLoggedIn ?
-            'LOGIN USER CONTENT'
+            <MenuAppBar>
+              <UserDropdown
+                userDisplayName={userDisplayName}
+                userEmail={userEmail}
+                userAvatar={userAvatar}
+              />
+            </MenuAppBar>
             :
             notLoginUserRoute === 'LOGIN' ?
               <FullPageLayout>
