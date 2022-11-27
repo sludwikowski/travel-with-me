@@ -43,13 +43,14 @@ export function Message (props) {
               null
         }
         <Typography
-          variant={'h3'}
+          variant={'h5'}
+          mb={'10px'}
         >
           {message}
         </Typography>
         <Button
           variant={'contained'}
-          color={'primary'}
+          color={'secondary'}
           onClick={onButtonClick}
         >
           {buttonLabel}
