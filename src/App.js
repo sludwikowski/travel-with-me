@@ -1,5 +1,7 @@
 import React from 'react'
 
+import isEmail from 'validator/lib/isEmail'
+
 import { CssBaseline, ThemeProvider } from '@mui/material'
 
 import { theme } from './theme'
@@ -33,7 +35,9 @@ export class App extends React.Component {
 
     // login page state
     loginEmail: '',
+    loginEmailError: '',
     loginPassword: '',
+    loginSubmitted: false,
 
     // create account page
     createAccountEmail: '',
@@ -49,6 +53,10 @@ export class App extends React.Component {
   }
 
   onClickLogin = async () => {
+    this.setState(() => ({ loginSubmitted: true }))
+
+    if (this.state.loginEmailError) return
+
     this.setState(() => ({ isLoading: true }))
     try {
       await signIn(this.state.loginEmail, this.state.loginPassword)
@@ -72,7 +80,9 @@ export class App extends React.Component {
   render () {
     const {
       loginEmail,
+      loginEmailError,
       loginPassword,
+      loginSubmitted,
       isLoading,
       isInfoDisplayed,
       infoMessage,
@@ -93,8 +103,14 @@ export class App extends React.Component {
             <FullPageLayout>
               <LoginForm
                 email={loginEmail}
+                emailError={loginSubmitted ? loginEmailError : undefined}
                 password={loginPassword}
-                onChangeEmail={(e) => this.setState(() => ({ loginEmail: e.target.value }))}
+                onChangeEmail={(e) => {
+                  this.setState(() => ({
+                    loginEmail: e.target.value,
+                    loginEmailError: isEmail(e.target.value) ? '' : 'Please type a valid e-mail!'
+                  }))
+                }}
                 onChangePassword={(e) => this.setState(() => ({ loginPassword: e.target.value }))}
                 onClickLogin={this.onClickLogin}
                 onClickCreateAccount={() => this.setState(() => ({ notLoginUserRoute: 'CREATE-ACCOUNT' }))}

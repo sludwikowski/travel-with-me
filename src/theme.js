@@ -23,8 +23,16 @@ export const theme = createTheme({
     background: {
       default: '#f1f1f1'
     }
+  },
+  components: {
+    MuiFormHelperText: {
+      styleOverrides: {
+        root: {
+          color: '#DB0000'
+        }
+      }
+    }
   }
-
 })
 
 console.log('theme', theme)

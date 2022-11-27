@@ -8,6 +8,7 @@ export function LoginForm (props) {
   const {
     sx,
     email,
+    emailError,
     password,
     onChangeEmail,
     onChangePassword,
@@ -76,6 +77,7 @@ export function LoginForm (props) {
               autoComplete={'email'}
               value={email}
               onChange={onChangeEmail}
+              helperText={emailError}
             />
             <TextField
               margin={'normal'}
@@ -128,6 +130,7 @@ LoginForm.propTypes = {
   sx: PropTypes.object,
   className: PropTypes.string,
   email: PropTypes.string.isRequired,
+  emailError: PropTypes.string,
   password: PropTypes.string.isRequired,
   onChangeEmail: PropTypes.func.isRequired,
   onChangePassword: PropTypes.func.isRequired,
