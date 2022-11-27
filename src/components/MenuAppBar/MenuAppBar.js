@@ -13,7 +13,7 @@ function MenuAppBar (props) {
     <Box sx={{ flexGrow: 1 }}>
       <AppBar
         position={'static'}
-        sx={{ pl: '100px', pr: '100px', display: { xs: 'flex' }, ...sx }}
+        sx={{ pl: '200px', pr: '200px', display: { xs: 'flex' }, ...sx }}
       >
         <Toolbar >
           <RocketLaunchIcon

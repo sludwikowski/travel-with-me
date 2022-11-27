@@ -92,7 +92,7 @@ export function LoginForm (props) {
               helperText={passwordError}
             />
             <Button
-              type={'submit'}
+              type={'button'}
               fullWidth
               variant={'contained'}
               color={'warning'}

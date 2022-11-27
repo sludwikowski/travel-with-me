@@ -31,7 +31,7 @@ export class App extends React.Component {
     infoMessage: '',
 
     // user/auth state
-    isUserLoggedIn: true,
+    isUserLoggedIn: false,
     userDisplayName: '',
     userEmail: '',
     userAvatar: '',
@@ -144,6 +144,8 @@ export class App extends React.Component {
     const token = getIdToken()
     if (!token) return
     const user = decodeToken(token)
+
+    // @TODO replace this token decoding with request for user data
     this.setState(() => ({
       isUserLoggedIn: true,
       userDisplayName: '',
@@ -275,7 +277,8 @@ export class App extends React.Component {
                   </FullPageLayout>
                   :
                   null
-        }
+                }
+
         {
             isLoading ?
               <FullPageLoader/>

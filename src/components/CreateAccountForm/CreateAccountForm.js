@@ -108,7 +108,7 @@ export function CreateAccountForm (props) {
               helperText={repeatPasswordError}
             />
             <Button
-              type={'submit'}
+              type={'button'}
               fullWidth
               variant={'contained'}
               color={'secondary'}

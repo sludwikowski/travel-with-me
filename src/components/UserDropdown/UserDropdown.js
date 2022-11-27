@@ -25,8 +25,10 @@ export function UserDropdown (props) {
       <Box
         sx={{
           display: 'flex',
+          flexDirection: 'column',
           justifyContent: 'center',
           alignItems: 'flex-end',
+          width: 'calc(100% - 51px)',
           ...sx
         }}
       >
@@ -41,11 +43,13 @@ export function UserDropdown (props) {
           {userEmail}
         </Typography>
       </Box>
-      <div>
+      <Box
+        sx={{ ml: 2 }}
+      >
         <Avatar
           src={userAvatar}
         />
-      </div>
+      </Box>
     </Box>
   )
 }

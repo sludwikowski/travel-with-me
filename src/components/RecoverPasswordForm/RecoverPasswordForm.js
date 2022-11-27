@@ -78,7 +78,7 @@ export function RecoverPasswordForm (props) {
               helperText={emailError}
             />
             <Button
-              type={'submit'}
+              type={'button'}
               fullWidth
               variant={'contained'}
               color={'secondary'}
