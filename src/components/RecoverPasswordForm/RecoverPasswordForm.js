@@ -8,6 +8,7 @@ export function RecoverPasswordForm (props) {
   const {
     sx,
     email,
+    emailError,
     onChangeEmail,
     onClickRecover,
     onClickBackToLogin
@@ -74,6 +75,7 @@ export function RecoverPasswordForm (props) {
               autoFocus
               value={email}
               onChange={onChangeEmail}
+              helperText={emailError}
             />
             <Button
               type={'submit'}
@@ -104,6 +106,7 @@ export function RecoverPasswordForm (props) {
 RecoverPasswordForm.propTypes = {
   sx: PropTypes.object,
   email: PropTypes.string.isRequired,
+  emailError: PropTypes.string,
   onChangeEmail: PropTypes.func.isRequired,
   onClickRecover: PropTypes.func.isRequired,
   onClickBackToLogin: PropTypes.func.isRequired

@@ -10,6 +10,7 @@ export function LoginForm (props) {
     email,
     emailError,
     password,
+    passwordError,
     onChangeEmail,
     onChangePassword,
     onClickLogin,
@@ -88,7 +89,7 @@ export function LoginForm (props) {
               type={'password'}
               value={password}
               onChange={onChangePassword}
-              autoComplete={'current-password'}
+              helperText={passwordError}
             />
             <Button
               type={'submit'}
@@ -132,6 +133,7 @@ LoginForm.propTypes = {
   email: PropTypes.string.isRequired,
   emailError: PropTypes.string,
   password: PropTypes.string.isRequired,
+  passwordError: PropTypes.string,
   onChangeEmail: PropTypes.func.isRequired,
   onChangePassword: PropTypes.func.isRequired,
   onClickLogin: PropTypes.func.isRequired,

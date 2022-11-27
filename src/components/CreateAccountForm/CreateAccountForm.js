@@ -8,8 +8,11 @@ export function CreateAccountForm (props) {
   const {
     sx,
     email,
+    emailError,
     password,
+    passwordError,
     repeatPassword,
+    repeatPasswordError,
     onChangeEmail,
     onChangePassword,
     onChangeRepeatPassword,
@@ -78,6 +81,7 @@ export function CreateAccountForm (props) {
               autoFocus
               value={email}
               onChange={onChangeEmail}
+              helperText={emailError}
             />
             <TextField
               margin={'normal'}
@@ -89,6 +93,7 @@ export function CreateAccountForm (props) {
               value={password}
               onChange={onChangePassword}
               autoComplete={'password'}
+              helperText={passwordError}
             />
             <TextField
               margin={'normal'}
@@ -100,6 +105,7 @@ export function CreateAccountForm (props) {
               value={repeatPassword}
               onChange={onChangeRepeatPassword}
               autoComplete={'repeat-password'}
+              helperText={repeatPasswordError}
             />
             <Button
               type={'submit'}
@@ -130,8 +136,11 @@ export function CreateAccountForm (props) {
 CreateAccountForm.propTypes = {
   sx: PropTypes.object,
   email: PropTypes.string.isRequired,
+  emailError: PropTypes.string,
   password: PropTypes.string.isRequired,
+  passwordError: PropTypes.string,
   repeatPassword: PropTypes.string.isRequired,
+  repeatPasswordError: PropTypes.string,
   onChangeEmail: PropTypes.func.isRequired,
   onChangePassword: PropTypes.func.isRequired,
   onChangeRepeatPassword: PropTypes.func.isRequired,
