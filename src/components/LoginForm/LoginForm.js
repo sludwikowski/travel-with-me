@@ -1,7 +1,7 @@
 import * as React from 'react'
 import PropTypes from 'prop-types'
 
-import { Avatar, Box, Button, Checkbox, FormControlLabel, Grid, Paper, TextField, Typography } from '@mui/material'
+import { Avatar, Box, Button, Grid, Paper, TextField, Typography } from '@mui/material'
 import RocketLaunchIcon from '@mui/icons-material/RocketLaunch'
 
 export function LoginForm (props) {
@@ -64,7 +64,6 @@ export function LoginForm (props) {
           </Typography>
           <Box
             component={'form'}
-            noValidate
             sx={{ mt: 1 }}
           >
             <TextField
@@ -75,7 +74,6 @@ export function LoginForm (props) {
               label={'Email Address'}
               name={'email'}
               autoComplete={'email'}
-              autoFocus
               value={email}
               onChange={onChangeEmail}
             />
@@ -90,14 +88,6 @@ export function LoginForm (props) {
               onChange={onChangePassword}
               autoComplete={'current-password'}
             />
-            <FormControlLabel
-              control={
-                <Checkbox
-                  value={'remember'}
-                  color={'primary'}
-                />}
-              label={'Remember me'}
-            />
             <Button
               type={'submit'}
               fullWidth
@@ -109,7 +99,7 @@ export function LoginForm (props) {
               LOGIN
             </Button>
             <Button
-              type={'submit'}
+              type={'button'}
               fullWidth
               variant={'contained'}
               color={'secondary'}
@@ -119,7 +109,7 @@ export function LoginForm (props) {
               CREATE ACCOUNT
             </Button>
             <Button
-              type={'submit'}
+              type={'button'}
               fullWidth
               variant={'text'}
               color={'secondary'}

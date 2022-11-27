@@ -1,7 +1,7 @@
 import * as React from 'react'
 import PropTypes from 'prop-types'
 
-import { Avatar, Box, Button, Checkbox, FormControlLabel, Grid, Paper, TextField, Typography } from '@mui/material'
+import { Avatar, Box, Button, Grid, Paper, TextField, Typography } from '@mui/material'
 import RocketLaunchIcon from '@mui/icons-material/RocketLaunch'
 
 export function CreateAccountForm (props) {
@@ -65,7 +65,6 @@ export function CreateAccountForm (props) {
           </Typography>
           <Box
             component={'form'}
-            noValidate
             sx={{ mt: 1 }}
           >
             <TextField
@@ -73,7 +72,7 @@ export function CreateAccountForm (props) {
               required
               fullWidth
               id={'email'}
-              label={'Email Address'}
+              label={'E-mail'}
               name={'email'}
               autoComplete={'email'}
               autoFocus
@@ -90,7 +89,8 @@ export function CreateAccountForm (props) {
               value={password}
               onChange={onChangePassword}
               autoComplete={'password'}
-            /> <TextField
+            />
+            <TextField
               margin={'normal'}
               required
               fullWidth
@@ -100,14 +100,6 @@ export function CreateAccountForm (props) {
               value={repeatPassword}
               onChange={onChangeRepeatPassword}
               autoComplete={'repeat-password'}
-               />
-            <FormControlLabel
-              control={
-                <Checkbox
-                  value={'remember'}
-                  color={'primary'}
-                />}
-              label={'Remember me'}
             />
             <Button
               type={'submit'}
@@ -120,7 +112,7 @@ export function CreateAccountForm (props) {
               CREATE ACCOUNT
             </Button>
             <Button
-              type={'submit'}
+              type={'button'}
               fullWidth
               variant={'text'}
               color={'secondary'}

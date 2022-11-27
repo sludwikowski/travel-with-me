@@ -1,14 +1,31 @@
 import * as React from 'react'
-// import RocketIcon from '@mui/icons-material/Rocket';
-import { CircularProgress } from '@mui/material'
+import PropTypes from 'prop-types'
 
-export function Loader () {
+import { Box, CircularProgress } from '@mui/material'
+
+export function Loader (props) {
+  const {
+    sx,
+    ...otherProps
+  } = props
+
   return (
-    <CircularProgress
-      color={'success'}
-      size={70}
-    />
+    <Box
+      sx={{
+        ...sx
+      }}
+      {...otherProps}
+    >
+      <CircularProgress
+        color={'success'}
+        size={70}
+      />
+    </Box>
   )
+}
+
+Loader.propTypes = {
+  sx: PropTypes.object
 }
 
 export default Loader

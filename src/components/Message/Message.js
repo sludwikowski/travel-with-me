@@ -11,18 +11,25 @@ export function Message (props) {
     message,
     buttonLabel = 'GO BACK',
     iconVariant = 'info',
-    onButtonClick
+    onButtonClick,
+    ...otherProps
   } = props
   return (
     <Box
       sx={{
-        display: 'flex',
-        flexDirection: 'column',
-        alignItems: 'center',
         ...sx
       }}
+      {...otherProps}
     >
-      {
+      <Box
+        sx={{
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center',
+          ...sx
+        }}
+      >
+        {
           iconVariant === 'info' ?
             <InfoOutlinedIcon
               sx={{ fontSize: 100 }}
@@ -35,18 +42,19 @@ export function Message (props) {
               :
               null
         }
-      <Typography
-        variant={'h3'}
-      >
-        {message}
-      </Typography>
-      <Button
-        variant={'contained'}
-        color={'primary'}
-        onClick={onButtonClick}
-      >
-        {buttonLabel}
-      </Button>
+        <Typography
+          variant={'h3'}
+        >
+          {message}
+        </Typography>
+        <Button
+          variant={'contained'}
+          color={'primary'}
+          onClick={onButtonClick}
+        >
+          {buttonLabel}
+        </Button>
+      </Box>
     </Box>
 
   )

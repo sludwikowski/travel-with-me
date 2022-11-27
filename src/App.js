@@ -4,10 +4,12 @@ import { CssBaseline, ThemeProvider } from '@mui/material'
 
 import { theme } from './theme'
 
+import FullPageLayout from './components/FullPageLayout'
 import FullPageMessage from './components/FullPageMessage'
 import FullPageLoader from './components/FullPageLoader'
+import Message from './components/Message'
 import LoginForm from './components/LoginForm'
-import CreateAccountForm from './components/CreateAccountForm'
+import CreateAccountForm from './components/CreateAccountForm/CreateAccountForm'
 import RecoverPasswordForm from './components/RecoverPasswordForm'
 
 export class App extends React.Component {
@@ -26,7 +28,7 @@ export class App extends React.Component {
     userAvatar: '',
 
     // router state
-    notLoginUserRoute: 'RECOVER-PASSWORD', // 'CREATE-ACCOUNT' or 'RECOVER-PASSWORD'
+    notLoginUserRoute: 'LOGIN', // 'CREATE-ACCOUNT' or 'RECOVER-PASSWORD'
 
     // login page state
     loginEmail: '',
@@ -65,7 +67,8 @@ export class App extends React.Component {
       <ThemeProvider theme={theme}>
         <CssBaseline/>
         {
-            notLoginUserRoute === 'LOGIN' ?
+          notLoginUserRoute === 'LOGIN' ?
+            <FullPageLayout>
               <LoginForm
                 email={loginEmail}
                 password={loginPassword}
@@ -75,8 +78,10 @@ export class App extends React.Component {
                 onClickCreateAccount={() => this.setState(() => ({ notLoginUserRoute: 'CREATE-ACCOUNT' }))}
                 onClickForgotPassword={() => this.setState(() => ({ notLoginUserRoute: 'RECOVER-PASSWORD' }))}
               />
-              :
-              notLoginUserRoute === 'CREATE-ACCOUNT' ?
+            </FullPageLayout>
+            :
+            notLoginUserRoute === 'CREATE-ACCOUNT' ?
+              <FullPageLayout>
                 <CreateAccountForm
                   email={createAccountEmail}
                   password={createAccountPassword}
@@ -87,17 +92,20 @@ export class App extends React.Component {
                   onClickCreateAccount={() => console.log('onClickCreateAccount')}
                   onClickBackToLogin={() => this.setState(() => ({ notLoginUserRoute: 'LOGIN' }))}
                 />
-                :
-                notLoginUserRoute === 'RECOVER-PASSWORD' ?
+              </FullPageLayout>
+              :
+              notLoginUserRoute === 'RECOVER-PASSWORD' ?
+                <FullPageLayout>
                   <RecoverPasswordForm
                     email={recoverPasswordEmail}
                     onChangeEmail={(e) => this.setState(() => ({ recoverPasswordEmail: e.target.value }))}
                     onClickRecover={() => console.log('onClickRecover')}
                     onClickBackToLogin={() => this.setState(() => ({ notLoginUserRoute: 'LOGIN' }))}
                   />
-                  :
-                  null
-          }
+                </FullPageLayout>
+                :
+                null
+        }
         {
             isLoading ?
               <FullPageLoader/>
@@ -116,11 +124,13 @@ export class App extends React.Component {
           }
         {
             hasError ?
-              <FullPageMessage
-                message={errorMessage}
-                iconVariant={'error'}
-                onButtonClick={console.log}
-              />
+              <FullPageLayout>
+                <Message
+                  message={errorMessage}
+                  iconVariant={'error'}
+                  onButtonClick={console.log}
+                />
+              </FullPageLayout>
               :
               null
           }
