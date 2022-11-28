@@ -69,11 +69,11 @@ export function UserDropdown (props) {
         >
           <IconButton
             onClick={handleOpenUserMenu}
-            sx={{ p: 2 }}
+            sx={{ p: 1 }}
           >
             <Avatar
               src={userAvatar}
-              sx={{ width: 50, height: 50 }}
+              sx={{ width: '4rem', height: '4rem' }}
             />
           </IconButton>
         </Tooltip>
@@ -92,12 +92,16 @@ export function UserDropdown (props) {
           open={Boolean(anchorElUser)}
           onClose={handleCloseUserMenu}
         >
-          {userSettings.map((setting) => (
+          {userSettings.map((setting, index) => (
             <MenuItem
-              key={setting}
+              key={setting.name}
               onClick={handleCloseUserMenu}
             >
-              <Typography textAlign={'center'}>{setting}</Typography>
+              <Typography
+                textAlign={'center'}
+              >
+                {setting.name}
+              </Typography>
             </MenuItem>
           ))}
         </Menu>
@@ -113,7 +117,7 @@ UserDropdown.propTypes = {
   userEmail: PropTypes.string,
   userRank: PropTypes.string,
   userAvatar: PropTypes.string,
-  userSettings: PropTypes.array
+  userSettings: PropTypes.object
 }
 
 export default UserDropdown

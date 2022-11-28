@@ -15,7 +15,9 @@ import RecoverPasswordForm from './components/RecoverPasswordForm'
 import MenuAppBar from './components/MenuAppBar'
 import UserDropdown from './components/UserDropdown/UserDropdown'
 
-import { signIn, signUp, getIdToken, decodeToken, checkIfUserIsLoggedIn, sendPasswordResetEmail } from './auth'
+import { signIn, signUp, getIdToken, decodeToken, checkIfUserIsLoggedIn, sendPasswordResetEmail, logOut } from './auth'
+
+import { getAll as getAllCourses } from './api/courses'
 
 const EMAIL_VALIDATION_ERROR = 'Please type a valid e-mail!'
 const PASSWORD_VALIDATION_ERROR = 'Password must have at least 6 chars!'
@@ -141,6 +143,11 @@ export class App extends React.Component {
     }
   }
 
+  fetchCourses = async () => {
+    const courses = await getAllCourses()
+    console.log(courses)
+  }
+
   onUserLogin = () => {
     const token = getIdToken()
     if (!token) return
@@ -151,6 +158,18 @@ export class App extends React.Component {
       isUserLoggedIn: true,
       userDisplayName: '',
       userEmail: user.email,
+      userAvatar: ''
+    }))
+
+    this.fetchCourses()
+  }
+
+  onClickLogOut = async () => {
+    await logOut()
+    this.setState(() => ({
+      isUserLoggedIn: false,
+      userDisplayName: '',
+      userEmail: '',
       userAvatar: ''
     }))
   }
@@ -203,6 +222,7 @@ export class App extends React.Component {
       <ThemeProvider theme={theme}>
         <CssBaseline/>
         {
+
           isUserLoggedIn ?
             <MenuAppBar>
               <UserDropdown
@@ -210,7 +230,7 @@ export class App extends React.Component {
                 userEmail={userEmail}
                 userAvatar={userAvatar}
                 userRank={userRank}
-                userSettings ={['Profile', 'Account', 'Dashboard', 'Logout']}
+                userSettings={[{ name: 'Profile' }, { name: 'Account' }, { name: 'Dashboard' }, { name: <div onClick={this.onClickLogOut}>Logout</div> }]}
               />
             </MenuAppBar>
             :

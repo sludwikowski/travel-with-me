@@ -20,7 +20,7 @@ function MenuAppBar (props) {
         <Container maxWidth={'xl'}>
           <Toolbar
             disableGutters
-            sx={{ pt: '10px', pb: '10px', ...sx }}
+            sx={{ pt: '5px', pb: '5px', ...sx }}
           >
             <RocketLaunchIcon
               sx={{ fontSize: '45px', mr: 1, color: 'red' }}
