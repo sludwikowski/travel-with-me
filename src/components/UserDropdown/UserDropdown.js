@@ -65,11 +65,11 @@ export function UserDropdown (props) {
       >
         <Tooltip
           title={'Open menu'}
-          sx={{ pt: 5 }}
+          sx={{ pt: 15 }}
         >
           <IconButton
             onClick={handleOpenUserMenu}
-            sx={{ p: 0 }}
+            sx={{ p: 2 }}
           >
             <Avatar
               src={userAvatar}
@@ -81,13 +81,13 @@ export function UserDropdown (props) {
           id={'menu-appbar'}
           anchorEl={anchorElUser}
           anchorOrigin={{
-            vertical: 'top',
-            horizontal: 'right'
+            vertical: 'bottom',
+            horizontal: 'center'
           }}
           keepMounted
           transformOrigin={{
             vertical: 'top',
-            horizontal: 'right'
+            horizontal: 'center'
           }}
           open={Boolean(anchorElUser)}
           onClose={handleCloseUserMenu}
