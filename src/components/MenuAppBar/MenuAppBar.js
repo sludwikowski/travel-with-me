@@ -1,7 +1,7 @@
 import * as React from 'react'
 import PropTypes from 'prop-types'
 
-import { Box, AppBar, Toolbar, Typography } from '@mui/material'
+import { Box, AppBar, Toolbar, Typography, Container } from '@mui/material'
 import RocketLaunchIcon from '@mui/icons-material/RocketLaunch'
 
 function MenuAppBar (props) {
@@ -10,28 +10,42 @@ function MenuAppBar (props) {
     children
   } = props
   return (
-    <Box sx={{ flexGrow: 1 }}>
+    <Box
+      sx={{ flexGrow: 1 }}
+    >
       <AppBar
         position={'static'}
-        sx={{ pl: '200px', pr: '200px', display: { xs: 'flex' }, ...sx }}
+        sx={{ display: { xs: 'flex', sm: 'block' }, ...sx }}
       >
-        <Toolbar >
-          <RocketLaunchIcon
-            sx={{ fontSize: '45px', mr: 2, color: 'red' }}
-            edge={'start'}
-            color={'inherit'}
-            aria-label={'open drawer'}
-          />
-          <Typography
-            variant={'h5'}
-            noWrap
-            component={'div'}
-            sx={{ flexGrow: 1, display: { xs: 'block', sm: 'block' } }}
+        <Container maxWidth={'xl'}>
+          <Toolbar
+            disableGutters
+            sx={{ pt: '20px', pb: '20px', ...sx }}
           >
-            TRAVEL WITH ME
-          </Typography>
-          {children}
-        </Toolbar>
+            <RocketLaunchIcon
+              sx={{ fontSize: '45px', mr: 1, color: 'red' }}
+              edge={'start'}
+              color={'inherit'}
+            />
+            <Typography
+              variant={'h5'}
+              noWrap
+              component={'div'}
+              sx={{
+                flexGrow: 1,
+                mr: 2,
+                display: { md: 'flex' },
+                fontWeight: 700,
+                letterSpacing: '.3rem',
+                color: 'inherit',
+                textDecoration: 'none'
+              }}
+            >
+              TRAVEL WITH ME
+            </Typography>
+            {children}
+          </Toolbar>
+        </Container>
       </AppBar>
     </Box>
   )

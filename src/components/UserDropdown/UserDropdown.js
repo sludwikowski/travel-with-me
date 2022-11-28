@@ -1,23 +1,36 @@
-import * as React from 'react'
+import React, { useState } from 'react'
 import PropTypes from 'prop-types'
 
-import { Box, Typography, Avatar } from '@mui/material'
+import { Box, Typography, Avatar, MenuItem, Tooltip, IconButton, Menu } from '@mui/material'
 
 export function UserDropdown (props) {
+  const [anchorElUser, setAnchorElUser] = useState('')
+
+  const handleOpenUserMenu = (event: React.MouseEvent<HTMLElement>) => {
+    setAnchorElUser(event.currentTarget)
+  }
+  const handleCloseUserMenu = () => {
+    setAnchorElUser(null)
+  }
+
   const {
     sx,
     userDisplayName,
     userEmail,
     userAvatar,
+    userRank,
+    userSettings,
     ...otherProps
   } = props
 
   return (
     <Box
       sx={{
-        height: '100%',
+        // height: '100%',
         display: 'flex',
-        alignItems: 'flex-end',
+        justifyContent: 'center',
+        alignItems: 'center',
+        marginBottom: '5px',
         ...sx
       }}
       {...otherProps}
@@ -28,7 +41,6 @@ export function UserDropdown (props) {
           flexDirection: 'column',
           justifyContent: 'center',
           alignItems: 'flex-end',
-          width: 'calc(100% - 51px)',
           ...sx
         }}
       >
@@ -40,15 +52,56 @@ export function UserDropdown (props) {
         <Typography
           variant={'caption'}
         >
+          {userRank || '– –'}
+        </Typography>
+        <Typography
+          variant={'caption'}
+        >
           {userEmail}
         </Typography>
       </Box>
       <Box
         sx={{ ml: 2 }}
       >
-        <Avatar
-          src={userAvatar}
-        />
+        <Tooltip
+          title={'Open menu'}
+          sx={{ pt: 5 }}
+        >
+          <IconButton
+            onClick={handleOpenUserMenu}
+            sx={{ p: 0 }}
+          >
+            <Avatar
+              src={userAvatar}
+              sx={{ width: 50, height: 50 }}
+            />
+          </IconButton>
+        </Tooltip>
+        <Menu
+          id={'menu-appbar'}
+          anchorEl={anchorElUser}
+          anchorOrigin={{
+            vertical: 'top',
+            horizontal: 'right'
+          }}
+          keepMounted
+          transformOrigin={{
+            vertical: 'top',
+            horizontal: 'right'
+          }}
+          open={Boolean(anchorElUser)}
+          onClose={handleCloseUserMenu}
+        >
+          {userSettings.map((setting) => (
+            <MenuItem
+              key={setting}
+              onClick={handleCloseUserMenu}
+            >
+              <Typography textAlign={'center'}>{setting}</Typography>
+            </MenuItem>
+          ))}
+        </Menu>
+
       </Box>
     </Box>
   )
@@ -58,7 +111,9 @@ UserDropdown.propTypes = {
   sx: PropTypes.object,
   userDisplayName: PropTypes.string,
   userEmail: PropTypes.string,
-  userAvatar: PropTypes.string
+  userRank: PropTypes.string,
+  userAvatar: PropTypes.string,
+  userSettings: PropTypes.array
 }
 
 export default UserDropdown

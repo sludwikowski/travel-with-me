@@ -34,6 +34,7 @@ export class App extends React.Component {
     isUserLoggedIn: false,
     userDisplayName: '',
     userEmail: '',
+    userRank: '',
     userAvatar: '',
 
     // router state
@@ -174,6 +175,7 @@ export class App extends React.Component {
       userDisplayName,
       userEmail,
       userAvatar,
+      userRank,
       loginEmail,
       loginEmailError,
       loginPassword,
@@ -207,6 +209,8 @@ export class App extends React.Component {
                 userDisplayName={userDisplayName}
                 userEmail={userEmail}
                 userAvatar={userAvatar}
+                userRank={userRank}
+                userSettings ={['Profile', 'Account', 'Dashboard', 'Logout']}
               />
             </MenuAppBar>
             :
