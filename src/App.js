@@ -14,10 +14,11 @@ import CreateAccountForm from './components/CreateAccountForm/CreateAccountForm'
 import RecoverPasswordForm from './components/RecoverPasswordForm'
 import MenuAppBar from './components/MenuAppBar'
 import UserDropdown from './components/UserDropdown/UserDropdown'
+import TravelCard from './components/TravelCard'
 
 import { signIn, signUp, getIdToken, decodeToken, checkIfUserIsLoggedIn, sendPasswordResetEmail, logOut } from './auth'
 
-import { getAll as getAllCourses } from './api/courses'
+import { getAll as getAllTravels } from './api/travels'
 
 const EMAIL_VALIDATION_ERROR = 'Please type a valid e-mail!'
 const PASSWORD_VALIDATION_ERROR = 'Password must have at least 6 chars!'
@@ -64,7 +65,7 @@ export class App extends React.Component {
     recoverPasswordSubmitted: false,
 
     // travels list page
-    travels: null, // courses: null,
+    travels: null, // travels: null,
     searchPhrase: ''
   }
 
@@ -143,9 +144,19 @@ export class App extends React.Component {
     }
   }
 
-  fetchCourses = async () => {
-    const courses = await getAllCourses()
-    console.log(courses)
+  fetchTravels = async () => {
+    this.setState(() => ({ isLoading: true }))
+    try {
+      const travels = await getAllTravels()
+      this.setState(() => ({ travels }))
+    } catch (error) {
+      this.setState(() => ({
+        hasError: true,
+        errorMessage: error.data.error.message
+      }))
+    } finally {
+      this.setState(() => ({ isLoading: false }))
+    }
   }
 
   onUserLogin = () => {
@@ -161,7 +172,7 @@ export class App extends React.Component {
       userAvatar: ''
     }))
 
-    this.fetchCourses()
+    this.fetchTravels()
   }
 
   onClickLogOut = async () => {
@@ -215,7 +226,8 @@ export class App extends React.Component {
       createAccountSubmitted,
       recoverPasswordEmail,
       recoverPasswordEmailError,
-      recoverPasswordSubmitted
+      recoverPasswordSubmitted,
+      travels
     } = this.state
 
     return (
@@ -224,15 +236,29 @@ export class App extends React.Component {
         {
 
           isUserLoggedIn ?
-            <MenuAppBar>
-              <UserDropdown
-                userDisplayName={userDisplayName}
-                userEmail={userEmail}
-                userAvatar={userAvatar}
-                userRank={userRank}
-                userSettings={[{ name: 'Profile' }, { name: 'Account' }, { name: 'Dashboard' }, { name: <div onClick={this.onClickLogOut}>Logout</div> }]}
-              />
-            </MenuAppBar>
+            <div>
+              <MenuAppBar>
+                <UserDropdown
+                  userDisplayName={userDisplayName}
+                  userEmail={userEmail}
+                  userAvatar={userAvatar}
+                  userRank={userRank}
+                  userSettings={[{ name: 'Profile' }, { name: 'Account' }, { name: 'Dashboard' }, { name: <div onClick={this.onClickLogOut} >Logout </div> }]}
+                />
+              </MenuAppBar>
+              <div>
+                {
+                    travels && travels.map((travel) => {
+                      return (
+                        <TravelCard
+                          key={travel.id}
+                          travel={travel}
+                        />
+                      )
+                    })
+                }
+              </div>
+            </div>
             :
             notLoginUserRoute === 'LOGIN' ?
               <FullPageLayout>

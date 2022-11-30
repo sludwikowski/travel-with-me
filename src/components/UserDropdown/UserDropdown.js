@@ -73,7 +73,7 @@ export function UserDropdown (props) {
           >
             <Avatar
               src={userAvatar}
-              sx={{ width: '4rem', height: '4rem' }}
+              sx={{ width: '3.5rem', height: '3.5rem' }}
             />
           </IconButton>
         </Tooltip>
@@ -99,6 +99,7 @@ export function UserDropdown (props) {
             >
               <Typography
                 textAlign={'center'}
+                variant={'h6'}
               >
                 {setting.name}
               </Typography>
@@ -117,7 +118,7 @@ UserDropdown.propTypes = {
   userEmail: PropTypes.string,
   userRank: PropTypes.string,
   userAvatar: PropTypes.string,
-  userSettings: PropTypes.object
+  userSettings: PropTypes.array
 }
 
 export default UserDropdown
