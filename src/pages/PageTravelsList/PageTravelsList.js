@@ -20,8 +20,10 @@ export class PageTravelsList extends React.Component {
       userEmail,
       userAvatar,
       userRank,
-      travels
+      travels,
+      onClickLogOut
     } = this.props
+
     const {
       searchPhrase
     } = this.state
@@ -43,9 +45,9 @@ export class PageTravelsList extends React.Component {
             userEmail={userEmail}
             userAvatar={userAvatar}
             userRank={userRank}
-            userSettings={[{ name: 'Profile' }, { name: 'Account' }, { name: 'Dashboard' }, {
-              name: <div onClick={this.onClickLogOut}>Logout </div>
-            }]}
+            userSettings={[{ name: 'Profile' }, { name: 'Account' }, { name: 'Dashboard' },
+              { name: <div onClick={onClickLogOut} >Logout </div> }]
+          }
           />
         </MenuAppBar>
         <SearchBarContainer>
@@ -70,6 +72,7 @@ PageTravelsList.propTypes = {
   userEmail: PropTypes.string,
   userAvatar: PropTypes.string,
   userRank: PropTypes.string,
-  travels: PropTypes.arrayOf(TravelPropType)
+  travels: PropTypes.arrayOf(TravelPropType),
+  onClickLogOut: PropTypes.func
 }
 export default PageTravelsList

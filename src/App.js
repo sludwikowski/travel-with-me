@@ -9,11 +9,11 @@ import { theme } from './theme'
 import FullPageLayout from './components/FullPageLayout'
 import FullPageMessage from './components/FullPageMessage'
 import FullPageLoader from './components/FullPageLoader'
-import LoginForm from './components/LoginForm'
 import CreateAccountForm from './components/CreateAccountForm/CreateAccountForm'
 import RecoverPasswordForm from './components/RecoverPasswordForm'
 
 import PageTravelsList from './pages/PageTravelsList'
+import PageLogin from './pages/PageLogin'
 
 import { signIn, signUp, getIdToken, decodeToken, checkIfUserIsLoggedIn, sendPasswordResetEmail, logOut } from './auth'
 
@@ -74,15 +74,10 @@ export class App extends React.Component {
     if (userIsLoggedIn) this.onUserLogin()
   }
 
-  onClickLogin = async () => {
-    this.setState(() => ({ loginSubmitted: true }))
-
-    if (this.state.loginEmailError) return
-    if (this.state.loginPasswordError) return
-
+  onClickLogin = async (email, password) => {
     this.setState(() => ({ isLoading: true }))
     try {
-      await signIn(this.state.loginEmail, this.state.loginPassword)
+      await signIn(email, password)
       this.onUserLogin()
     } catch (error) {
       this.setState(() => ({
@@ -204,11 +199,6 @@ export class App extends React.Component {
       userEmail,
       userAvatar,
       userRank,
-      loginEmail,
-      loginEmailError,
-      loginPassword,
-      loginPasswordError,
-      loginSubmitted,
       isLoading,
       isInfoDisplayed,
       infoMessage,
@@ -240,32 +230,13 @@ export class App extends React.Component {
               userAvatar={userAvatar}
               userRank={userRank}
               travels={travels}
+              onClickLogOut={this.onClickLogOut}
             />
             :
             notLoginUserRoute === 'LOGIN' ?
-              <FullPageLayout>
-                <LoginForm
-                  email={loginEmail}
-                  emailError={loginSubmitted ? loginEmailError : undefined}
-                  password={loginPassword}
-                  passwordError={loginSubmitted ? loginPasswordError : undefined}
-                  onChangeEmail={(e) => {
-                    this.setState(() => ({
-                      loginEmail: e.target.value,
-                      loginEmailError: isEmail(e.target.value) ? '' : EMAIL_VALIDATION_ERROR
-                    }))
-                  }}
-                  onChangePassword={(e) => {
-                    this.setState(() => ({
-                      loginPassword: e.target.value,
-                      loginPasswordError: e.target.value.length >= 6 ? '' : PASSWORD_VALIDATION_ERROR
-                    }))
-                  }}
-                  onClickLogin={this.onClickLogin}
-                  onClickCreateAccount={() => this.setState(() => ({ notLoginUserRoute: 'CREATE-ACCOUNT' }))}
-                  onClickForgotPassword={() => this.setState(() => ({ notLoginUserRoute: 'RECOVER-PASSWORD' }))}
-                />
-              </FullPageLayout>
+              <PageLogin
+                onClickLogin={this.onClickLogin}
+              />
               :
               notLoginUserRoute === 'CREATE-ACCOUNT' ?
                 <FullPageLayout>
