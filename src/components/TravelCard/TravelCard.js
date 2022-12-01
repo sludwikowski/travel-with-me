@@ -19,16 +19,17 @@ export function TravelCard (props) {
       item
       xs={12}
       sm={6}
-      md={4}
+      md={3}
     >
       <Card
         sx={{ height: '100%', display: 'flex', flexDirection: 'column' }}
       >
         <Typography
           gutterBottom
-          variant={'h3'}
+          variant={'h4'}
           component={'h2'}
           textAlign={'center'}
+          fontWeight={700}
           mt={5}
         >
           {title}

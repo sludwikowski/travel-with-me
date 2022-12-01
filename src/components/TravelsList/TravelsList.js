@@ -11,21 +11,24 @@ export function TravelsList (props) {
 
     <Container
       sx={{ py: 2 }}
-      maxWidth={'md'}
+      maxWidth={'xl'}
     >
       <Grid
         container
         spacing={4}
       >
         {
-              travels && travels.map((travel) => {
-                return (
-                  <TravelCard
-                    key={travel.id}
-                    travel={travel}
-                  />
-                )
-              })
+        (!travels || travels.length === 0) ?
+          'No travels found'
+          :
+          travels && travels.map((travel) => {
+            return (
+              <TravelCard
+                key={travel.id}
+                travel={travel}
+              />
+            )
+          })
           }
       </Grid>
     </Container>

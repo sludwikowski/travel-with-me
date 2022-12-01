@@ -2,7 +2,7 @@ import React from 'react'
 
 import isEmail from 'validator/lib/isEmail'
 
-import { CssBaseline, TextField, ThemeProvider } from '@mui/material'
+import { CssBaseline, ThemeProvider } from '@mui/material'
 
 import { theme } from './theme'
 
@@ -12,10 +12,8 @@ import FullPageLoader from './components/FullPageLoader'
 import LoginForm from './components/LoginForm'
 import CreateAccountForm from './components/CreateAccountForm/CreateAccountForm'
 import RecoverPasswordForm from './components/RecoverPasswordForm'
-import MenuAppBar from './components/MenuAppBar'
-import UserDropdown from './components/UserDropdown/UserDropdown'
-import TravelsList from './components/TravelsList'
-import SearchBarContainer from './components/SearchBarContainer'
+
+import PageTravelsList from './pages/PageTravelsList'
 
 import { signIn, signUp, getIdToken, decodeToken, checkIfUserIsLoggedIn, sendPasswordResetEmail, logOut } from './auth'
 
@@ -227,18 +225,8 @@ export class App extends React.Component {
       recoverPasswordEmail,
       recoverPasswordEmailError,
       recoverPasswordSubmitted,
-      travels,
-      searchPhrase
+      travels
     } = this.state
-
-    const searchPhraseUpperCase = searchPhrase.toUpperCase()
-    const filteredTravels = travels && travels.filter((travel) => {
-      return (
-        travel.title.toUpperCase().includes(searchPhraseUpperCase) ||
-        travel.category.toUpperCase().includes(searchPhraseUpperCase) ||
-        travel.description.toUpperCase().includes(searchPhraseUpperCase)
-      )
-    })
 
     return (
       <ThemeProvider theme={theme}>
@@ -246,30 +234,13 @@ export class App extends React.Component {
         {
 
           isUserLoggedIn ?
-            <>
-              <MenuAppBar>
-                <UserDropdown
-                  userDisplayName={userDisplayName}
-                  userEmail={userEmail}
-                  userAvatar={userAvatar}
-                  userRank={userRank}
-                  userSettings={[{ name: 'Profile' }, { name: 'Account' }, { name: 'Dashboard' }, { name: <div onClick={this.onClickLogOut} >Logout </div> }]}
-                />
-              </MenuAppBar>
-              <SearchBarContainer>
-                <TextField
-                  fullWidth
-                  label={'Type to search'}
-                  id={'searchBar'}
-                  color={'secondary'}
-                  value={searchPhrase}
-                  onChange={(e) => this.setState(() => ({ searchPhrase: e.target.value }))}
-                />
-              </SearchBarContainer>
-              <TravelsList
-                travels={filteredTravels}
-              />
-            </>
+            <PageTravelsList
+              userDisplayName={userDisplayName}
+              userEmail={userEmail}
+              userAvatar={userAvatar}
+              userRank={userRank}
+              travels={travels}
+            />
             :
             notLoginUserRoute === 'LOGIN' ?
               <FullPageLayout>
