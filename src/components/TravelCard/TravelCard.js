@@ -43,13 +43,6 @@ export function TravelCard (props) {
           alt={'random'}
         />
         <CardContent sx={{ flexGrow: 1 }}>
-          {/* <Typography */}
-          {/*  gutterBottom */}
-          {/*  variant={'h3'} */}
-          {/*  component={'h2'} */}
-          {/* > */}
-          {/*  {title} */}
-          {/* </Typography> */}
           <Typography
             gutterBottom
             variant={'h6'}
@@ -78,13 +71,16 @@ export function TravelCard (props) {
   )
 }
 
+export const TravelPropType = PropTypes.shape({
+  category: PropTypes.string.isRequired,
+  description: PropTypes.string.isRequired,
+  image: PropTypes.string.isRequired,
+  title: PropTypes.string.isRequired
+}).isRequired
+
 TravelCard.propTypes = {
-  travel: PropTypes.shape({
-    category: PropTypes.string.isRequired,
-    description: PropTypes.string.isRequired,
-    image: PropTypes.string.isRequired,
-    title: PropTypes.string.isRequired
-  }).isRequired
+  className: PropTypes.string,
+  travel: TravelPropType
 }
 
 export default TravelCard

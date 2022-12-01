@@ -2,7 +2,7 @@ import React from 'react'
 
 import isEmail from 'validator/lib/isEmail'
 
-import { CssBaseline, ThemeProvider, Container, Grid } from '@mui/material'
+import { CssBaseline, TextField, ThemeProvider } from '@mui/material'
 
 import { theme } from './theme'
 
@@ -14,7 +14,8 @@ import CreateAccountForm from './components/CreateAccountForm/CreateAccountForm'
 import RecoverPasswordForm from './components/RecoverPasswordForm'
 import MenuAppBar from './components/MenuAppBar'
 import UserDropdown from './components/UserDropdown/UserDropdown'
-import TravelCard from './components/TravelCard'
+import TravelsList from './components/TravelsList'
+import SearchBarContainer from './components/SearchBarContainer'
 
 import { signIn, signUp, getIdToken, decodeToken, checkIfUserIsLoggedIn, sendPasswordResetEmail, logOut } from './auth'
 
@@ -23,7 +24,6 @@ import { getAll as getAllTravels } from './api/travels'
 const EMAIL_VALIDATION_ERROR = 'Please type a valid e-mail!'
 const PASSWORD_VALIDATION_ERROR = 'Password must have at least 6 chars!'
 const REPEAT_PASSWORD_VALIDATION_ERROR = 'Passwords must be the same!'
-
 export class App extends React.Component {
   state = {
     // global state
@@ -227,8 +227,18 @@ export class App extends React.Component {
       recoverPasswordEmail,
       recoverPasswordEmailError,
       recoverPasswordSubmitted,
-      travels
+      travels,
+      searchPhrase
     } = this.state
+
+    const searchPhraseUpperCase = searchPhrase.toUpperCase()
+    const filteredTravels = travels && travels.filter((travel) => {
+      return (
+        travel.title.toUpperCase().includes(searchPhraseUpperCase) ||
+        travel.category.toUpperCase().includes(searchPhraseUpperCase) ||
+        travel.description.toUpperCase().includes(searchPhraseUpperCase)
+      )
+    })
 
     return (
       <ThemeProvider theme={theme}>
@@ -236,7 +246,7 @@ export class App extends React.Component {
         {
 
           isUserLoggedIn ?
-            <div>
+            <>
               <MenuAppBar>
                 <UserDropdown
                   userDisplayName={userDisplayName}
@@ -246,27 +256,20 @@ export class App extends React.Component {
                   userSettings={[{ name: 'Profile' }, { name: 'Account' }, { name: 'Dashboard' }, { name: <div onClick={this.onClickLogOut} >Logout </div> }]}
                 />
               </MenuAppBar>
-              <Container
-                sx={{ py: 8 }}
-                maxWidth={'md'}
-              >
-                <Grid
-                  container
-                  spacing={4}
-                >
-                  {
-                    travels && travels.map((travel) => {
-                      return (
-                        <TravelCard
-                          key={travel.id}
-                          travel={travel}
-                        />
-                      )
-                    })
-                }
-                </Grid>
-              </Container>
-            </div>
+              <SearchBarContainer>
+                <TextField
+                  fullWidth
+                  label={'Type to search'}
+                  id={'searchBar'}
+                  color={'secondary'}
+                  value={searchPhrase}
+                  onChange={(e) => this.setState(() => ({ searchPhrase: e.target.value }))}
+                />
+              </SearchBarContainer>
+              <TravelsList
+                travels={filteredTravels}
+              />
+            </>
             :
             notLoginUserRoute === 'LOGIN' ?
               <FullPageLayout>
