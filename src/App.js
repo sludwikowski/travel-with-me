@@ -2,7 +2,7 @@ import React from 'react'
 
 import isEmail from 'validator/lib/isEmail'
 
-import { CssBaseline, ThemeProvider } from '@mui/material'
+import { CssBaseline, ThemeProvider, Container, Grid } from '@mui/material'
 
 import { theme } from './theme'
 
@@ -246,8 +246,15 @@ export class App extends React.Component {
                   userSettings={[{ name: 'Profile' }, { name: 'Account' }, { name: 'Dashboard' }, { name: <div onClick={this.onClickLogOut} >Logout </div> }]}
                 />
               </MenuAppBar>
-              <div>
-                {
+              <Container
+                sx={{ py: 8 }}
+                maxWidth={'md'}
+              >
+                <Grid
+                  container
+                  spacing={4}
+                >
+                  {
                     travels && travels.map((travel) => {
                       return (
                         <TravelCard
@@ -257,7 +264,8 @@ export class App extends React.Component {
                       )
                     })
                 }
-              </div>
+                </Grid>
+              </Container>
             </div>
             :
             notLoginUserRoute === 'LOGIN' ?
