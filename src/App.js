@@ -1,25 +1,20 @@
 import React from 'react'
 
-import isEmail from 'validator/lib/isEmail'
-
 import { CssBaseline, ThemeProvider } from '@mui/material'
 
 import { theme } from './theme'
 
-import FullPageLayout from './components/FullPageLayout'
 import FullPageMessage from './components/FullPageMessage'
 import FullPageLoader from './components/FullPageLoader'
-import RecoverPasswordForm from './components/RecoverPasswordForm'
 
 import PageTravelsList from './pages/PageTravelsList'
 import PageLogin from './pages/PageLogin'
 import PageCreateAccount from './pages/PageCreateAccount'
+import PageRecoverPassword from './pages/PageRecoverPassword'
 
 import { signIn, signUp, getIdToken, decodeToken, checkIfUserIsLoggedIn, sendPasswordResetEmail, logOut } from './auth'
 
 import { getAll as getAllTravels } from './api/travels'
-
-const EMAIL_VALIDATION_ERROR = 'Please type a valid e-mail!'
 
 export class App extends React.Component {
   state = {
@@ -38,11 +33,6 @@ export class App extends React.Component {
 
     // router state
     notLoginUserRoute: 'LOGIN', // 'CREATE-ACCOUNT' or 'RECOVER-PASSWORD'
-
-    // recover password page
-    recoverPasswordEmail: '',
-    recoverPasswordEmailError: EMAIL_VALIDATION_ERROR,
-    recoverPasswordSubmitted: false,
 
     // travels list page
     travels: null // travels: null,
@@ -89,14 +79,10 @@ export class App extends React.Component {
     }
   }
 
-  onClickRecover = async () => {
-    this.setState(() => ({ recoverPasswordSubmitted: true }))
-
-    if (this.state.recoverPasswordEmailError) return
-
+  onClickRecover = async (email) => {
     this.setState(() => ({ isLoading: true }))
     try {
-      await sendPasswordResetEmail(this.state.recoverPasswordEmail)
+      await sendPasswordResetEmail(email)
       this.setState(() => ({
         isInfoDisplayed: true,
         infoMessage: 'Check your inbox!'
@@ -180,9 +166,6 @@ export class App extends React.Component {
       hasError,
       errorMessage,
       notLoginUserRoute,
-      recoverPasswordEmail,
-      recoverPasswordEmailError,
-      recoverPasswordSubmitted,
       travels
     } = this.state
 
@@ -215,18 +198,10 @@ export class App extends React.Component {
                 />
                 :
                 notLoginUserRoute === 'RECOVER-PASSWORD' ?
-                  <FullPageLayout>
-                    <RecoverPasswordForm
-                      email={recoverPasswordEmail}
-                      emailError={recoverPasswordSubmitted ? recoverPasswordEmailError : undefined}
-                      onChangeEmail={(e) => this.setState(() => ({
-                        recoverPasswordEmail: e.target.value,
-                        recoverPasswordEmailError: isEmail(e.target.value) ? '' : EMAIL_VALIDATION_ERROR
-                      }))}
-                      onClickRecover={this.onClickRecover}
-                      onClickBackToLogin={() => this.setState(() => ({ notLoginUserRoute: 'LOGIN' }))}
-                    />
-                  </FullPageLayout>
+                  <PageRecoverPassword
+                    onClickRecover={this.onClickRecover}
+                    onClickBackToLogin={() => this.setState(() => ({ notLoginUserRoute: 'LOGIN' }))}
+                  />
                   :
                   null
                 }
