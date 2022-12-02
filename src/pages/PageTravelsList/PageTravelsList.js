@@ -7,19 +7,24 @@ import SearchBarContainer from '../../components/SearchBarContainer'
 import TravelsList from '../../components/TravelsList'
 import { TravelPropType } from '../../components/TravelCard'
 
+import { useAuthUser } from '../../contexts/UserContext'
+
 import { TextField } from '@mui/material'
 
 export const PageTravelsList = (props) => {
   const {
-    userDisplayName,
-    userEmail,
-    userAvatar,
-    userRank,
     travels,
     onClickLogOut
   } = props
 
   const [searchPhrase, setSearchPhrase] = React.useState('')
+
+  const {
+    userDisplayName,
+    userEmail,
+    userAvatar,
+    userRank
+  } = useAuthUser()
 
   const filteredTravels = React.useMemo(() => {
     const searchPhraseUpperCase = searchPhrase.toUpperCase()
@@ -62,10 +67,6 @@ export const PageTravelsList = (props) => {
   )
 }
 PageTravelsList.propTypes = {
-  userDisplayName: PropTypes.string,
-  userEmail: PropTypes.string,
-  userAvatar: PropTypes.string,
-  userRank: PropTypes.string,
   travels: PropTypes.arrayOf(TravelPropType),
   onClickLogOut: PropTypes.func
 }

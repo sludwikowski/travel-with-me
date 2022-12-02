@@ -12,6 +12,9 @@ import PageLogin from './pages/PageLogin'
 import PageCreateAccount from './pages/PageCreateAccount'
 import PageRecoverPassword from './pages/PageRecoverPassword'
 
+import { useRoute } from './contexts/RouterContext'
+import { useAuthUser } from './contexts/UserContext'
+
 import { signIn, signUp, getIdToken, decodeToken, checkIfUserIsLoggedIn, sendPasswordResetEmail, logOut } from './auth'
 
 import { getAll as getAllTravels } from './api/travels'
@@ -24,28 +27,17 @@ export const App = () => {
   const [isInfoDisplayed, setIsInfoDisplayed] = React.useState(false)
   const [infoMessage, setInfoMessage] = React.useState('')
 
-  // user/auth state
-  const [isUserLoggedIn, setIsUserLoggedIn] = React.useState(false)
-  const [userDisplayName, setUserDisplayName] = React.useState('')
-  const [userEmail, setUserEmail] = React.useState('')
-  const [userAvatar, setUserAvatar] = React.useState('')
-
   // router state
-  // 'CREATE-ACCOUNT' or 'RECOVER-PASSWORD'
-  const [notLoginUserRoute, setNotLoginUserRoute] = React.useState('LOGIN')
+  const notLoginUserRoute = useRoute()
 
   // travels
   const [travels, setTravels] = React.useState(null)
 
-  React.useEffect(() => {
-    (async () => {
-      setIsLoading(() => true)
-      const userIsLoggedIn = await checkIfUserIsLoggedIn()
-      setIsLoading(() => false)
-      if (userIsLoggedIn) this.onUserLogin()
-    })()
-    // mount only
-  }, [])
+  const {
+    isUserLoggedIn,
+    setUser,
+    clearUser
+  } = useAuthUser()
 
   const handleAsyncAction = React.useCallback(async (asyncAction) => {
     setIsLoading(() => true)
@@ -60,9 +52,9 @@ export const App = () => {
   }, [])
 
   const fetchTravels = React.useCallback(async () => {
-    await handleAsyncAction(async () => {
-      const travels = await getAllTravels()
-      setTravels(() => travels)
+    handleAsyncAction(async () => {
+      const courses = await getAllTravels()
+      setTravels(() => courses)
     })
   }, [handleAsyncAction])
 
@@ -71,14 +63,15 @@ export const App = () => {
     if (!token) return
     const user = decodeToken(token)
 
-    // @TODO replace this token decoding with request for user data
-    setIsUserLoggedIn(() => true)
-    setUserDisplayName(() => '')
-    setUserEmail(() => user.email)
-    setUserAvatar(() => '')
+    // @TODO replace this token decoding with request for user dat
+    setUser({
+      displayName: '',
+      email: user.email,
+      avatar: ''
+    })
 
     fetchTravels()
-  }, [fetchTravels])
+  }, [fetchTravels, setUser])
 
   const onClickLogin = React.useCallback(async (email, password) => {
     await handleAsyncAction(async () => {
@@ -107,11 +100,8 @@ export const App = () => {
 
   const onClickLogOut = React.useCallback(async () => {
     await logOut()
-    setIsUserLoggedIn(() => false)
-    setUserDisplayName(() => '')
-    setUserEmail(() => '')
-    setUserAvatar(() => '')
-  }, [])
+    clearUser()
+  }, [clearUser])
 
   const dismissError = React.useCallback(() => {
     setHasError(() => false)
@@ -123,9 +113,15 @@ export const App = () => {
     setInfoMessage(() => '')
   }, [])
 
-  const routeTo = React.useCallback((routeName) => {
-    setNotLoginUserRoute(routeName)
-  }, [])
+  React.useEffect(() => {
+    (async () => {
+      setIsLoading(() => true)
+      const userIsLoggedIn = await checkIfUserIsLoggedIn()
+      setIsLoading(() => false)
+      if (userIsLoggedIn) onUserLogin()
+    })()
+    // mount only
+  }, [onUserLogin])
 
   return (
     <ThemeProvider theme={theme}>
@@ -134,9 +130,6 @@ export const App = () => {
 
           isUserLoggedIn ?
             <PageTravelsList
-              userDisplayName={userDisplayName}
-              userEmail={userEmail}
-              userAvatar={userAvatar}
               travels={travels}
               onClickLogOut={onClickLogOut}
             />
@@ -144,20 +137,16 @@ export const App = () => {
             notLoginUserRoute === 'LOGIN' ?
               <PageLogin
                 onClickLogin={onClickLogin}
-                onClickCreateAccount={() => routeTo('CREATE-ACCOUNT')}
-                onClickForgotPassword={() => routeTo('RECOVER-PASSWORD')}
               />
               :
               notLoginUserRoute === 'CREATE-ACCOUNT' ?
                 <PageCreateAccount
                   onClickCreateAccount={onClickCreateAccount}
-                  onClickBackToLogin={() => routeTo('LOGIN')}
                 />
                 :
                 notLoginUserRoute === 'RECOVER-PASSWORD' ?
                   <PageRecoverPassword
                     onClickRecover={onClickRecover}
-                    onClickBackToLogin={() => routeTo('LOGIN')}
                   />
                   :
                   null
