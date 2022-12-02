@@ -1,5 +1,7 @@
 import React from 'react'
 
+import { Routes, Route } from 'react-router-dom'
+
 import { CssBaseline, ThemeProvider } from '@mui/material'
 
 import { theme } from './theme'
@@ -12,7 +14,6 @@ import PageLogin from './pages/PageLogin'
 import PageCreateAccount from './pages/PageCreateAccount'
 import PageRecoverPassword from './pages/PageRecoverPassword'
 
-import { useRoute } from './contexts/RouterContext'
 import { useAuthUser } from './contexts/UserContext'
 
 import { signIn, signUp, getIdToken, decodeToken, checkIfUserIsLoggedIn, sendPasswordResetEmail, logOut } from './auth'
@@ -26,9 +27,6 @@ export const App = () => {
   const [errorMessage, setErrorMessage] = React.useState('')
   const [isInfoDisplayed, setIsInfoDisplayed] = React.useState(false)
   const [infoMessage, setInfoMessage] = React.useState('')
-
-  // router state
-  const notLoginUserRoute = useRoute()
 
   // travels
   const [travels, setTravels] = React.useState(null)
@@ -129,28 +127,49 @@ export const App = () => {
       {
 
           isUserLoggedIn ?
-            <PageTravelsList
-              travels={travels}
-              onClickLogOut={onClickLogOut}
-            />
-            :
-            notLoginUserRoute === 'LOGIN' ?
-              <PageLogin
-                onClickLogin={onClickLogin}
-              />
-              :
-              notLoginUserRoute === 'CREATE-ACCOUNT' ?
-                <PageCreateAccount
-                  onClickCreateAccount={onClickCreateAccount}
-                />
-                :
-                notLoginUserRoute === 'RECOVER-PASSWORD' ?
-                  <PageRecoverPassword
-                    onClickRecover={onClickRecover}
+            <Routes>
+              <Route
+                path = {'*'}
+                element={
+                  <PageTravelsList
+                    travels={travels}
+                    onClickLogOut={onClickLogOut}
                   />
-                  :
-                  null
+                       }
+              />
+            </Routes>
+            :
+            null
+      }
+      {
+      isUserLoggedIn ?
+        <Routes>
+          <Route
+            path={'*'}
+            element={<PageLogin
+              onClickLogin={onClickLogin}
+                     />
                 }
+          />
+          <Route
+            path={'/create-account'}
+            element={
+              <PageCreateAccount
+                onClickCreateAccount={onClickCreateAccount}
+              />
+             }
+          />
+          <Route
+            path={'/recover-password'}
+            element={<PageRecoverPassword
+              onClickRecover={onClickRecover}
+                     />
+}
+          />
+        </Routes>
+        :
+        null
+      }
 
       {
             isLoading ?

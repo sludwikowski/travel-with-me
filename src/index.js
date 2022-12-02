@@ -1,20 +1,21 @@
 import React from 'react'
 import ReactDOM from 'react-dom/client'
 
+import { BrowserRouter as Router } from 'react-router-dom'
+
 import App from './App'
 
-import RouterContextProvider from './contexts/RouterContext'
 import UserContextProvider from './contexts/UserContext'
 
 import reportWebVitals from './reportWebVitals'
 
 const root = ReactDOM.createRoot(document.getElementById('root'))
 root.render(
-  <UserContextProvider>
-    <RouterContextProvider>
+  <Router>
+    <UserContextProvider>
       <App />
-    </RouterContextProvider>
-  </UserContextProvider>
+    </UserContextProvider>
+  </Router>
 )
 
 reportWebVitals()
