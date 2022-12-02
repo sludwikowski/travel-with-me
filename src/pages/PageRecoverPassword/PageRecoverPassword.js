@@ -8,48 +8,40 @@ import RecoverPasswordForm from '../../components/RecoverPasswordForm'
 
 import { EMAIL_VALIDATION_ERROR } from '../../consts'
 
-export class PageRecoverPassword extends React.Component {
-  state = {
-    email: '',
-    emailError: EMAIL_VALIDATION_ERROR,
-    isSubmitted: false
-  }
+export const PageRecoverPassword = (props) => {
+  const {
+    onClickBackToLogin,
+    onClickRecover: onClickRecoverFromProps
+  } = props
 
-  onClickRecover = async () => {
-    this.setState(() => ({ isSubmitted: true }))
+  const [email, setEmail] = React.useState('')
+  const [emailError, setEmailError] = React.useState(EMAIL_VALIDATION_ERROR)
+  const [isSubmitted, setIsSubmitted] = React.useState(false)
 
-    if (this.state.emailError) return
+  const onClickRecover = React.useCallback(async () => {
+    setIsSubmitted(() => true)
 
-    this.props.onClickRecover(this.state.email)
-  }
+    if (emailError) return
 
-  render () {
-    const {
-      onClickBackToLogin
-    } = this.props
+    onClickRecoverFromProps(email)
+  }, [email, emailError, onClickRecoverFromProps])
 
-    const {
-      email,
-      emailError,
-      isSubmitted
-    } = this.state
+  React.useEffect(() => {
+    setEmailError(() => isEmail(email) ? '' : EMAIL_VALIDATION_ERROR)
+  }, [email])
 
-    return (
+  return (
 
-      <FullPageLayout>
-        <RecoverPasswordForm
-          email={email}
-          emailError={isSubmitted ? emailError : undefined}
-          onChangeEmail={(e) => this.setState(() => ({
-            email: e.target.value,
-            emailError: isEmail(e.target.value) ? '' : EMAIL_VALIDATION_ERROR
-          }))}
-          onClickRecover={this.onClickRecover}
-          onClickBackToLogin={onClickBackToLogin}
-        />
-      </FullPageLayout>
-    )
-  }
+    <FullPageLayout>
+      <RecoverPasswordForm
+        email={email}
+        emailError={isSubmitted ? emailError : undefined}
+        onChangeEmail={(e) => setEmail(() => e.target.value)}
+        onClickRecover={onClickRecover}
+        onClickBackToLogin={onClickBackToLogin}
+      />
+    </FullPageLayout>
+  )
 }
 
 PageRecoverPassword.propTypes = {

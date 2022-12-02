@@ -19,7 +19,7 @@ export function TravelsList (props) {
       >
         {
         (!travels || travels.length === 0) ?
-          'No travels found'
+          'No found'
           :
           travels && travels.map((travel) => {
             return (
