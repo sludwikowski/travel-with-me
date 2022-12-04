@@ -15,12 +15,13 @@ import { useAuthUser } from '../../contexts/UserContext'
 
 const PageProfile = (props) => {
   const {
-    onSaveChanges
+    onSaveChanges,
+    onAvatarChange
   } = props
   const {
     userDisplayName,
-    userEmail
-    // userAvatar
+    userEmail,
+    userAvatar
   } = useAuthUser()
 
   const methods = useForm({
@@ -42,8 +43,7 @@ const PageProfile = (props) => {
   const onClickGoBack = React.useCallback(() => navigate('/'), [navigate])
   return (
     <>
-      <MenuAppBar>
-      </MenuAppBar>
+      <MenuAppBar/>
       <Box
         component={'section'}
         sx={{
@@ -68,9 +68,15 @@ const PageProfile = (props) => {
               md={6}
               xs={12}
             >
-              <ProfileDetails/>
+              <FormProvider
+                {...methods}
+              >
+                <ProfileDetails
+                  avatarsrc={userAvatar}
+                  onChange={(e) => onAvatarChange(e.target.files[0])}
+                />
+              </FormProvider>
             </Grid>
-
             <Grid
               item
               lg={8}
@@ -111,7 +117,8 @@ const PageProfile = (props) => {
 }
 
 PageProfile.propTypes = {
-  onSaveChanges: PropTypes.func.isRequired
+  onSaveChanges: PropTypes.func.isRequired,
+  onAvatarChange: PropTypes.func.isRequired
 }
 
 export default PageProfile

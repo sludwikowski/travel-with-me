@@ -1,4 +1,5 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 
 import {
   Avatar,
@@ -15,9 +16,12 @@ import { useAuthUser } from '../../contexts/UserContext'
 
 export const ProfileDetails = (props) => {
   const {
+    avatarsrc
+    // onAvatarChange
+  } = props
+  const {
     userDisplayName,
-    userEmail,
-    userAvatar
+    userEmail
   } = useAuthUser()
 
   return (
@@ -31,11 +35,11 @@ export const ProfileDetails = (props) => {
           }}
         >
           <Avatar
-            src={userAvatar}
+            src={avatarsrc}
             sx={{
-              height: 64,
+              height: 84,
               mb: 2,
-              width: 64
+              width: 84
             }}
           />
           <Typography
@@ -59,12 +63,23 @@ export const ProfileDetails = (props) => {
           color={'primary'}
           fullWidth
           variant={'text'}
+          component={'label'}
         >
+          <input
+            hidden
+            multiple
+            type={'file'}
+          />
           Upload picture
         </Button>
       </CardActions>
     </Card>
   )
+}
+
+ProfileDetails.propTypes = {
+  avatarsrc: PropTypes.string
+  // onAvatarChange: PropTypes.func.isRequired
 }
 
 export default ProfileDetails
