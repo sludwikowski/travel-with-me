@@ -5,7 +5,8 @@ import { Grid, Card, CardActions, CardContent, CardMedia, Typography, Button } f
 
 export function TravelCard (props) {
   const {
-    travel = {}
+    travel = {},
+    onClick
   } = props
   const {
     category,
@@ -62,6 +63,9 @@ export function TravelCard (props) {
             variant={'contained'}
             color={'secondary'}
             size={'small'}
+            type={'button'}
+            disabled={!onClick}
+            onClick={onClick}
           >
             View
           </Button>
@@ -80,8 +84,8 @@ export const TravelPropType = PropTypes.shape({
 }).isRequired
 
 TravelCard.propTypes = {
-  className: PropTypes.string,
-  travel: TravelPropType
+  travel: TravelPropType,
+  onClick: PropTypes.func
 }
 
 export default TravelCard

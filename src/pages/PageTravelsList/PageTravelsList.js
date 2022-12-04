@@ -23,6 +23,7 @@ export const PageTravelsList = (props) => {
 
   const navigate = useNavigate()
   const onClickProfile = React.useCallback(() => navigate('/profile'), [navigate])
+  const onClickTravel = React.useCallback((travelId) => navigate(`/travels/${travelId}`), [navigate])
 
   const {
     userDisplayName,
@@ -66,6 +67,7 @@ export const PageTravelsList = (props) => {
       </SearchBarContainer>
       <TravelsList
         travels={filteredTravels}
+        onClickTravel={onClickTravel}
       />
     </>
   )

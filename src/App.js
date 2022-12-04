@@ -15,6 +15,9 @@ import PageLogin from './pages/PageLogin'
 import PageCreateAccount from './pages/PageCreateAccount'
 import PageRecoverPassword from './pages/PageRecoverPassword'
 import PageProfile from './pages/PageProfile/PageProfile'
+import PageTravel from './pages/PageTravel'
+import PageTravelContentEmpty from './pages/PageTravelContentEmpty'
+import PageTravelContent from './pages/PageTravelContent'
 
 import { useAuthUser } from './contexts/UserContext'
 
@@ -167,6 +170,19 @@ export const App = () => {
                 />
                   }
             />
+            <Route
+              path={'travels/:travelId'}
+              element={<PageTravel />}
+            >
+              <Route
+                index={true}
+                element={<PageTravelContentEmpty />}
+              />
+              <Route
+                path={':travelId'}
+                element={<PageTravelContent />}
+              />
+            </Route>
             <Route
               path={'*'}
               element={

@@ -43,7 +43,9 @@ const PageProfile = (props) => {
   const onClickGoBack = React.useCallback(() => navigate('/'), [navigate])
   return (
     <>
-      <MenuAppBar/>
+      <MenuAppBar
+        sx={{ height: 82 }}
+      />
       <Box
         component={'section'}
         sx={{

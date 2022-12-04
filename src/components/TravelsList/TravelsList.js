@@ -5,7 +5,8 @@ import TravelCard, { TravelPropType } from '../TravelCard'
 
 export function TravelsList (props) {
   const {
-    travels
+    travels,
+    onClickTravel
   } = props
   return (
 
@@ -26,6 +27,7 @@ export function TravelsList (props) {
               <TravelCard
                 key={travel.id}
                 travel={travel}
+                onClick={() => onClickTravel(travel.id)}
               />
             )
           })
@@ -37,7 +39,8 @@ export function TravelsList (props) {
 }
 
 TravelsList.propTypes = {
-  travels: PropTypes.arrayOf(TravelPropType)
+  travels: PropTypes.arrayOf(TravelPropType),
+  onClickTravel: PropTypes.func
 }
 
 export default TravelsList

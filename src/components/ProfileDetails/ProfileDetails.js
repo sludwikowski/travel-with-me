@@ -60,9 +60,9 @@ export const ProfileDetails = (props) => {
       <Divider/>
       <CardActions>
         <Button
-          color={'primary'}
           fullWidth
-          variant={'text'}
+          color={'secondary'}
+          variant={'contained'}
           component={'label'}
         >
           <input
