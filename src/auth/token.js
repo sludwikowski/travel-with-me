@@ -1,4 +1,4 @@
-const PREFIX = 'coderoad'
+const PREFIX = 'travel-withme'
 const ID_TOKEN_KEY = `${PREFIX}-idToken`
 const REFRESH_TOKEN_KEY = `${PREFIX}-refreshToken`
 

@@ -1,6 +1,8 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
+import { useNavigate } from 'react-router-dom'
+
 import MenuAppBar from '../../components/MenuAppBar'
 import UserDropdown from '../../components/UserDropdown'
 import SearchBarContainer from '../../components/SearchBarContainer'
@@ -19,11 +21,13 @@ export const PageTravelsList = (props) => {
 
   const [searchPhrase, setSearchPhrase] = React.useState('')
 
+  const navigate = useNavigate()
+  const onClickProfile = React.useCallback(() => navigate('/profile'), [navigate])
+
   const {
     userDisplayName,
     userEmail,
-    userAvatar,
-    userRank
+    userAvatar
   } = useAuthUser()
 
   const filteredTravels = React.useMemo(() => {
@@ -44,9 +48,9 @@ export const PageTravelsList = (props) => {
           userDisplayName={userDisplayName}
           userEmail={userEmail}
           userAvatar={userAvatar}
-          userRank={userRank}
-          userSettings={[{ name: 'Profile' }, { name: 'Account' }, { name: 'Dashboard' },
-            { name: <div onClick={onClickLogOut} >Logout </div> }]
+          userSettings={[
+            { id: 1, name: <div onClick={onClickProfile} >Profile </div> },
+            { id: 2, name: <div onClick={onClickLogOut} >Logout </div> }]
           }
         />
       </MenuAppBar>

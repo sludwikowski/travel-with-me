@@ -18,7 +18,6 @@ export function UserDropdown (props) {
     userDisplayName,
     userEmail,
     userAvatar,
-    userRank,
     userSettings,
     ...otherProps
   } = props
@@ -45,14 +44,9 @@ export function UserDropdown (props) {
         }}
       >
         <Typography
-          variant={'body1'}
+          variant={'h6'}
         >
           {userDisplayName || '– –'}
-        </Typography>
-        <Typography
-          variant={'caption'}
-        >
-          {userRank || '– –'}
         </Typography>
         <Typography
           variant={'caption'}
@@ -94,7 +88,7 @@ export function UserDropdown (props) {
         >
           {userSettings.map((setting, index) => (
             <MenuItem
-              key={setting.name}
+              key={setting.id}
               onClick={handleCloseUserMenu}
             >
               <Typography
