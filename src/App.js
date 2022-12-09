@@ -172,7 +172,11 @@ export const App = () => {
             />
             <Route
               path={'travels/:travelId'}
-              element={<PageTravel />}
+              element={
+                <PageTravel
+                  travels={travels}
+                />
+            }
             >
               <Route
                 index={true}

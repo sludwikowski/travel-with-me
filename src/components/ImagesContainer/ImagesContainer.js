@@ -14,13 +14,6 @@ export const ImagesContainer = (props) => {
       sx={{
         width: '100%',
         height: '100vh',
-        paddingTop: '25px',
-        paddingLeft: '25px',
-        paddingRight: '25px',
-        '@media (max-width: 599.95px)': {
-          display: 'flex',
-          flexDirection: 'column'
-        },
         ...sx
       }}
       {...otherProps}
