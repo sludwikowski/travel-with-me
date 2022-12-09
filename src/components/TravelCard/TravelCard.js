@@ -38,7 +38,6 @@ export function TravelCard (props) {
         <CardMedia
           component={'img'}
           sx={{
-            // 16:9
             pt: '10.25%'
           }}
           image={image}

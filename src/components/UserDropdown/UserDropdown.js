@@ -25,7 +25,7 @@ export function UserDropdown (props) {
   return (
     <Box
       sx={{
-        // height: '100%',
+        height: '100%',
         display: 'flex',
         justifyContent: 'center',
         alignItems: 'center',
@@ -86,7 +86,7 @@ export function UserDropdown (props) {
           open={Boolean(anchorElUser)}
           onClose={handleCloseUserMenu}
         >
-          {userSettings.map((setting, index) => (
+          {userSettings.map((setting) => (
             <MenuItem
               key={setting.id}
               onClick={handleCloseUserMenu}

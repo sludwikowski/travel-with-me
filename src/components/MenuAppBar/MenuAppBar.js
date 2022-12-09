@@ -4,7 +4,7 @@ import PropTypes from 'prop-types'
 import { Box, AppBar, Toolbar, Typography, Container } from '@mui/material'
 import RocketLaunchIcon from '@mui/icons-material/RocketLaunch'
 
-function MenuAppBar (props) {
+export function MenuAppBar (props) {
   const {
     sx,
     children
