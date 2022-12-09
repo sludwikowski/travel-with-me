@@ -192,6 +192,7 @@ export const App = () => {
                   details={details}
                   travels={travels}
                   fetchDetailsByIds={fetchDetailsByIdsWithLoaders}
+                  onClickLogOut={onClickLogOut}
                 />
             }
             >
@@ -200,7 +201,7 @@ export const App = () => {
                 element={<PageTravelContentEmpty />}
               />
               <Route
-                path={':travelId'}
+                path={':detailId'}
                 element={<PageTravelContent />}
               />
             </Route>

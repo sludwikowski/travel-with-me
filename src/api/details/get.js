@@ -6,7 +6,10 @@ import { DETAILS_KEY } from './const'
 
 export const get = async (detailId) => {
   const detail = await makeAuthorizedRequest(makeApiUrl(DETAILS_KEY + '/' + detailId))
-  return detail
+  return {
+    id: detailId,
+    ...detail
+  }
 }
 
 export default get
