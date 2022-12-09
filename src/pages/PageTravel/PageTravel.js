@@ -26,6 +26,10 @@ export const PageTravel = (props) => {
     return travel.id === travelId
   })
 
+  const { details } = currentTravel
+
+  console.log(details)
+
   console.log(currentTravel)
 
   const navigate = useNavigate()
