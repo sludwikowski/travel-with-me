@@ -16,7 +16,9 @@ export const PageTravel = (props) => {
   const {
     sx,
     onClickLogOut,
+    fetchDetailsByIds,
     travels,
+    details,
     ...otherProps
   } = props
 
@@ -26,11 +28,12 @@ export const PageTravel = (props) => {
     return travel.id === travelId
   })
 
-  const { details } = currentTravel
+  const { details: detailsIds } = currentTravel
 
-  console.log(details)
-
-  console.log(currentTravel)
+  React.useEffect(() => {
+    if (!detailsIds) return
+    fetchDetailsByIds(detailsIds)
+  }, [fetchDetailsByIds, detailsIds])
 
   const navigate = useNavigate()
   const onClickProfile = React.useCallback(() => navigate('/profile'), [navigate])
@@ -108,8 +111,9 @@ PageTravel.propTypes = {
   sx: PropTypes.object,
   onClick: PropTypes.func,
   onClickLogOut: PropTypes.func,
-  travels: PropTypes.arrayOf(TravelPropType)
-
+  travels: PropTypes.arrayOf(TravelPropType),
+  details: PropTypes.arrayOf(PropTypes.object),
+  fetchDetailsByIds: PropTypes.func
 }
 
 export default PageTravel

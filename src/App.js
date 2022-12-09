@@ -23,6 +23,7 @@ import { useAuthUser } from './contexts/UserContext'
 
 import { signIn, signUp, checkIfUserIsLoggedIn, sendPasswordResetEmail, logOut, updateUser, getUserData as getUserDataAPICall } from './auth'
 
+import { getMultiple as getMultipleDetails } from './api/details'
 import { getAll as getAllTravels } from './api/travels'
 import { upload as uploadAvatar } from './api/avatar'
 
@@ -38,6 +39,9 @@ export const App = () => {
 
   // travels
   const [travels, setTravels] = React.useState(null)
+
+  // details
+  const [details, setDetails] = React.useState(null)
 
   const {
     isUserLoggedIn,
@@ -62,6 +66,17 @@ export const App = () => {
     const travels = await getAllTravels()
     setTravels(() => travels)
   }, [])
+
+  const fetchDetailsByIds = React.useCallback(async (detailsIds) => {
+    const details = await getMultipleDetails(detailsIds)
+    setDetails(() => details)
+  }, [])
+
+  const fetchDetailsByIdsWithLoaders = React.useCallback((detailsIds) => {
+    handleAsyncAction(async () => {
+      await fetchDetailsByIds(detailsIds)
+    })
+  }, [fetchDetailsByIds, handleAsyncAction])
 
   const getUserData = React.useCallback(async () => {
     const user = await getUserDataAPICall()
@@ -174,7 +189,9 @@ export const App = () => {
               path={'travels/:travelId'}
               element={
                 <PageTravel
+                  details={details}
                   travels={travels}
+                  fetchDetailsByIds={fetchDetailsByIdsWithLoaders}
                 />
             }
             >
