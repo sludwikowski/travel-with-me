@@ -120,11 +120,11 @@ export const PageTravel = (props) => {
       <Container
         sx={{ py: 4 }}
         maxWidth={'xl'}
-        height={'100%'}
+        height={'100vh'}
       >
         <Box>
           <ImageList
-            variant={'masonry'}
+            // variant={'quilted'}
             cols={2}
             gap={8}
             sx={{

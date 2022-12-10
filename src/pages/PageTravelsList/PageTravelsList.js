@@ -43,7 +43,7 @@ export const PageTravelsList = (props) => {
     await handleAsyncAction(async () => {
       const travels = await getAllTravels()
       setTravels(() => travels)
-    }, 'Loading courses...')
+    }, 'Loading travels...')
   }, [])
 
   const onClickLogOut = React.useCallback(async () => {
