@@ -1,24 +1,55 @@
 import * as React from 'react'
 import PropTypes from 'prop-types'
 
+import { useFormContext } from 'react-hook-form'
+
+import isEmail from 'validator/lib/isEmail'
+
 import { Avatar, Box, Button, Grid, Paper, TextField, Typography } from '@mui/material'
 import RocketLaunchIcon from '@mui/icons-material/RocketLaunch'
+
+import { EMAIL_VALIDATION_ERROR, PASSWORD_VALIDATION_ERROR, REPEAT_PASSWORD_VALIDATION_ERROR } from '../../consts'
 
 export function CreateAccountForm (props) {
   const {
     sx,
-    email,
-    emailError,
-    password,
-    passwordError,
-    repeatPassword,
-    repeatPasswordError,
-    onChangeEmail,
-    onChangePassword,
-    onChangeRepeatPassword,
-    onClickCreateAccount,
+    onSubmit,
     onClickBackToLogin
   } = props
+
+  const methods = useFormContext()
+
+  const { register, formState: { errors }, watch } = methods
+
+  const password = watch('password')
+
+  const registeredEmailProps = register('email', {
+    validate: (email) => isEmail(email) || EMAIL_VALIDATION_ERROR
+  })
+
+  const registeredPasswordProps = register('password', {
+    required: {
+      value: true,
+      message: PASSWORD_VALIDATION_ERROR
+    },
+    minLength: {
+      value: 6,
+      message: PASSWORD_VALIDATION_ERROR
+    }
+  })
+
+  const registeredRepeatPasswordProps = register('repeatPassword', {
+    required: {
+      value: true,
+      message: REPEAT_PASSWORD_VALIDATION_ERROR
+    },
+    minLength: {
+      value: 6,
+      message: REPEAT_PASSWORD_VALIDATION_ERROR
+    },
+    validate: (repeatPassword) => repeatPassword === password || REPEAT_PASSWORD_VALIDATION_ERROR
+  })
+
   return (
     <Grid
       container
@@ -69,6 +100,7 @@ export function CreateAccountForm (props) {
           <Box
             component={'form'}
             sx={{ mt: 1 }}
+            onSubmit={onSubmit}
           >
             <TextField
               margin={'normal'}
@@ -79,9 +111,8 @@ export function CreateAccountForm (props) {
               name={'email'}
               autoComplete={'email'}
               autoFocus
-              value={email}
-              onChange={onChangeEmail}
-              helperText={emailError}
+              helperText={errors.email && errors.email.message}
+              {...registeredEmailProps}
             />
             <TextField
               margin={'normal'}
@@ -91,9 +122,8 @@ export function CreateAccountForm (props) {
               label={'Password'}
               type={'password'}
               value={password}
-              onChange={onChangePassword}
-              autoComplete={'password'}
-              helperText={passwordError}
+              helperText={errors.password && errors.password.message}
+              {...registeredPasswordProps}
             />
             <TextField
               margin={'normal'}
@@ -102,18 +132,16 @@ export function CreateAccountForm (props) {
               name={'repeat-password'}
               label={'Repeat password'}
               type={'password'}
-              value={repeatPassword}
-              onChange={onChangeRepeatPassword}
               autoComplete={'repeat-password'}
-              helperText={repeatPasswordError}
+              helperText={errors.repeatPassword && errors.repeatPassword.message}
+              {...registeredRepeatPasswordProps}
             />
             <Button
-              type={'button'}
+              type={'submit'}
               fullWidth
               variant={'contained'}
               color={'secondary'}
               sx={{ mt: 3, mb: 2 }}
-              onClick={onClickCreateAccount}
             >
               CREATE ACCOUNT
             </Button>
@@ -135,16 +163,7 @@ export function CreateAccountForm (props) {
 
 CreateAccountForm.propTypes = {
   sx: PropTypes.object,
-  email: PropTypes.string.isRequired,
-  emailError: PropTypes.string,
-  password: PropTypes.string.isRequired,
-  passwordError: PropTypes.string,
-  repeatPassword: PropTypes.string.isRequired,
-  repeatPasswordError: PropTypes.string,
-  onChangeEmail: PropTypes.func.isRequired,
-  onChangePassword: PropTypes.func.isRequired,
-  onChangeRepeatPassword: PropTypes.func.isRequired,
-  onClickCreateAccount: PropTypes.func.isRequired,
+  onSubmit: PropTypes.func.isRequired,
   onClickBackToLogin: PropTypes.func.isRequired
 }
 

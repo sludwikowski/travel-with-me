@@ -3,22 +3,26 @@ import PropTypes from 'prop-types'
 
 import { useNavigate, useParams } from 'react-router-dom'
 
-import { Box, Container, Stack, Typography, Button, ImageList, ImageListItem, ImageListItemBar } from '@mui/material'
+import { Box, Container, Button, ImageList, ImageListItem, ImageListItemBar } from '@mui/material'
 
 // import ImagesContainer from '../../components/ImagesContainer'
 import UserDropdown from '../../components/UserDropdown'
 import MenuAppBar from '../../components/MenuAppBar'
-import { TravelPropType } from '../../components/TravelCard'
 
 import { useAuthUser } from '../../contexts/UserContext'
+
+import { getMultiple as getMultipleDetails } from '../../api/details'
+import { get as getTravel } from '../../api/travels'
+
+import { handleAsyncAction } from '../../handleAsyncAction'
+import { TravelTitle } from '../../components/TravelTitle'
+import { logOut } from '../../auth'
+import { signOutWithFirebaseSDK } from '../../firebaseConfig'
+// import { TravelTitle } from '../../components/TravelTitle'
 
 export const PageTravel = (props) => {
   const {
     sx,
-    onClickLogOut,
-    fetchDetailsByIds,
-    travels,
-    details,
     children,
     ...otherProps
   } = props
@@ -26,19 +30,40 @@ export const PageTravel = (props) => {
   const { travelId } = useParams()
   const navigate = useNavigate()
 
-  const currentTravel = travels && travels.find((travel) => {
-    return travel.id === travelId
-  })
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  const navigateMemoized = React.useMemo(() => navigate, [])
 
-  const detailsIds = currentTravel && currentTravel.details
+  const [travel, setTravel] = React.useState(null)
+  const fetchTravel = React.useCallback(async (travelId) => {
+    await handleAsyncAction(async () => {
+      const travel = await getTravel(travelId)
+      setTravel(() => travel)
+    }, 'Loading travel...')
+  }, [])
+
+  const [details, setDetails] = React.useState(null)
+  const fetchDetailsById = React.useCallback((detailsIds) => {
+    handleAsyncAction(async () => {
+      const details = await getMultipleDetails(detailsIds)
+      setDetails(() => details)
+    }, 'Loading details...').then(() => {})
+  }, [])
+
+  const detailsIds = travel && travel.details
 
   React.useEffect(() => {
+    if (!travel) return
     if (!detailsIds) {
-      navigate('/')
+      navigateMemoized('/')
       return
     }
-    fetchDetailsByIds(detailsIds)
-  }, [fetchDetailsByIds, detailsIds, navigate])
+    fetchDetailsById(detailsIds)
+  }, [travel, fetchDetailsById, detailsIds, navigateMemoized])
+
+  React.useEffect(() => {
+    fetchTravel(travelId)
+  },
+  [fetchTravel, travelId])
 
   const onClickProfile = React.useCallback(() => navigate('/profile'), [navigate])
   const onClickGoBack = React.useCallback(() => navigate('/'), [navigate])
@@ -46,8 +71,17 @@ export const PageTravel = (props) => {
   const {
     userDisplayName,
     userEmail,
-    userAvatar
+    userAvatar,
+    clearUser
   } = useAuthUser()
+
+  const onClickLogOut = React.useCallback(async () => {
+    await Promise.all([
+      logOut(),
+      signOutWithFirebaseSDK()
+    ])
+    clearUser()
+  }, [clearUser])
 
   return (
     <Box
@@ -73,40 +107,15 @@ export const PageTravel = (props) => {
           pb: 6
         }}
       >
-        <Container maxWidth={'xl'}>
-          <Typography
-            component={'h1'}
-            variant={'h2'}
-            fontWeight={500}
-            align={'center'}
-            color={'text.primary'}
-            gutterBottom
-          >
-            {currentTravel.title}
-          </Typography>
-          <Typography
-            variant={'h6'}
-            align={'center'}
-            color={'text.secondary'}
-            paragraph
-          >
-            {currentTravel.description}
-          </Typography>
-          <Stack
-            sx={{ pt: 4 }}
-            direction={'row'}
-            spacing={2}
-            justifyContent={'center'}
-          >
-            <Button
-              variant={'contained'}
-              onClick={() => navigate(currentTravel.id)}
-              sx={{ width: '300px' }}
-            >
-              NEXT
-            </Button>
-          </Stack>
-        </Container>
+        {
+        travel ?
+          <TravelTitle
+            travel={travel}
+          />
+          :
+          null
+        }
+
       </Box>
       <Container
         sx={{ py: 4 }}
@@ -128,22 +137,22 @@ export const PageTravel = (props) => {
           >
             {children}
             {
-            details && details.map((detail) => {
-              return (
-                <ImageListItem key={detail.content} >
-                  <img
-                    src={`${detail.content}?w=248&fit=crop&auto=format`}
-                    srcSet={`${detail.content}?w=248&fit=crop&auto=format&dpr=2 2x`}
-                    alt={detail.title}
-                    loading={'lazy'}
-                  />
-                  <ImageListItemBar
-                    position={'below'}
-                    title={detail.title}
-                  />
-                </ImageListItem>
-              )
-            })
+              details && details.map((detail) => {
+                return (
+                  <ImageListItem key={detail.content} >
+                    <img
+                      src={`${detail.content}?w=248&fit=crop&auto=format`}
+                      srcSet={`${detail.content}?w=248&fit=crop&auto=format&dpr=2 2x`}
+                      alt={detail.title}
+                      loading={'lazy'}
+                    />
+                    <ImageListItemBar
+                      position={'below'}
+                      title={detail.title}
+                    />
+                  </ImageListItem>
+                )
+              })
             }
           </ImageList>
         </Box>
@@ -171,9 +180,6 @@ PageTravel.propTypes = {
   sx: PropTypes.object,
   onClick: PropTypes.func,
   onClickLogOut: PropTypes.func,
-  travels: PropTypes.arrayOf(TravelPropType),
-  details: PropTypes.arrayOf(PropTypes.object),
-  fetchDetailsByIds: PropTypes.func,
   children: PropTypes.node
 }
 

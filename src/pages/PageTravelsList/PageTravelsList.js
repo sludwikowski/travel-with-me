@@ -3,6 +3,8 @@ import PropTypes from 'prop-types'
 
 import { useNavigate } from 'react-router-dom'
 
+import { TextField } from '@mui/material'
+
 import MenuAppBar from '../../components/MenuAppBar'
 import UserDropdown from '../../components/UserDropdown'
 import SearchBarContainer from '../../components/SearchBarContainer'
@@ -11,14 +13,19 @@ import { TravelPropType } from '../../components/TravelCard'
 
 import { useAuthUser } from '../../contexts/UserContext'
 
-import { TextField } from '@mui/material'
+import { logOut } from '../../auth'
+import { signOutWithFirebaseSDK } from '../../firebaseConfig'
+
+import { getAll as getAllTravels } from '../../api/travels'
+
+import { handleAsyncAction } from '../../handleAsyncAction'
 
 export const PageTravelsList = (props) => {
   const {
-    travels,
-    onClickLogOut
+    ...otherProps
   } = props
 
+  const [travels, setTravels] = React.useState(null)
   const [searchPhrase, setSearchPhrase] = React.useState('')
 
   const navigate = useNavigate()
@@ -28,8 +35,30 @@ export const PageTravelsList = (props) => {
   const {
     userDisplayName,
     userEmail,
-    userAvatar
+    userAvatar,
+    clearUser
   } = useAuthUser()
+
+  const fetchTravels = React.useCallback(async () => {
+    await handleAsyncAction(async () => {
+      const travels = await getAllTravels()
+      setTravels(() => travels)
+    }, 'Loading courses...')
+  }, [])
+
+  const onClickLogOut = React.useCallback(async () => {
+    await Promise.all([
+      logOut(),
+      signOutWithFirebaseSDK()
+    ])
+    clearUser()
+  }, [clearUser])
+
+  React.useEffect(() => {
+    fetchTravels()
+    // mount only
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
 
   const filteredTravels = React.useMemo(() => {
     const searchPhraseUpperCase = searchPhrase.toUpperCase()
@@ -44,7 +73,9 @@ export const PageTravelsList = (props) => {
 
   return (
     <>
-      <MenuAppBar>
+      <MenuAppBar
+        {...otherProps}
+      >
         <UserDropdown
           userDisplayName={userDisplayName}
           userEmail={userEmail}

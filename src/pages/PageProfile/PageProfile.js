@@ -13,15 +13,20 @@ import MenuAppBar from '../../components/MenuAppBar'
 
 import { useAuthUser } from '../../contexts/UserContext'
 
+import { handleAsyncAction } from '../../handleAsyncAction'
+
+import { updateUser } from '../../auth'
+import { upload as uploadAvatar } from '../../api/avatar'
 const PageProfile = (props) => {
   const {
-    onSaveChanges,
-    onAvatarChange
+    sx
   } = props
   const {
+    userId,
     userDisplayName,
     userEmail,
-    userAvatar
+    userAvatar,
+    getUserData
   } = useAuthUser()
 
   const methods = useForm({
@@ -31,6 +36,21 @@ const PageProfile = (props) => {
     }
   })
   const { reset, handleSubmit } = methods
+
+  const onSaveChanges = React.useCallback(async (displayName, photoUrl) => {
+    await handleAsyncAction(async () => {
+      await updateUser(displayName, photoUrl)
+      await getUserData()
+    }, 'Saving profile...')
+  }, [getUserData])
+
+  const onAvatarChange = React.useCallback(async (file) => {
+    await handleAsyncAction(async () => {
+      const downloadURL = await uploadAvatar(userId, file, (progressPercent) => console.log(`Upload progress is ${progressPercent}%`))
+      await updateUser(undefined, downloadURL)
+      await getUserData()
+    }, 'Saving profile...')
+  }, [getUserData, userId])
 
   React.useEffect(() => {
     reset({
@@ -44,7 +64,7 @@ const PageProfile = (props) => {
   return (
     <>
       <MenuAppBar
-        sx={{ height: 82 }}
+        sx={{ height: 82, ...sx }}
       />
       <Box
         component={'section'}
@@ -119,8 +139,7 @@ const PageProfile = (props) => {
 }
 
 PageProfile.propTypes = {
-  onSaveChanges: PropTypes.func.isRequired,
-  onAvatarChange: PropTypes.func.isRequired
+  sx: PropTypes.object
 }
 
 export default PageProfile

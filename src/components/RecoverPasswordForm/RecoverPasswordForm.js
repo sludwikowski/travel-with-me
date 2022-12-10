@@ -4,15 +4,26 @@ import PropTypes from 'prop-types'
 import { Avatar, Box, Button, Grid, Paper, TextField, Typography } from '@mui/material'
 import RocketLaunchIcon from '@mui/icons-material/RocketLaunch'
 
+import { useFormContext } from 'react-hook-form'
+
+import isEmail from 'validator/lib/isEmail'
+
+import { EMAIL_VALIDATION_ERROR } from '../../consts'
+
 export function RecoverPasswordForm (props) {
   const {
     sx,
-    email,
-    emailError,
-    onChangeEmail,
-    onClickRecover,
     onClickBackToLogin
   } = props
+
+  const methods = useFormContext()
+
+  const { register, formState: { errors } } = methods
+
+  const registeredEmailProps = register('email', {
+    validate: (email) => isEmail(email) || EMAIL_VALIDATION_ERROR
+  })
+
   return (
     <Grid
       container
@@ -73,17 +84,15 @@ export function RecoverPasswordForm (props) {
               name={'email'}
               autoComplete={'email'}
               autoFocus
-              value={email}
-              onChange={onChangeEmail}
-              helperText={emailError}
+              helperText={errors.email && errors.email.message}
+              {...registeredEmailProps}
             />
             <Button
-              type={'button'}
               fullWidth
               variant={'contained'}
               color={'secondary'}
               sx={{ mt: 3, mb: 2 }}
-              onClick={onClickRecover}
+              type={'submit'}
             >
               RECOVER PASSWORD
             </Button>
@@ -105,10 +114,6 @@ export function RecoverPasswordForm (props) {
 
 RecoverPasswordForm.propTypes = {
   sx: PropTypes.object,
-  email: PropTypes.string.isRequired,
-  emailError: PropTypes.string,
-  onChangeEmail: PropTypes.func.isRequired,
-  onClickRecover: PropTypes.func.isRequired,
   onClickBackToLogin: PropTypes.func.isRequired
 }
 

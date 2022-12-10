@@ -1,22 +1,37 @@
 import * as React from 'react'
 import PropTypes from 'prop-types'
 
+import { useFormContext } from 'react-hook-form'
+
+import isEmail from 'validator/lib/isEmail'
+
 import { Avatar, Box, Button, Grid, Paper, TextField, Typography } from '@mui/material'
 import RocketLaunchIcon from '@mui/icons-material/RocketLaunch'
+
+import { EMAIL_VALIDATION_ERROR, PASSWORD_VALIDATION_ERROR } from '../../consts'
 
 export function LoginForm (props) {
   const {
     sx,
-    email,
-    emailError,
-    password,
-    passwordError,
-    onChangeEmail,
-    onChangePassword,
-    onClickLogin,
+    onSubmit,
     onClickCreateAccount,
     onClickForgotPassword
   } = props
+
+  const methods = useFormContext()
+
+  const { register, formState: { errors } } = methods
+
+  const registeredEmailProps = register('email', {
+    validate: (email) => isEmail(email) || EMAIL_VALIDATION_ERROR
+  })
+
+  const registeredPasswordProps = register('password', {
+    minLength: {
+      value: 6,
+      message: PASSWORD_VALIDATION_ERROR
+    }
+  })
   return (
     <Grid
       container
@@ -67,6 +82,7 @@ export function LoginForm (props) {
           <Box
             component={'form'}
             sx={{ mt: 1 }}
+            onSubmit={onSubmit}
           >
             <TextField
               margin={'normal'}
@@ -76,9 +92,8 @@ export function LoginForm (props) {
               label={'Email Address'}
               name={'email'}
               autoComplete={'email'}
-              value={email}
-              onChange={onChangeEmail}
-              helperText={emailError}
+              helperText={errors.email && errors.email.message}
+              {...registeredEmailProps}
             />
             <TextField
               margin={'normal'}
@@ -87,17 +102,15 @@ export function LoginForm (props) {
               name={'password'}
               label={'Password'}
               type={'password'}
-              value={password}
-              onChange={onChangePassword}
-              helperText={passwordError}
+              helperText={errors.password && errors.password.message}
+              {...registeredPasswordProps}
             />
             <Button
-              type={'button'}
+              type={'submit'}
               fullWidth
               variant={'contained'}
               color={'warning'}
               sx={{ mt: 3 }}
-              onClick={onClickLogin}
             >
               LOGIN
             </Button>
@@ -129,14 +142,7 @@ export function LoginForm (props) {
 
 LoginForm.propTypes = {
   sx: PropTypes.object,
-  className: PropTypes.string,
-  email: PropTypes.string.isRequired,
-  emailError: PropTypes.string,
-  password: PropTypes.string.isRequired,
-  passwordError: PropTypes.string,
-  onChangeEmail: PropTypes.func.isRequired,
-  onChangePassword: PropTypes.func.isRequired,
-  onClickLogin: PropTypes.func.isRequired,
+  onSubmit: PropTypes.func.isRequired,
   onClickCreateAccount: PropTypes.func.isRequired,
   onClickForgotPassword: PropTypes.func.isRequired
 }

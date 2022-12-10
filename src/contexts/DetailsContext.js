@@ -1,16 +1,16 @@
 import React from 'react'
 
 const initialContextState = {
-  lessons: null
+  details: null
 }
 
 export const DetailsContext = React.createContext(initialContextState)
 
-export const useLessons = () => {
+export const useDetails = () => {
   const detailsContextValue = React.useContext(DetailsContext)
   return detailsContextValue
 }
 
-export const DetailContextProvider = DetailsContext.Provider
+export const DetailsContextProvider = DetailsContext.Provider
 
-export default DetailContextProvider
+export default DetailsContextProvider
