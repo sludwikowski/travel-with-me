@@ -31,7 +31,7 @@ export function Loader (props) {
         {
         message ?
           <Typography
-            variant={'body1'}
+            variant={'h6'}
           >
             {message}
           </Typography>

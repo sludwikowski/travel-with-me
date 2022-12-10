@@ -1,4 +1,3 @@
-/* eslint-disable react-hooks/exhaustive-deps */
 import React from 'react'
 
 import { useDispatch } from 'react-redux'
@@ -28,12 +27,10 @@ import { upload as uploadAvatar } from './api/avatar'
 
 import { signInWithFirebaseSDK, signOutWithFirebaseSDK } from './firebaseConfig'
 
-import {
-  createActionSetLoading,
-  createActionSetError,
-  createActionSetInfo,
-  createActionRemoveLoading
-} from './state/loaders'
+import { createActionSetInfo } from './state/loaders'
+
+import { handleAsyncAction } from './handleAsyncAction'
+
 export const App = () => {
   const dispatch = useDispatch()
 
@@ -50,7 +47,7 @@ export const App = () => {
     clearUser
   } = useAuthUser()
 
-  const handleAsyncAction = React.useCallback(async (asyncAction, message) => {
+  const  = React.useCallback(async (asyncAction, message) => {
     dispatch(createActionSetLoading(message))
     try {
       await asyncAction()
@@ -72,10 +69,10 @@ export const App = () => {
   }, [])
 
   const fetchDetailsByIdsWithLoaders = React.useCallback((detailsIds) => {
-    handleAsyncAction(async () => {
+    (async () => {
       await fetchDetailsByIds(detailsIds)
     }, 'Loading details...')
-  }, [fetchDetailsByIds, handleAsyncAction])
+  }, [fetchDetailsByIds, ])
 
   const getUserData = React.useCallback(async () => {
     const user = await getUserDataAPICall()
@@ -89,7 +86,7 @@ export const App = () => {
   }, [setUser])
 
   const onClickLogin = React.useCallback(async (email, password) => {
-    handleAsyncAction(async () => {
+    (async () => {
       await signIn(email, password)
       await Promise.all([
         signInWithFirebaseSDK(email, password),
@@ -97,10 +94,10 @@ export const App = () => {
         fetchTravels()
       ])
     }, 'Loging in...')
-  }, [fetchTravels, getUserData, handleAsyncAction])
+  }, [fetchTravels, getUserData, ])
 
   const onClickCreateAccount = React.useCallback(async (email, password) => {
-    handleAsyncAction(async () => {
+    (async () => {
       await signUp(email, password)
       dispatch(createActionSetInfo('User account created. User is logged in!'))
       await Promise.all([
@@ -108,29 +105,29 @@ export const App = () => {
         fetchTravels()
       ])
     }, 'Creating account...')
-  }, [dispatch, fetchTravels, getUserData, handleAsyncAction])
+  }, [dispatch, fetchTravels, getUserData, ])
 
   const onClickRecover = React.useCallback(async (email) => {
-    handleAsyncAction(async () => {
+    (async () => {
       await sendPasswordResetEmail(email)
       dispatch(createActionSetInfo('Check your inbox!'))
     }, 'Recovering password...')
-  }, [dispatch, handleAsyncAction])
+  }, [dispatch, ])
 
   const onClickSaveChangesProfile = React.useCallback(async (displayName, photoUrl) => {
-    handleAsyncAction(async () => {
+    (async () => {
       await updateUser(displayName, photoUrl)
       await getUserData()
     }, 'Saving profile...')
-  }, [getUserData, handleAsyncAction])
+  }, [getUserData, ])
 
   const onAvatarChangeProfile = React.useCallback(async (file) => {
-    handleAsyncAction(async () => {
+    (async () => {
       const downloadURL = await uploadAvatar(userId, file, (progressPercent) => console.log(`Upload progress is ${progressPercent}%`))
       await updateUser(undefined, downloadURL)
       await getUserData()
     }, 'Saving profile...')
-  }, [getUserData, handleAsyncAction, userId])
+  }, [getUserData, userId])
 
   const onClickLogOut = React.useCallback(async () => {
     await Promise.all([
@@ -141,7 +138,7 @@ export const App = () => {
   }, [clearUser])
 
   React.useEffect(() => {
-    handleAsyncAction(async () => {
+    (async () => {
       const userIsLoggedIn = await checkIfUserIsLoggedIn()
       if (userIsLoggedIn) {
         await Promise.all([
@@ -151,7 +148,7 @@ export const App = () => {
       }
     }, 'Loading app...')
     // mount only
-  }, [fetchTravels, getUserData, handleAsyncAction])
+  }, [fetchTravels, getUserData, ])
 
   return (
     <ThemeProvider theme={theme}>
