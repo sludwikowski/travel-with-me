@@ -24,19 +24,22 @@ export const PageTravel = (props) => {
   } = props
 
   const { travelId } = useParams()
+  const navigate = useNavigate()
 
   const currentTravel = travels && travels.find((travel) => {
     return travel.id === travelId
   })
 
-  const { details: detailsIds } = currentTravel
+  const detailsIds = currentTravel && currentTravel.details
 
   React.useEffect(() => {
-    if (!detailsIds) return
+    if (!detailsIds) {
+      navigate('/')
+      return
+    }
     fetchDetailsByIds(detailsIds)
-  }, [fetchDetailsByIds, detailsIds])
+  }, [fetchDetailsByIds, detailsIds, navigate])
 
-  const navigate = useNavigate()
   const onClickProfile = React.useCallback(() => navigate('/profile'), [navigate])
   const onClickGoBack = React.useCallback(() => navigate('/'), [navigate])
 
@@ -74,6 +77,7 @@ export const PageTravel = (props) => {
           <Typography
             component={'h1'}
             variant={'h2'}
+            fontWeight={500}
             align={'center'}
             color={'text.primary'}
             gutterBottom

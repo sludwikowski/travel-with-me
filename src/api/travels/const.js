@@ -1,1 +1,1 @@
-export const COURSES_KEY = 'travels'
+export const TRAVELS_KEY = 'travels'

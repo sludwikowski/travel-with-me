@@ -1,14 +1,15 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React from 'react'
 
+import { useDispatch } from 'react-redux'
+
 import { Routes, Route } from 'react-router-dom'
+
+import ViewLoadersOverlay from './views/ViewLoadersOverlay'
 
 import { CssBaseline, ThemeProvider } from '@mui/material'
 
 import { theme } from './theme'
-
-import FullPageMessage from './components/FullPageMessage'
-import FullPageLoader from './components/FullPageLoader'
 
 import PageTravelsList from './pages/PageTravelsList'
 import PageLogin from './pages/PageLogin'
@@ -16,8 +17,6 @@ import PageCreateAccount from './pages/PageCreateAccount'
 import PageRecoverPassword from './pages/PageRecoverPassword'
 import PageProfile from './pages/PageProfile/PageProfile'
 import PageTravel from './pages/PageTravel'
-import PageTravelContentEmpty from './pages/PageTravelContentEmpty'
-import PageTravelContent from './pages/PageTravelContent'
 
 import { useAuthUser } from './contexts/UserContext'
 
@@ -29,13 +28,14 @@ import { upload as uploadAvatar } from './api/avatar'
 
 import { signInWithFirebaseSDK, signOutWithFirebaseSDK } from './firebaseConfig'
 
+import {
+  createActionSetLoading,
+  createActionSetError,
+  createActionSetInfo,
+  createActionRemoveLoading
+} from './state/loaders'
 export const App = () => {
-  // global state
-  const [isLoading, setIsLoading] = React.useState(true)
-  const [hasError, setHasError] = React.useState(false)
-  const [errorMessage, setErrorMessage] = React.useState('')
-  const [isInfoDisplayed, setIsInfoDisplayed] = React.useState(false)
-  const [infoMessage, setInfoMessage] = React.useState('')
+  const dispatch = useDispatch()
 
   // travels
   const [travels, setTravels] = React.useState(null)
@@ -50,17 +50,16 @@ export const App = () => {
     clearUser
   } = useAuthUser()
 
-  const handleAsyncAction = React.useCallback(async (asyncAction) => {
-    setIsLoading(() => true)
+  const handleAsyncAction = React.useCallback(async (asyncAction, message) => {
+    dispatch(createActionSetLoading(message))
     try {
       await asyncAction()
     } catch (error) {
-      setHasError(() => true)
-      setErrorMessage(() => error.message || error.data.error.message)
+      dispatch(createActionSetError(error.message || error.data.error.message))
     } finally {
-      setIsLoading(() => false)
+      dispatch(createActionRemoveLoading())
     }
-  }, [])
+  }, [dispatch])
 
   const fetchTravels = React.useCallback(async () => {
     const travels = await getAllTravels()
@@ -75,14 +74,14 @@ export const App = () => {
   const fetchDetailsByIdsWithLoaders = React.useCallback((detailsIds) => {
     handleAsyncAction(async () => {
       await fetchDetailsByIds(detailsIds)
-    })
+    }, 'Loading details...')
   }, [fetchDetailsByIds, handleAsyncAction])
 
   const getUserData = React.useCallback(async () => {
     const user = await getUserDataAPICall()
-    console.log(user)
 
     setUser({
+      id: user.localId,
       displayName: user.displayName,
       email: user.email,
       avatar: user.photoUrl
@@ -97,38 +96,32 @@ export const App = () => {
         getUserData(),
         fetchTravels()
       ])
-    })
+    }, 'Loging in...')
   }, [fetchTravels, getUserData, handleAsyncAction])
 
   const onClickCreateAccount = React.useCallback(async (email, password) => {
     handleAsyncAction(async () => {
       await signUp(email, password)
-      setIsInfoDisplayed(() => true)
-      setInfoMessage(() => 'User account created. User is logged in!')
+      dispatch(createActionSetInfo('User account created. User is logged in!'))
       await Promise.all([
         getUserData(),
         fetchTravels()
       ])
-    })
-  }, [fetchTravels, getUserData, handleAsyncAction])
+    }, 'Creating account...')
+  }, [dispatch, fetchTravels, getUserData, handleAsyncAction])
 
   const onClickRecover = React.useCallback(async (email) => {
     handleAsyncAction(async () => {
       await sendPasswordResetEmail(email)
-      setIsInfoDisplayed(() => true)
-      setInfoMessage(() => 'Check your inbox!')
-      await Promise.all([
-        getUserData(),
-        fetchTravels()
-      ])
-    })
-  }, [fetchTravels, getUserData, handleAsyncAction])
+      dispatch(createActionSetInfo('Check your inbox!'))
+    }, 'Recovering password...')
+  }, [dispatch, handleAsyncAction])
 
   const onClickSaveChangesProfile = React.useCallback(async (displayName, photoUrl) => {
     handleAsyncAction(async () => {
       await updateUser(displayName, photoUrl)
       await getUserData()
-    })
+    }, 'Saving profile...')
   }, [getUserData, handleAsyncAction])
 
   const onAvatarChangeProfile = React.useCallback(async (file) => {
@@ -136,7 +129,7 @@ export const App = () => {
       const downloadURL = await uploadAvatar(userId, file, (progressPercent) => console.log(`Upload progress is ${progressPercent}%`))
       await updateUser(undefined, downloadURL)
       await getUserData()
-    })
+    }, 'Saving profile...')
   }, [getUserData, handleAsyncAction, userId])
 
   const onClickLogOut = React.useCallback(async () => {
@@ -147,16 +140,6 @@ export const App = () => {
     clearUser()
   }, [clearUser])
 
-  const dismissError = React.useCallback(() => {
-    setHasError(() => false)
-    setErrorMessage(() => '')
-  }, [])
-
-  const dismissMessage = React.useCallback(() => {
-    setIsInfoDisplayed(() => false)
-    setInfoMessage(() => '')
-  }, [])
-
   React.useEffect(() => {
     handleAsyncAction(async () => {
       const userIsLoggedIn = await checkIfUserIsLoggedIn()
@@ -166,7 +149,7 @@ export const App = () => {
           fetchTravels()
         ])
       }
-    })
+    }, 'Loading app...')
     // mount only
   }, [fetchTravels, getUserData, handleAsyncAction])
 
@@ -196,14 +179,6 @@ export const App = () => {
                 />
             }
             >
-              <Route
-                index={true}
-                element={<PageTravelContentEmpty />}
-              />
-              <Route
-                path={':detailId'}
-                element={<PageTravelContent />}
-              />
             </Route>
             <Route
               path={'*'}
@@ -250,35 +225,7 @@ export const App = () => {
           :
           null
       }
-
-      {
-            isLoading ?
-              <FullPageLoader/>
-              :
-              null
-          }
-      {
-            isInfoDisplayed ?
-              <FullPageMessage
-                message={infoMessage}
-                iconVariant={'info'}
-                buttonLabel={'OK'}
-                onButtonClick={dismissMessage}
-              />
-              :
-              null
-          }
-      {
-            hasError ?
-              <FullPageMessage
-                message={errorMessage}
-                iconVariant={'error'}
-                onButtonClick={dismissError}
-              />
-              :
-              null
-          }
-
+      <ViewLoadersOverlay />
     </ThemeProvider>
   )
 }

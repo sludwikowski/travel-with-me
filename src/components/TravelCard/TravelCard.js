@@ -53,6 +53,9 @@ export function TravelCard (props) {
           </Typography>
           <Typography
             variant={'caption'}
+            sx={{
+              flexGrow: 1
+            }}
           >
             {description}
           </Typography>

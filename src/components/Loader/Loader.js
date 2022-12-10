@@ -1,11 +1,12 @@
 import * as React from 'react'
 import PropTypes from 'prop-types'
 
-import { Box, CircularProgress } from '@mui/material'
+import { Box, CircularProgress, Typography } from '@mui/material'
 
 export function Loader (props) {
   const {
     sx,
+    message,
     ...otherProps
   } = props
 
@@ -16,16 +17,35 @@ export function Loader (props) {
       }}
       {...otherProps}
     >
-      <CircularProgress
-        color={'success'}
-        size={70}
-      />
+      <Box
+        sx={{
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center'
+        }}
+      >
+        <CircularProgress
+          color={'success'}
+          size={70}
+        />
+        {
+        message ?
+          <Typography
+            variant={'body1'}
+          >
+            {message}
+          </Typography>
+          :
+          null
+      }
+      </Box>
     </Box>
   )
 }
 
 Loader.propTypes = {
-  sx: PropTypes.object
+  sx: PropTypes.object,
+  message: PropTypes.string
 }
 
 export default Loader
