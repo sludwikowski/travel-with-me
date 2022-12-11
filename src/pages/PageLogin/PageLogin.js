@@ -25,13 +25,13 @@ export const PageLogin = () => {
   const onClickForgotPassword = React.useCallback(() => navigate('/recover-password'), [navigate])
 
   const onClickLogin = React.useCallback(async (email, password) => {
-    handleAsyncAction(async () => {
+    await handleAsyncAction(async () => {
       await signIn(email, password)
       await Promise.all([
         signInWithFirebaseSDK(email, password),
         getUserData()
       ])
-    }, 'Loging in...')
+    }, 'Logging in...')
   }, [getUserData])
 
   return (

@@ -1,7 +1,9 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-import { Box, ImageList, ImageListItem, ImageListItemBar } from '@mui/material'
+import { useNavigate } from 'react-router-dom'
+
+import { Box, Button, ImageList, ImageListItem, ImageListItemBar } from '@mui/material'
 
 export const DetailsList = (props) => {
   const {
@@ -11,6 +13,8 @@ export const DetailsList = (props) => {
     ...otherProps
   } = props
 
+  const navigate = useNavigate()
+  const onClickGoBack = React.useCallback(() => navigate('/'), [navigate])
   return (
     <Box
       sx={{
@@ -19,7 +23,7 @@ export const DetailsList = (props) => {
       {...otherProps}
     >
       <ImageList
-        variant={'masonry'}
+        // variant={'masonry'}
         cols={2}
         gap={8}
         sx={{
@@ -50,6 +54,20 @@ export const DetailsList = (props) => {
           })
         }
       </ImageList>
+      <Box
+        sx={{
+          display: 'flex', justifyContent: 'flex-end'
+        }}
+      >
+        <Button
+          color={'secondary'}
+          variant={'contained'}
+          onClick={onClickGoBack}
+          sx={{ width: '300px' }}
+        >
+          GO BACK
+        </Button>
+      </Box>
     </Box>
   )
 }

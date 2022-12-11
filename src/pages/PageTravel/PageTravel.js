@@ -1,13 +1,15 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-import { useNavigate, useParams } from 'react-router-dom'
+import { useNavigate, useParams, Outlet } from 'react-router-dom'
 
-import { Box, Container, Button, ImageList, ImageListItem, ImageListItemBar } from '@mui/material'
+import { Box, Container } from '@mui/material'
 
 // import ImagesContainer from '../../components/ImagesContainer'
 import UserDropdown from '../../components/UserDropdown'
 import MenuAppBar from '../../components/MenuAppBar'
+import TravelTitle from '../../components/TravelTitle'
+import DetailsList from '../../components/DetailsList'
 
 import { useAuthUser } from '../../contexts/UserContext'
 
@@ -15,9 +17,9 @@ import { getMultiple as getMultipleDetails } from '../../api/details'
 import { get as getTravel } from '../../api/travels'
 
 import { handleAsyncAction } from '../../handleAsyncAction'
-import { TravelTitle } from '../../components/TravelTitle'
 import { logOut } from '../../auth'
 import { signOutWithFirebaseSDK } from '../../firebaseConfig'
+import DetailsContextProvider from '../../contexts/DetailsContext'
 // import { TravelTitle } from '../../components/TravelTitle'
 
 export const PageTravel = (props) => {
@@ -66,7 +68,6 @@ export const PageTravel = (props) => {
   [fetchTravel, travelId])
 
   const onClickProfile = React.useCallback(() => navigate('/profile'), [navigate])
-  const onClickGoBack = React.useCallback(() => navigate('/'), [navigate])
 
   const {
     userDisplayName,
@@ -123,52 +124,14 @@ export const PageTravel = (props) => {
         height={'100vh'}
       >
         <Box>
-          <ImageList
-            // variant={'quilted'}
-            cols={2}
-            gap={8}
-            sx={{
-              '@media (max-width: 599.95px)': {
-                display: 'flex',
-                flexDirection: 'column',
-                overflowY: 'scroll'
-              }
-            }}
+          <DetailsContextProvider
+            value={details}
           >
-            {children}
-            {
-              details && details.map((detail) => {
-                return (
-                  <ImageListItem key={detail.content} >
-                    <img
-                      src={`${detail.content}?w=248&fit=crop&auto=format`}
-                      srcSet={`${detail.content}?w=248&fit=crop&auto=format&dpr=2 2x`}
-                      alt={detail.title}
-                      loading={'lazy'}
-                    />
-                    <ImageListItemBar
-                      position={'below'}
-                      title={detail.title}
-                    />
-                  </ImageListItem>
-                )
-              })
-            }
-          </ImageList>
-        </Box>
-        <Box
-          sx={{
-            display: 'flex', justifyContent: 'flex-end'
-          }}
-        >
-          <Button
-            color={'secondary'}
-            variant={'contained'}
-            onClick={onClickGoBack}
-            sx={{ width: '300px' }}
-          >
-            GO BACK
-          </Button>
+            <Outlet />
+          </DetailsContextProvider>
+          <DetailsList
+            details={details}
+          />
         </Box>
       </Container>
 

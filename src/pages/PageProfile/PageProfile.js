@@ -127,7 +127,7 @@ const PageProfile = (props) => {
                   variant={'contained'}
                   onClick={onClickGoBack}
                 >
-                  GO BACK
+                  BACK TO TRAVELS LIST
                 </Button>
               </Box>
             </Grid>
