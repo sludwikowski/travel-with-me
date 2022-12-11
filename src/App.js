@@ -24,8 +24,11 @@ import { handleAsyncAction } from './handleAsyncAction'
 export const App = () => {
   const {
     isUserLoggedIn,
+    isAdmin,
     getUserData
   } = useAuthUser()
+
+  console.log('isAdmin', isAdmin)
 
   React.useEffect(() => {
     handleAsyncAction(async () => {

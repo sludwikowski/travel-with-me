@@ -24,7 +24,7 @@ export const PageRecoverPassword = (props) => {
   const onClickBackToLogin = React.useCallback(() => navigate('/'), [navigate])
 
   const onClickRecover = React.useCallback(async (email) => {
-    handleAsyncAction(async () => {
+    await handleAsyncAction(async () => {
       await sendPasswordResetEmail(email)
       dispatch(createActionSetInfo('Check your inbox!'))
     }, 'Recovering password...')

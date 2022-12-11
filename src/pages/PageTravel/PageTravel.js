@@ -16,11 +16,12 @@ import { useAuthUser } from '../../contexts/UserContext'
 import { getMultiple as getMultipleDetails } from '../../api/details'
 import { get as getTravel } from '../../api/travels'
 
-import { handleAsyncAction } from '../../handleAsyncAction'
 import { logOut } from '../../auth'
+
 import { signOutWithFirebaseSDK } from '../../firebaseConfig'
 import DetailsContextProvider from '../../contexts/DetailsContext'
-// import { TravelTitle } from '../../components/TravelTitle'
+
+import { handleAsyncAction } from '../../handleAsyncAction'
 
 export const PageTravel = (props) => {
   const {
