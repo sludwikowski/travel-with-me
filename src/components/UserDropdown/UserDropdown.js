@@ -1,10 +1,16 @@
 import React, { useState } from 'react'
 import PropTypes from 'prop-types'
 
+import { useNavigate } from 'react-router-dom'
+
 import { Box, Typography, Avatar, MenuItem, Tooltip, IconButton, Menu } from '@mui/material'
+import { useAuthUser } from '../../contexts/UserContext'
 
 export function UserDropdown (props) {
   const [anchorElUser, setAnchorElUser] = useState('')
+
+  const navigate = useNavigate()
+  const onClickAdminPanel = React.useCallback((travelId) => navigate('/admin'), [navigate])
 
   const handleOpenUserMenu = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorElUser(event.currentTarget)
@@ -21,6 +27,10 @@ export function UserDropdown (props) {
     userSettings,
     ...otherProps
   } = props
+
+  const {
+    isAdmin
+  } = useAuthUser()
 
   return (
     <Box
@@ -67,7 +77,7 @@ export function UserDropdown (props) {
           >
             <Avatar
               src={userAvatar}
-              sx={{ width: '3.5rem', height: '3.5rem' }}
+              sx={{ width: '5rem', height: '5rem' }}
             />
           </IconButton>
         </Tooltip>
@@ -86,6 +96,20 @@ export function UserDropdown (props) {
           open={Boolean(anchorElUser)}
           onClose={handleCloseUserMenu}
         >
+          {
+          isAdmin ?
+            <MenuItem>
+              <Typography
+                textAlign={'center'}
+                variant={'h6'}
+                onClick={onClickAdminPanel}
+              >
+                Panel Admin
+              </Typography>
+            </MenuItem>
+            :
+            null
+          }
           {userSettings.map((setting) => (
             <MenuItem
               key={setting.id}

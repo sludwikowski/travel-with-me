@@ -82,7 +82,8 @@ export const PageTravelsList = (props) => {
           userAvatar={userAvatar}
           userSettings={[
             { id: 1, name: <div onClick={onClickProfile} >Profile </div> },
-            { id: 2, name: <div onClick={onClickLogOut} >Logout </div> }]
+            { id: 2, name: <div onClick={onClickLogOut} >Logout </div> }
+          ]
           }
         />
       </MenuAppBar>
