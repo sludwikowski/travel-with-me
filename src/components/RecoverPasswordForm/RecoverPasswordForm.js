@@ -1,18 +1,19 @@
 import * as React from 'react'
 import PropTypes from 'prop-types'
 
-import { Avatar, Box, Button, Grid, Paper, TextField, Typography } from '@mui/material'
-import RocketLaunchIcon from '@mui/icons-material/RocketLaunch'
-
 import { useFormContext } from 'react-hook-form'
 
 import isEmail from 'validator/lib/isEmail'
+
+import { Avatar, Box, Button, Grid, Paper, TextField, Typography } from '@mui/material'
+import RocketLaunchIcon from '@mui/icons-material/RocketLaunch'
 
 import { EMAIL_VALIDATION_ERROR } from '../../consts'
 
 export function RecoverPasswordForm (props) {
   const {
     sx,
+    onSubmit,
     onClickBackToLogin
   } = props
 
@@ -74,6 +75,7 @@ export function RecoverPasswordForm (props) {
           <Box
             component={'form'}
             sx={{ mt: 15 }}
+            onSubmit={onSubmit}
           >
             <TextField
               margin={'normal'}
@@ -97,7 +99,6 @@ export function RecoverPasswordForm (props) {
               RECOVER PASSWORD
             </Button>
             <Button
-              type={'button'}
               fullWidth
               variant={'text'}
               color={'secondary'}
@@ -114,6 +115,7 @@ export function RecoverPasswordForm (props) {
 
 RecoverPasswordForm.propTypes = {
   sx: PropTypes.object,
+  onSubmit: PropTypes.func.isRequired,
   onClickBackToLogin: PropTypes.func.isRequired
 }
 

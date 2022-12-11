@@ -14,6 +14,13 @@ import PageCreateAccount from './pages/PageCreateAccount'
 import PageRecoverPassword from './pages/PageRecoverPassword'
 import PageProfile from './pages/PageProfile/PageProfile'
 import PageTravel from './pages/PageTravel'
+import PageAdminMain from './pages/PageAdminMain'
+import PageAdminDetails from './pages/PageAdminDetails'
+import PageAdminDetailsNew from './pages/PageAdminDetailsNew'
+import PageAdminDetailsEdit from './pages/PageAdminDetailsEdit'
+import PageAdminTravels from './pages/PageAdminTravels'
+import PageAdminTravelsNew from './pages/PageAdminTravelsNew'
+import PageAdminTravelsEdit from './pages/PageAdminTravelsEdit'
 
 import { useAuthUser } from './contexts/UserContext'
 
@@ -58,6 +65,41 @@ export const App = () => {
             }
             >
             </Route>
+            {
+              isAdmin ?
+                <Route
+                  path={'/admin'}
+                  element={<PageAdminMain />}
+                >
+                  <Route
+                    path={'details'}
+                    element={<PageAdminDetails />}
+                  />
+                  <Route
+                    path={'details/new'}
+                    element={<PageAdminDetailsNew />}
+                  />
+                  <Route
+                    path={'details/:detailId'}
+                    element={<PageAdminDetailsEdit />}
+                  />
+                  <Route
+                    path={'travels'}
+                    element={<PageAdminTravels />}
+                  />
+                  <Route
+                    path={'travels/new'}
+                    element={<PageAdminTravelsNew />}
+                  />
+                  <Route
+                    path={'travels/:travelId'}
+                    element={<PageAdminTravelsEdit />}
+                  />
+                </Route>
+                :
+                null
+            }
+
             <Route
               path={'*'}
               element={
@@ -68,7 +110,6 @@ export const App = () => {
           :
           null
       }
-
       {
         !isUserLoggedIn ?
           <Routes>

@@ -14,7 +14,7 @@ import { createActionSetInfo } from '../../state/loaders'
 
 import { handleAsyncAction } from '../../handleAsyncAction'
 
-export const PageRecoverPassword = (props) => {
+export const PageRecoverPassword = () => {
   const dispatch = useDispatch()
 
   const methods = useForm()
@@ -24,7 +24,7 @@ export const PageRecoverPassword = (props) => {
   const onClickBackToLogin = React.useCallback(() => navigate('/'), [navigate])
 
   const onClickRecover = React.useCallback(async (email) => {
-    await handleAsyncAction(async () => {
+    handleAsyncAction(async () => {
       await sendPasswordResetEmail(email)
       dispatch(createActionSetInfo('Check your inbox!'))
     }, 'Recovering password...')
