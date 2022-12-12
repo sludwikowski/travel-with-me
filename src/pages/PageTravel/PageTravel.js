@@ -124,16 +124,14 @@ export const PageTravel = (props) => {
         maxWidth={'xl'}
         height={'100vh'}
       >
-        <Box>
-          <DetailsContextProvider
-            value={details}
-          >
-            <Outlet />
-          </DetailsContextProvider>
-          <DetailsList
-            details={details}
-          />
-        </Box>
+        <DetailsContextProvider
+          value={details}
+        >
+          <Outlet />
+        </DetailsContextProvider>
+        <DetailsList
+          details={details}
+        />
       </Container>
 
     </Box>
