@@ -2,7 +2,7 @@ import { combineReducers } from 'redux'
 
 import { createAsyncDuck } from './utils/createAsyncDuck'
 
-import { getAll as getAllDetailsAPICall } from '../api/details'
+import { get as getDetailsAPICall, getAll as getAllDetailsAPICall, create as createDetailAPICall, update as updateDetailAPICall } from '../api/details'
 
 import {
   createActionSetLoading,
@@ -17,6 +17,17 @@ const loadersCallbacks = (message) => ({
 })
 
 export const {
+  actionTypes: actionTypesGet,
+  actionCreators: { async: actionCreatorGet },
+  selector: getSelector,
+  reducer: getReducer
+} = createAsyncDuck({
+  duckName: 'details/get',
+  asyncFunction: getDetailsAPICall,
+  ...loadersCallbacks('Loading details...')
+})
+
+export const {
   actionTypes: actionTypesGetAll,
   actionCreators: { async: actionCreatorGetAll },
   selector: getAllSelector,
@@ -27,8 +38,32 @@ export const {
   ...loadersCallbacks('Lading all details...')
 })
 
+export const {
+  actionTypes: actionTypesCreate,
+  actionCreators: { async: actionCreatorCreate },
+  selector: createSelector,
+  reducer: createReducer
+} = createAsyncDuck({
+  duckName: 'details/create',
+  asyncFunction: createDetailAPICall,
+  ...loadersCallbacks('Creating detail...')
+})
+
+export const {
+  actionTypes: actionTypesUpdate,
+  actionCreators: { async: actionCreatorUpdate },
+  selector: updateSelector,
+  reducer: updateReducer
+} = createAsyncDuck({
+  duckName: 'details/update',
+  asyncFunction: updateDetailAPICall,
+  ...loadersCallbacks('Updating details...')
+})
 export const detailsReducer = combineReducers({
-  getAll: getAllReducer
+  get: getReducer,
+  getAll: getAllReducer,
+  create: createReducer,
+  update: updateReducer
 })
 
 export default detailsReducer

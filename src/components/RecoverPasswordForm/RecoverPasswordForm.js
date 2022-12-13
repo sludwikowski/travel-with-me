@@ -86,6 +86,7 @@ export function RecoverPasswordForm (props) {
               name={'email'}
               autoComplete={'email'}
               autoFocus
+              error={Boolean(errors.email)}
               helperText={errors.email && errors.email.message}
               {...registeredEmailProps}
             />

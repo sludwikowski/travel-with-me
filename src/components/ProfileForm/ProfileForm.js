@@ -54,6 +54,7 @@ export const ProfileForm = (props) => {
                 name={'First name and last name'}
                 required
                 variant={'outlined'}
+                error={Boolean(errors.displayName)}
                 helperText={errors.displayName && errors.displayName.message}
                 {...registeredDisplayNameProps}
               />
@@ -69,8 +70,8 @@ export const ProfileForm = (props) => {
                 name={'email'}
                 disabled={true}
                 variant={'outlined'}
-                error={errors.email && errors.email.message}
-                helperText={errors.email}
+                error={Boolean(errors.email)}
+                helperText={errors.email && errors.email.message}
                 {...registeredEmailProps}
               />
             </Grid>

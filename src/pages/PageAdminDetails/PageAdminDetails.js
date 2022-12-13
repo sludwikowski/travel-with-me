@@ -6,8 +6,8 @@ import { useNavigate } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 
 import { Box, Button, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, IconButton, Tooltip } from '@mui/material'
-import CameraAltIcon from '@mui/icons-material/CameraAlt'
 import { Edit as EditIcon, Delete as DeleteIcon, Add as AddIcon } from '@mui/icons-material'
+import CameraAltIcon from '@mui/icons-material/CameraAlt'
 
 import { getAllSelector, actionCreatorGetAll } from '../../state/details'
 
@@ -44,7 +44,7 @@ export const PageAdminDetails = (props) => {
         onClick={() => navigate('new')}
         startIcon={<AddIcon />}
       >
-        ADD NEW LESSON
+        ADD NEW DETAILS
       </Button>
       <TableContainer
         component={Paper}

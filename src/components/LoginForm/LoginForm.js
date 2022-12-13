@@ -92,6 +92,7 @@ export function LoginForm (props) {
               label={'Email Address'}
               name={'email'}
               autoComplete={'email'}
+              error={Boolean(errors.email)}
               helperText={errors.email && errors.email.message}
               {...registeredEmailProps}
             />
@@ -102,6 +103,7 @@ export function LoginForm (props) {
               name={'password'}
               label={'Password'}
               type={'password'}
+              error={Boolean(errors.password)}
               helperText={errors.password && errors.password.message}
               {...registeredPasswordProps}
             />
