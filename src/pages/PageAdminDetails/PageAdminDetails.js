@@ -64,7 +64,7 @@ export const PageAdminDetails = (props) => {
             <TableRow>
               <TableCell>Type</TableCell>
               <TableCell>Title</TableCell>
-              <TableCell align={'right'}>Actions</TableCell>
+              <TableCell align={'center'}>Actions</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
@@ -84,7 +84,7 @@ export const PageAdminDetails = (props) => {
                 >
                   {detail.title}
                 </TableCell>
-                <TableCell align={'right'}>
+                <TableCell align={'center'}>
                   <Tooltip title={'Edit'}>
                     <IconButton
                       color={'secondary'}

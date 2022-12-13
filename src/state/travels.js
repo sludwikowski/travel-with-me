@@ -3,13 +3,12 @@ import { combineReducers } from 'redux'
 import { createAsyncDuck } from './utils/createAsyncDuck'
 
 import {
-  get as getDetailsAPICall,
-  getAll as getAllDetailsAPICall,
-  create as createDetailAPICall,
-  update as updateDetailAPICall,
-  remove as removeDetailAPICall
-}
-  from '../api/details'
+  get as getCoursesAPICall,
+  getAll as getAllTravelsAPICall,
+  create as createTravelAPICall,
+  update as updateTravelAPICall,
+  remove as removeTravelAPICall
+} from '../api/travels'
 
 import {
   createActionSetLoading,
@@ -29,9 +28,9 @@ export const {
   selector: getSelector,
   reducer: getReducer
 } = createAsyncDuck({
-  duckName: 'details/get',
-  asyncFunction: getDetailsAPICall,
-  ...loadersCallbacks('Loading details...')
+  duckName: 'travels/get',
+  asyncFunction: getCoursesAPICall,
+  ...loadersCallbacks('Loading travel...')
 })
 
 export const {
@@ -40,9 +39,9 @@ export const {
   selector: getAllSelector,
   reducer: getAllReducer
 } = createAsyncDuck({
-  duckName: 'details/getAll',
-  asyncFunction: getAllDetailsAPICall,
-  ...loadersCallbacks('Lading all details...')
+  duckName: 'travels/getAll',
+  asyncFunction: getAllTravelsAPICall,
+  ...loadersCallbacks('Loading all travels...')
 })
 
 export const {
@@ -51,9 +50,9 @@ export const {
   selector: createSelector,
   reducer: createReducer
 } = createAsyncDuck({
-  duckName: 'details/create',
-  asyncFunction: createDetailAPICall,
-  ...loadersCallbacks('Creating detail...')
+  duckName: 'travels/create',
+  asyncFunction: createTravelAPICall,
+  ...loadersCallbacks('Creating travel...')
 })
 
 export const {
@@ -62,9 +61,9 @@ export const {
   selector: updateSelector,
   reducer: updateReducer
 } = createAsyncDuck({
-  duckName: 'details/update',
-  asyncFunction: updateDetailAPICall,
-  ...loadersCallbacks('Updating details...')
+  duckName: 'travels/update',
+  asyncFunction: updateTravelAPICall,
+  ...loadersCallbacks('Updating travel...')
 })
 
 export const {
@@ -73,11 +72,12 @@ export const {
   selector: removeSelector,
   reducer: removeReducer
 } = createAsyncDuck({
-  duckName: 'details/remove',
-  asyncFunction: removeDetailAPICall,
-  ...loadersCallbacks('Removing details...')
+  duckName: 'travels/remove',
+  asyncFunction: removeTravelAPICall,
+  ...loadersCallbacks('Removing travel...')
 })
-export const detailsReducer = combineReducers({
+
+export const travelsReducer = combineReducers({
   get: getReducer,
   getAll: getAllReducer,
   create: createReducer,
@@ -85,4 +85,4 @@ export const detailsReducer = combineReducers({
   remove: removeReducer
 })
 
-export default detailsReducer
+export default travelsReducer
