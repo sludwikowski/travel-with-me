@@ -3,7 +3,7 @@ import { combineReducers } from 'redux'
 import { createAsyncDuck } from './utils/createAsyncDuck'
 
 import {
-  get as getCoursesAPICall,
+  get as getTravelsAPICall,
   getAll as getAllTravelsAPICall,
   create as createTravelAPICall,
   update as updateTravelAPICall,
@@ -29,7 +29,7 @@ export const {
   reducer: getReducer
 } = createAsyncDuck({
   duckName: 'travels/get',
-  asyncFunction: getCoursesAPICall,
+  asyncFunction: getTravelsAPICall,
   ...loadersCallbacks('Loading travel...')
 })
 

@@ -41,6 +41,22 @@ export const TravelTitle = (props) => {
       >
         {travel.description}
       </Typography>
+      <Typography
+        variant={'h6'}
+        align={'center'}
+        color={'text.secondary'}
+        paragraph
+      >
+        {travel.category}
+      </Typography>
+      <Typography
+        variant={'h6'}
+        align={'center'}
+        color={'text.secondary'}
+        paragraph
+      >
+        {travel.price + '$'}
+      </Typography>
       <Stack
         sx={{ pt: 4 }}
         direction={'row'}

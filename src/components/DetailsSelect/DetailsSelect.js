@@ -80,18 +80,21 @@ export const DetailsSelect = (props) => {
                 secondaryAction={
                   <>
                     <IconButton
+                      color={'secondary'}
                       disabled={i === 0}
                       onClick={() => moveUp(detail.id)}
                     >
                       <KeyboardArrowUpIcon />
                     </IconButton>
                     <IconButton
+                      color={'secondary'}
                       disabled={i === arr.length - 1}
                       onClick={() => moveDown(detail.id)}
                     >
                       <KeyboardArrowDownIcon />
                     </IconButton>
                     <IconButton
+                      color={'secondary'}
                       onClick={() => remove(detail.id)}
                     >
                       <DeleteIcon />

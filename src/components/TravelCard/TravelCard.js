@@ -12,7 +12,8 @@ export function TravelCard (props) {
     category,
     description,
     image,
-    title
+    title,
+    price
   } = travel
   return (
 
@@ -59,6 +60,14 @@ export function TravelCard (props) {
           >
             {description}
           </Typography>
+          <Typography
+            variant={'caption'}
+            sx={{
+              flexGrow: 1
+            }}
+          >
+            {price}
+          </Typography>
         </CardContent>
         <CardActions>
           <Button
@@ -81,13 +90,14 @@ export function TravelCard (props) {
 export const TravelPropType = PropTypes.shape({
   category: PropTypes.string.isRequired,
   description: PropTypes.string.isRequired,
-  image: PropTypes.string.isRequired,
-  title: PropTypes.string.isRequired
+  image: PropTypes.string.isRequired
+
 }).isRequired
 
 TravelCard.propTypes = {
   travel: TravelPropType,
-  onClick: PropTypes.func
+  onClick: PropTypes.func,
+  price: PropTypes.number
 }
 
 export default TravelCard

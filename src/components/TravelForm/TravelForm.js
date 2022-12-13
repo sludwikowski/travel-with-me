@@ -7,7 +7,7 @@ import { Box, Button, TextField } from '@mui/material'
 
 import DetailsSelect, { DetailOptionsPropType } from '../DetailsSelect'
 
-export const FormCourse = (props) => {
+export const TravelForm = (props) => {
   const {
     sx,
     details,
@@ -74,6 +74,19 @@ export const FormCourse = (props) => {
         error={Boolean(errors.description)}
         helperText={errors.description && errors.description.message}
       />
+      <TextField
+        {...register('price', {
+          required: {
+            value: true,
+            message: 'Price is required'
+          }
+        })}
+        label={'Price'}
+        multiline={true}
+        sx={{ width: '100%', marginBottom: 2 }}
+        error={Boolean(errors.price)}
+        helperText={errors.price && errors.description.price}
+      />
       <Controller
         control={control}
         name={'details'}
@@ -94,6 +107,7 @@ export const FormCourse = (props) => {
         )}
       />
       <Button
+        color={'secondary'}
         variant={'contained'}
         sx={{ width: '100%' }}
         type={'submit'}
@@ -104,9 +118,9 @@ export const FormCourse = (props) => {
   )
 }
 
-FormCourse.propTypes = {
+TravelForm.propTypes = {
   sx: PropTypes.object,
   details: DetailOptionsPropType
 }
 
-export default FormCourse
+export default TravelForm
