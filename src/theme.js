@@ -21,7 +21,7 @@ export const theme = createTheme({
       main: '#025930'
     },
     background: {
-      default: '#f1f1f1'
+      default: '#F1F1F1'
     }
   },
   components: {

@@ -4,10 +4,6 @@ import { Routes, Route } from 'react-router-dom'
 
 import ViewLoadersOverlay from './views/ViewLoadersOverlay'
 
-import { CssBaseline, ThemeProvider } from '@mui/material'
-
-import { theme } from './theme'
-
 import PageTravelsList from './pages/PageTravelsList'
 import PageLogin from './pages/PageLogin'
 import PageCreateAccount from './pages/PageCreateAccount'
@@ -35,8 +31,6 @@ export const App = () => {
     getUserData
   } = useAuthUser()
 
-  console.log('isAdmin', isAdmin)
-
   React.useEffect(() => {
     handleAsyncAction(async () => {
       const userIsLoggedIn = await checkIfUserIsLoggedIn()
@@ -47,8 +41,7 @@ export const App = () => {
     // mount only
   }, [getUserData])
   return (
-    <ThemeProvider theme={theme}>
-      <CssBaseline/>
+    <>
       {
         isUserLoggedIn ?
           <Routes>
@@ -136,7 +129,7 @@ export const App = () => {
           null
       }
       <ViewLoadersOverlay />
-    </ThemeProvider>
+    </>
   )
 }
 

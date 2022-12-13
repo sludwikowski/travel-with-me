@@ -5,25 +5,28 @@ import { Provider } from 'react-redux'
 
 import { BrowserRouter as Router } from 'react-router-dom'
 
+import { ThemeProvider, CssBaseline } from '@mui/material'
+
 import App from './App'
 
 import './firebaseConfig'
 
 import UserContextProvider from './contexts/UserContext'
 
-import reportWebVitals from './reportWebVitals'
-
 import { store } from './store'
+
+import { theme } from './theme'
 
 const root = ReactDOM.createRoot(document.getElementById('root'))
 root.render(
   <Provider store={store}>
-    <Router>
-      <UserContextProvider>
-        <App />
-      </UserContextProvider>
-    </Router>
+    <ThemeProvider theme={theme}>
+      <CssBaseline/>
+      <Router>
+        <UserContextProvider>
+          <App />
+        </UserContextProvider>
+      </Router>
+    </ThemeProvider>
   </Provider>
 )
-
-reportWebVitals()

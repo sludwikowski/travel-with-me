@@ -1,8 +1,8 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-import { AppBar, Box, Button, Container, Drawer, IconButton, Toolbar, Typography } from '@mui/material'
-import MenuIcon from '@mui/icons-material/Menu'
+import { Box, Container, Drawer, AppBar, Toolbar, IconButton, Typography } from '@mui/material'
+import { Menu as MenuIcon } from '@mui/icons-material'
 
 export const AdminMainLayout = (props) => {
   const {
@@ -12,6 +12,7 @@ export const AdminMainLayout = (props) => {
     slotMainContent,
     slotAppBarTitle,
     slotDrawerContent,
+    slotAppBarRight,
     ...otherProps
   } = props
 
@@ -22,7 +23,9 @@ export const AdminMainLayout = (props) => {
       }}
       {...otherProps}
     >
-      <AppBar position={'sticky'}>
+      <AppBar
+        position={'sticky'}
+      >
         <Toolbar>
           <IconButton
             size={'large'}
@@ -43,13 +46,7 @@ export const AdminMainLayout = (props) => {
           >
             {slotAppBarTitle}
           </Typography>
-          <Button
-
-            color={'secondary'}
-            variant={'contained'}
-          >
-            Go back
-          </Button>
+          {slotAppBarRight}
         </Toolbar>
       </AppBar>
       <Drawer
@@ -58,7 +55,7 @@ export const AdminMainLayout = (props) => {
         onClose={() => setDrawerOpen(false)}
       >
         <Box
-          sx={{ width: '250px' }}
+          sx={{ width: 250 }}
         >
           {slotDrawerContent}
         </Box>
@@ -78,7 +75,8 @@ AdminMainLayout.propTypes = {
   setDrawerOpen: PropTypes.func.isRequired,
   slotMainContent: PropTypes.node,
   slotAppBarTitle: PropTypes.node,
-  slotDrawerContent: PropTypes.node
+  slotDrawerContent: PropTypes.node,
+  slotAppBarRight: PropTypes.node
 }
 
 export default AdminMainLayout
