@@ -9,13 +9,17 @@ import { Box, Button, Table, TableBody, TableCell, TableContainer, TableHead, Ta
 import { Edit as EditIcon, Delete as DeleteIcon, Add as AddIcon } from '@mui/icons-material'
 import CameraAltIcon from '@mui/icons-material/CameraAlt'
 
-import { getAllSelector, actionCreatorGetAll } from '../../state/details'
+import YesNoDialog from '../../components/YesNoDialog'
+
+import { getAllSelector, actionCreatorGetAll, actionCreatorRemove } from '../../state/details'
 
 export const PageAdminDetails = (props) => {
   const {
     sx,
     ...otherProps
   } = props
+
+  const [detailIdToDelete, setDetailIdToDelete] = React.useState(null)
 
   const navigate = useNavigate()
 
@@ -90,7 +94,10 @@ export const PageAdminDetails = (props) => {
                     </IconButton>
                   </Tooltip>
                   <Tooltip title={'Delete'}>
-                    <IconButton color={'secondary'}>
+                    <IconButton
+                      color={'secondary'}
+                      onClick={() => setDetailIdToDelete(detail.id)}
+                    >
                       <DeleteIcon />
                     </IconButton>
                   </Tooltip>
@@ -100,6 +107,19 @@ export const PageAdminDetails = (props) => {
           </TableBody>
         </Table>
       </TableContainer>
+      <YesNoDialog
+        open={detailIdToDelete !== null}
+        onAccept={async () => {
+          await dispatch(actionCreatorRemove(detailIdToDelete))
+          setDetailIdToDelete(null)
+          await dispatch(actionCreatorGetAll())
+        }}
+        onClose={() => setDetailIdToDelete(null)}
+        slotTitle={'Confirm deletion'}
+        slotText={'After successful deletion item cant be recovered!'}
+        yesText={'Confirm'}
+        noText={'Cancel'}
+      />
     </Box>
   )
 }

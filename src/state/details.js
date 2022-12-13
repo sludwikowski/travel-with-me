@@ -2,7 +2,14 @@ import { combineReducers } from 'redux'
 
 import { createAsyncDuck } from './utils/createAsyncDuck'
 
-import { get as getDetailsAPICall, getAll as getAllDetailsAPICall, create as createDetailAPICall, update as updateDetailAPICall } from '../api/details'
+import {
+  get as getDetailsAPICall,
+  getAll as getAllDetailsAPICall,
+  create as createDetailAPICall,
+  update as updateDetailAPICall,
+  remove as removeDetailAPICall
+}
+  from '../api/details'
 
 import {
   createActionSetLoading,
@@ -59,11 +66,23 @@ export const {
   asyncFunction: updateDetailAPICall,
   ...loadersCallbacks('Updating details...')
 })
+
+export const {
+  actionTypes: actionTypesRemove,
+  actionCreators: { async: actionCreatorRemove },
+  selector: removeSelector,
+  reducer: removeReducer
+} = createAsyncDuck({
+  duckName: 'details/remove',
+  asyncFunction: removeDetailAPICall,
+  ...loadersCallbacks('Removing details...')
+})
 export const detailsReducer = combineReducers({
   get: getReducer,
   getAll: getAllReducer,
   create: createReducer,
-  update: updateReducer
+  update: updateReducer,
+  remove: removeReducer
 })
 
 export default detailsReducer
