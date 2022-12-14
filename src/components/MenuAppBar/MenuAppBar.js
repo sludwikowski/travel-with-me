@@ -31,11 +31,12 @@ export function MenuAppBar (props) {
     >
       <Box
         sx={{
-          width: '80%',
-          margin: 'auto',
+          position: 'static',
           display: 'flex',
           justifyContent: 'space-between',
           alignItems: 'center',
+          width: '80vw',
+          margin: 'auto',
           ...sx
         }}
 

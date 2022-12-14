@@ -1,6 +1,8 @@
 import React, { useState } from 'react'
 import PropTypes from 'prop-types'
 
+import { useDispatch, useSelector } from 'react-redux'
+
 import { useNavigate } from 'react-router-dom'
 
 import { Box, Typography, Avatar, MenuItem, Tooltip, Badge, IconButton, Menu } from '@mui/material'
@@ -8,6 +10,8 @@ import { Box, Typography, Avatar, MenuItem, Tooltip, Badge, IconButton, Menu } f
 import ShoppingBagOutlined from '@mui/icons-material/ShoppingBagOutlined'
 
 import { useAuthUser } from '../../contexts/UserContext'
+
+import { setIsCartOpen } from '../../state/cartSlice'
 
 import { logOut } from '../../auth'
 
@@ -19,6 +23,10 @@ export function UserDropdown (props) {
   const navigate = useNavigate()
   const onClickAdminPanel = React.useCallback((travelId) => navigate('/admin'), [navigate])
   const onClickProfile = React.useCallback(() => navigate('/profile'), [navigate])
+
+  const dispatch = useDispatch()
+  const cart = useSelector((state) => state.cart.cart)
+
   const {
     clearUser
   } = useAuthUser()
@@ -89,7 +97,7 @@ export function UserDropdown (props) {
         sx={{
           display: 'flex',
           justifyContent: 'space-between',
-          columnGap: '30px',
+          columnGap: '20px',
           zIndex: 2,
           '@media (max-width: 599.95px)': {
             columnGap: '5px'
@@ -120,9 +128,9 @@ export function UserDropdown (props) {
           </IconButton>
         </Tooltip>
         <Badge
-          // badgeContent={cart.length}
+          badgeContent={cart.length}
           color={'secondary'}
-          // invisible={cart.length === 0}
+          invisible={cart.length === 0}
           sx={{
             '& .MuiBadge-badge': {
               right: 5,
@@ -135,7 +143,7 @@ export function UserDropdown (props) {
           }}
         >
           <IconButton
-            // onClick={() => dispatch(setIsCartOpen({}))}
+            onClick={() => dispatch(setIsCartOpen({}))}
             sx={{ color: 'black' }}
           >
             <ShoppingBagOutlined
