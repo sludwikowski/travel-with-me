@@ -1,93 +1,117 @@
-import * as React from 'react'
+import React, { useState } from 'react'
 import PropTypes from 'prop-types'
 
-import { Grid, Typography, Button, Card, CardMedia, CardContent, CardActions } from '@mui/material'
+import { useDispatch } from 'react-redux'
+
+import { useNavigate } from 'react-router-dom'
+
+import { Box, Paper, Typography, Button, IconButton } from '@mui/material'
+import AddIcon from '@mui/icons-material/Add'
+import RemoveIcon from '@mui/icons-material/Remove'
+
+import { addToCart } from '../../state/cartSlice'
+
+import { shades } from '../../theme'
 
 export function TravelCard (props) {
+  const navigate = useNavigate()
+  const dispatch = useDispatch()
+  const [count, setCount] = useState(1)
+  const [isHovered, setIsHovered] = useState(false)
+
   const {
     travel = {},
+    width,
     onClick
   } = props
   const {
     category,
-    description,
     image,
     title,
     price
   } = travel
   return (
-    <Grid
-      item
-      xs={12}
-      sm={5}
-      md={3}
+    <Box
+      width={width}
+      component={Paper}
     >
-      <Card
-        sx={{ height: '100%', display: 'flex', flexDirection: 'column' }}
+      <Box
+        position={'relative'}
+        onMouseOver={() => setIsHovered(true)}
+        onMouseOut={() => setIsHovered(false)}
       >
-        <Typography
-          gutterBottom
-          variant={'h4'}
-          component={'h2'}
-          textAlign={'center'}
-          fontWeight={700}
-          mt={5}
-        >
-          {title}
-        </Typography>
-        <CardMedia
-          component={'img'}
-          sx={{
-            pt: '10.25%'
-          }}
-          image={image}
-          alt={'random'}
+        <img
+          alt={title}
+          width={'400px'}
+          height={'500px'}
+          src={image}
+          onClick={() => navigate(`/travel/${travel.id}`)}
+          style={{ cursor: 'pointer' }}
         />
-        <CardContent sx={{ flexGrow: 1 }}>
-          <Typography
-            gutterBottom
-            variant={'h6'}
-            component={'h2'}
+        <Box
+          display={isHovered ? 'block' : 'none'}
+          position={'absolute'}
+          bottom={'10%'}
+          left={'0'}
+          width={'100%'}
+          padding={'0 5%'}
+        >
+          <Box
+            display={'flex'}
+            justifyContent={'space-between'}
           >
-            {category}
-          </Typography>
-          <Typography
-            variant={'caption'}
-            sx={{
-              flexGrow: 1
-            }}
-          >
-            {description}
-          </Typography>
-          <Typography
-            variant={'caption'}
-            sx={{
-              flexGrow: 1
-            }}
-          >
-            {price}
-          </Typography>
-        </CardContent>
-        <CardActions>
-          <Button
-            variant={'contained'}
-            color={'secondary'}
-            size={'small'}
-            type={'button'}
-            disabled={!onClick}
-            onClick={onClick}
-          >
-            View
-          </Button>
-        </CardActions>
-      </Card>
-    </Grid>
+            <Box
+              display={'flex'}
+              alignItems={'center'}
+              backgroundColor={shades.neutral[100]}
+              borderRadius={'3px'}
+            >
+              <IconButton onClick={() => setCount(Math.max(count - 1, 1))}>
+                <RemoveIcon />
+              </IconButton>
+              <Typography color={shades.primary[300]}>{count}</Typography>
+              <IconButton onClick={() => setCount(count + 1)}>
+                <AddIcon />
+              </IconButton>
+            </Box>
+            <Button
+              disabled={!onClick}
+              onClick={onClick}
+              sx={{ backgroundColor: shades.primary[300], color: 'white' }}
+            >
+              Show more
+            </Button>
+            <Button
+              onClick={() => {
+                dispatch(addToCart({ travel: { ...travel, count } }))
+              }}
+              sx={{ backgroundColor: shades.primary[300], color: 'white' }}
+            >
+              Add to Cart
+            </Button>
+          </Box>
+        </Box>
+      </Box>
+      <Box mt={'3px'}>
+        <Typography
+          variant={'subtitle2'}
+          color={'#000000'}
+        >
+          {category
+            .replace(/([A-Z])/g, ' $1')
+            .replace(/^./, (str) => str.toUpperCase())}
+        </Typography>
+        <Typography>{title}</Typography>
+        <Typography fontWeight={'bold'}>${price}</Typography>
+      </Box>
+    </Box>
   )
 }
 
 export const TravelPropType = PropTypes.shape({
   category: PropTypes.string.isRequired,
   description: PropTypes.string.isRequired,
+  shortDescription: PropTypes.string.isRequired,
   image: PropTypes.string.isRequired
 
 }).isRequired
@@ -95,7 +119,8 @@ export const TravelPropType = PropTypes.shape({
 TravelCard.propTypes = {
   travel: TravelPropType,
   onClick: PropTypes.func,
-  price: PropTypes.number
+  price: PropTypes.number,
+  width: PropTypes.object
 }
 
 export default TravelCard

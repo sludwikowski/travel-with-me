@@ -83,6 +83,19 @@ export const TravelForm = (props) => {
         error={Boolean(errors.description)}
         helperText={errors.description && errors.description.message}
       />
+      <TextField
+        {...register('shortDescription', {
+          required: {
+            value: true,
+            message: 'Description is required'
+          }
+        })}
+        label={'Short Description'}
+        multiline={true}
+        sx={{ width: '100%', marginBottom: 2 }}
+        error={Boolean(errors.description)}
+        helperText={errors.description && errors.description.message}
+      />
       <FormControl
         label={'Price'}
         sx={{ width: '100%', marginBottom: 2 }}

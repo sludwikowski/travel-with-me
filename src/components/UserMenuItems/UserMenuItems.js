@@ -17,7 +17,7 @@ import { logOut } from '../../auth'
 
 import { signOutWithFirebaseSDK } from '../../firebaseConfig'
 
-export function UserDropdown (props) {
+export function UserMenuItems (props) {
   const [anchorElUser, setAnchorElUser] = useState('')
 
   const navigate = useNavigate()
@@ -129,15 +129,15 @@ export function UserDropdown (props) {
         </Tooltip>
         <Badge
           badgeContent={cart.length}
-          color={'secondary'}
+          color={'error'}
           invisible={cart.length === 0}
           sx={{
             '& .MuiBadge-badge': {
-              right: 5,
-              top: 5,
-              padding: '0 4px',
-              height: '18px',
-              minWidth: '17px',
+              right: 10,
+              top: 10,
+              padding: '0 5px',
+              height: '20px',
+              minWidth: '19px',
               ...sx
             }
           }}
@@ -148,8 +148,8 @@ export function UserDropdown (props) {
           >
             <ShoppingBagOutlined
               sx={{
-                width: '3rem',
-                height: '3rem',
+                width: '4rem',
+                height: '4rem',
                 '@media (max-width: 599.95px)': {
                   width: '2rem',
                   height: '2rem',
@@ -214,7 +214,7 @@ export function UserDropdown (props) {
   )
 }
 
-UserDropdown.propTypes = {
+UserMenuItems.propTypes = {
   sx: PropTypes.object,
   userDisplayName: PropTypes.string,
   userEmail: PropTypes.string,
@@ -223,4 +223,4 @@ UserDropdown.propTypes = {
   userSettings: PropTypes.array
 }
 
-export default UserDropdown
+export default UserMenuItems

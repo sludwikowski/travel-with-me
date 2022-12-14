@@ -10,8 +10,8 @@ export function SearchBarContainer (props) {
   } = props
   return (
     <Container
-      sx={{ py: 2, ...sx }}
-      maxWidth={'md'}
+      sx={{ py: 3, ...sx }}
+      maxWidth={'xl'}
     >
       {children}
     </Container>

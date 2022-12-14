@@ -5,8 +5,7 @@ import { useNavigate, useParams, Outlet } from 'react-router-dom'
 
 import { Box, Container } from '@mui/material'
 
-// import ImagesContainer from '../../components/ImagesContainer'
-import UserDropdown from '../../components/UserDropdown'
+import UserMenuItems from '../../components/UserMenuItems'
 import MenuAppBar from '../../components/MenuAppBar'
 import TravelTitle from '../../components/TravelTitle'
 import DetailsList from '../../components/DetailsList'
@@ -19,6 +18,7 @@ import { get as getTravel } from '../../api/travels'
 import DetailsContextProvider from '../../contexts/DetailsContext'
 
 import { handleAsyncAction } from '../../handleAsyncAction'
+import { CartMenu } from '../../components/CartMenu'
 
 export const PageTravel = (props) => {
   const {
@@ -79,7 +79,7 @@ export const PageTravel = (props) => {
       {...otherProps}
     >
       <MenuAppBar>
-        <UserDropdown
+        <UserMenuItems
           userDisplayName={userDisplayName}
           userEmail={userEmail}
           userAvatar={userAvatar}
@@ -115,7 +115,7 @@ export const PageTravel = (props) => {
           details={details}
         />
       </Container>
-
+      <CartMenu/>
     </Box>
   )
 }

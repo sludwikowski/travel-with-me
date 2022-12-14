@@ -6,7 +6,7 @@ import { useNavigate } from 'react-router-dom'
 import { TextField } from '@mui/material'
 
 import MenuAppBar from '../../components/MenuAppBar'
-import UserDropdown from '../../components/UserDropdown'
+import UserMenuItems from '../../components/UserMenuItems'
 import SearchBarContainer from '../../components/SearchBarContainer'
 import TravelsList from '../../components/TravelsList'
 import { TravelPropType } from '../../components/TravelCard'
@@ -16,6 +16,8 @@ import { useAuthUser } from '../../contexts/UserContext'
 import { getAll as getAllTravels } from '../../api/travels'
 
 import { handleAsyncAction } from '../../handleAsyncAction'
+import { CartMenu } from '../../components/CartMenu'
+import { MainCarousel } from '../../components/MainCarousel'
 
 export const PageTravelsList = (props) => {
   const {
@@ -63,12 +65,13 @@ export const PageTravelsList = (props) => {
       <MenuAppBar
         {...otherProps}
       >
-        <UserDropdown
+        <UserMenuItems
           userDisplayName={userDisplayName}
           userEmail={userEmail}
           userAvatar={userAvatar}
         />
       </MenuAppBar>
+      <MainCarousel/>
       <SearchBarContainer>
         <TextField
           fullWidth
@@ -76,6 +79,7 @@ export const PageTravelsList = (props) => {
           id={'searchBar'}
           color={'secondary'}
           value={searchPhrase}
+          size={'small'}
           onChange={(e) => setSearchPhrase(() => e.target.value)}
         />
       </SearchBarContainer>
@@ -83,6 +87,7 @@ export const PageTravelsList = (props) => {
         travels={filteredTravels}
         onClickTravel={onClickTravel}
       />
+      <CartMenu/>
     </>
   )
 }
