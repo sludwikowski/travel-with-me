@@ -1,7 +1,7 @@
 import * as React from 'react'
 import PropTypes from 'prop-types'
 
-import { Grid, Card, CardActions, CardContent, CardMedia, Typography, Button } from '@mui/material'
+import { Grid, Typography, Button, Card, CardMedia, CardContent, CardActions } from '@mui/material'
 
 export function TravelCard (props) {
   const {
@@ -16,11 +16,10 @@ export function TravelCard (props) {
     price
   } = travel
   return (
-
     <Grid
       item
       xs={12}
-      sm={6}
+      sm={5}
       md={3}
     >
       <Card
@@ -83,7 +82,6 @@ export function TravelCard (props) {
         </CardActions>
       </Card>
     </Grid>
-
   )
 }
 

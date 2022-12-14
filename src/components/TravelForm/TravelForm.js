@@ -3,7 +3,16 @@ import PropTypes from 'prop-types'
 
 import { useFormContext, Controller } from 'react-hook-form'
 
-import { Box, Button, TextField } from '@mui/material'
+import {
+  Box,
+  Button,
+  TextField,
+  FormControl,
+  InputLabel,
+  OutlinedInput,
+  InputAdornment,
+  FormHelperText
+} from '@mui/material'
 
 import DetailsSelect, { DetailOptionsPropType } from '../DetailsSelect'
 
@@ -74,19 +83,29 @@ export const TravelForm = (props) => {
         error={Boolean(errors.description)}
         helperText={errors.description && errors.description.message}
       />
-      <TextField
-        {...register('price', {
-          required: {
-            value: true,
-            message: 'Price is required'
-          }
-        })}
+      <FormControl
         label={'Price'}
-        multiline={true}
         sx={{ width: '100%', marginBottom: 2 }}
         error={Boolean(errors.price)}
-        helperText={errors.price && errors.description.price}
-      />
+        fullWidth
+      >
+        <InputLabel>
+          Price
+        </InputLabel>
+        <FormHelperText>{errors.price && errors.price.message}</FormHelperText>
+        <OutlinedInput
+          {...register('price', {
+            required: {
+              value: true,
+              message: 'Price is required'
+            }
+          })}
+          type={'number'}
+          id={'outlined-adornment-amount'}
+          startAdornment={<InputAdornment position={'start'}>$</InputAdornment>}
+          label={'Amount'}
+        />
+      </FormControl>
       <Controller
         control={control}
         name={'details'}

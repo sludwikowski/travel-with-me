@@ -13,9 +13,6 @@ import { TravelPropType } from '../../components/TravelCard'
 
 import { useAuthUser } from '../../contexts/UserContext'
 
-import { logOut } from '../../auth'
-import { signOutWithFirebaseSDK } from '../../firebaseConfig'
-
 import { getAll as getAllTravels } from '../../api/travels'
 
 import { handleAsyncAction } from '../../handleAsyncAction'
@@ -29,14 +26,12 @@ export const PageTravelsList = (props) => {
   const [searchPhrase, setSearchPhrase] = React.useState('')
 
   const navigate = useNavigate()
-  const onClickProfile = React.useCallback(() => navigate('/profile'), [navigate])
   const onClickTravel = React.useCallback((travelId) => navigate(`/travels/${travelId}`), [navigate])
 
   const {
     userDisplayName,
     userEmail,
-    userAvatar,
-    clearUser
+    userAvatar
   } = useAuthUser()
 
   const fetchTravels = React.useCallback(async () => {
@@ -45,14 +40,6 @@ export const PageTravelsList = (props) => {
       setTravels(() => travels)
     }, 'Loading travels...')
   }, [])
-
-  const onClickLogOut = React.useCallback(async () => {
-    await Promise.all([
-      logOut(),
-      signOutWithFirebaseSDK()
-    ])
-    clearUser()
-  }, [clearUser])
 
   React.useEffect(() => {
     fetchTravels()
@@ -80,11 +67,6 @@ export const PageTravelsList = (props) => {
           userDisplayName={userDisplayName}
           userEmail={userEmail}
           userAvatar={userAvatar}
-          userSettings={[
-            { id: 1, name: <div onClick={onClickProfile} >Profile </div> },
-            { id: 2, name: <div onClick={onClickLogOut} >Logout </div> }
-          ]
-          }
         />
       </MenuAppBar>
       <SearchBarContainer>

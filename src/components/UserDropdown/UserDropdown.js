@@ -5,12 +5,26 @@ import { useNavigate } from 'react-router-dom'
 
 import { Box, Typography, Avatar, MenuItem, Tooltip, IconButton, Menu } from '@mui/material'
 import { useAuthUser } from '../../contexts/UserContext'
+import { logOut } from '../../auth'
+import { signOutWithFirebaseSDK } from '../../firebaseConfig'
 
 export function UserDropdown (props) {
   const [anchorElUser, setAnchorElUser] = useState('')
 
   const navigate = useNavigate()
   const onClickAdminPanel = React.useCallback((travelId) => navigate('/admin'), [navigate])
+  const onClickProfile = React.useCallback(() => navigate('/profile'), [navigate])
+  const {
+    clearUser
+  } = useAuthUser()
+
+  const onClickLogOut = React.useCallback(async () => {
+    await Promise.all([
+      logOut(),
+      signOutWithFirebaseSDK()
+    ])
+    clearUser()
+  }, [clearUser])
 
   const handleOpenUserMenu = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorElUser(event.currentTarget)
@@ -110,19 +124,26 @@ export function UserDropdown (props) {
             :
             null
           }
-          {userSettings.map((setting) => (
-            <MenuItem
-              key={setting.id}
-              onClick={handleCloseUserMenu}
+          <MenuItem
+            onClick={handleCloseUserMenu}
+          >
+            <Typography
+              textAlign={'center'}
+              variant={'h6'}
+              onClick={onClickProfile}
             >
-              <Typography
-                textAlign={'center'}
-                variant={'h6'}
-              >
-                {setting.name}
-              </Typography>
-            </MenuItem>
-          ))}
+              Profile
+            </Typography>
+          </MenuItem>
+          <MenuItem>
+            <Typography
+              textAlign={'center'}
+              variant={'h6'}
+              onClick={onClickLogOut}
+            >
+              Logout
+            </Typography>
+          </MenuItem>
         </Menu>
 
       </Box>
