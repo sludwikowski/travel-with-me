@@ -16,9 +16,6 @@ import { useAuthUser } from '../../contexts/UserContext'
 import { getMultiple as getMultipleDetails } from '../../api/details'
 import { get as getTravel } from '../../api/travels'
 
-import { logOut } from '../../auth'
-
-import { signOutWithFirebaseSDK } from '../../firebaseConfig'
 import DetailsContextProvider from '../../contexts/DetailsContext'
 
 import { handleAsyncAction } from '../../handleAsyncAction'
@@ -68,22 +65,11 @@ export const PageTravel = (props) => {
   },
   [fetchTravel, travelId])
 
-  const onClickProfile = React.useCallback(() => navigate('/profile'), [navigate])
-
   const {
     userDisplayName,
     userEmail,
-    userAvatar,
-    clearUser
+    userAvatar
   } = useAuthUser()
-
-  const onClickLogOut = React.useCallback(async () => {
-    await Promise.all([
-      logOut(),
-      signOutWithFirebaseSDK()
-    ])
-    clearUser()
-  }, [clearUser])
 
   return (
     <Box
@@ -97,10 +83,6 @@ export const PageTravel = (props) => {
           userDisplayName={userDisplayName}
           userEmail={userEmail}
           userAvatar={userAvatar}
-          userSettings={[
-            { id: 1, name: <div onClick={onClickProfile} >Profile </div> },
-            { id: 2, name: <div onClick={onClickLogOut} >Logout </div> }]
-          }
         />
       </MenuAppBar>
       <Box

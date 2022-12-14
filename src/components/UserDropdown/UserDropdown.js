@@ -3,9 +3,14 @@ import PropTypes from 'prop-types'
 
 import { useNavigate } from 'react-router-dom'
 
-import { Box, Typography, Avatar, MenuItem, Tooltip, IconButton, Menu } from '@mui/material'
+import { Box, Typography, Avatar, MenuItem, Tooltip, Badge, IconButton, Menu } from '@mui/material'
+
+import ShoppingBagOutlined from '@mui/icons-material/ShoppingBagOutlined'
+
 import { useAuthUser } from '../../contexts/UserContext'
+
 import { logOut } from '../../auth'
+
 import { signOutWithFirebaseSDK } from '../../firebaseConfig'
 
 export function UserDropdown (props) {
@@ -53,7 +58,6 @@ export function UserDropdown (props) {
         display: 'flex',
         justifyContent: 'center',
         alignItems: 'center',
-        marginBottom: '5px',
         ...sx
       }}
       {...otherProps}
@@ -64,6 +68,9 @@ export function UserDropdown (props) {
           flexDirection: 'column',
           justifyContent: 'center',
           alignItems: 'flex-end',
+          '@media (max-width: 599.95px)': {
+            display: 'none'
+          },
           ...sx
         }}
       >
@@ -79,7 +86,16 @@ export function UserDropdown (props) {
         </Typography>
       </Box>
       <Box
-        sx={{ ml: 2 }}
+        sx={{
+          display: 'flex',
+          justifyContent: 'space-between',
+          columnGap: '30px',
+          zIndex: 2,
+          '@media (max-width: 599.95px)': {
+            columnGap: '5px'
+          },
+          ...sx
+        }}
       >
         <Tooltip
           title={'Open menu'}
@@ -87,30 +103,71 @@ export function UserDropdown (props) {
         >
           <IconButton
             onClick={handleOpenUserMenu}
-            sx={{ p: 1 }}
+            sx={{ p: 1, ...sx }}
           >
             <Avatar
               src={userAvatar}
-              sx={{ width: '5rem', height: '5rem' }}
+              sx={{
+                width: '4rem',
+                height: '4rem',
+                '@media (max-width: 599.95px)': {
+                  width: '3rem',
+                  height: '3rem',
+                  ...sx
+                }
+              }}
             />
           </IconButton>
         </Tooltip>
-        <Menu
-          id={'menu-appbar'}
-          anchorEl={anchorElUser}
-          anchorOrigin={{
-            vertical: 'bottom',
-            horizontal: 'center'
+        <Badge
+          // badgeContent={cart.length}
+          color={'secondary'}
+          // invisible={cart.length === 0}
+          sx={{
+            '& .MuiBadge-badge': {
+              right: 5,
+              top: 5,
+              padding: '0 4px',
+              height: '18px',
+              minWidth: '17px',
+              ...sx
+            }
           }}
-          keepMounted
-          transformOrigin={{
-            vertical: 'top',
-            horizontal: 'center'
-          }}
-          open={Boolean(anchorElUser)}
-          onClose={handleCloseUserMenu}
         >
-          {
+          <IconButton
+            // onClick={() => dispatch(setIsCartOpen({}))}
+            sx={{ color: 'black' }}
+          >
+            <ShoppingBagOutlined
+              sx={{
+                width: '3rem',
+                height: '3rem',
+                '@media (max-width: 599.95px)': {
+                  width: '2rem',
+                  height: '2rem',
+                  ...sx
+                }
+              }}
+            />
+          </IconButton>
+        </Badge>
+      </Box>
+      <Menu
+        id={'menu-appbar'}
+        anchorEl={anchorElUser}
+        anchorOrigin={{
+          vertical: 'bottom',
+          horizontal: 'center'
+        }}
+        keepMounted
+        transformOrigin={{
+          vertical: 'top',
+          horizontal: 'center'
+        }}
+        open={Boolean(anchorElUser)}
+        onClose={handleCloseUserMenu}
+      >
+        {
           isAdmin ?
             <MenuItem>
               <Typography
@@ -124,29 +181,27 @@ export function UserDropdown (props) {
             :
             null
           }
-          <MenuItem
-            onClick={handleCloseUserMenu}
+        <MenuItem
+          onClick={handleCloseUserMenu}
+        >
+          <Typography
+            textAlign={'center'}
+            variant={'h6'}
+            onClick={onClickProfile}
           >
-            <Typography
-              textAlign={'center'}
-              variant={'h6'}
-              onClick={onClickProfile}
-            >
-              Profile
-            </Typography>
-          </MenuItem>
-          <MenuItem>
-            <Typography
-              textAlign={'center'}
-              variant={'h6'}
-              onClick={onClickLogOut}
-            >
-              Logout
-            </Typography>
-          </MenuItem>
-        </Menu>
-
-      </Box>
+            Profile
+          </Typography>
+        </MenuItem>
+        <MenuItem>
+          <Typography
+            textAlign={'center'}
+            variant={'h6'}
+            onClick={onClickLogOut}
+          >
+            Logout
+          </Typography>
+        </MenuItem>
+      </Menu>
     </Box>
   )
 }

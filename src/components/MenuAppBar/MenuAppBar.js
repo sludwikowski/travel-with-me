@@ -1,53 +1,75 @@
 import * as React from 'react'
 import PropTypes from 'prop-types'
 
-import { Box, AppBar, Toolbar, Typography, Container } from '@mui/material'
-import RocketLaunchIcon from '@mui/icons-material/RocketLaunch'
+import { useNavigate } from 'react-router-dom'
+
+import { AppBar, Box, Typography } from '@mui/material'
+
+import { shades } from '../../theme'
 
 export function MenuAppBar (props) {
+  const navigate = useNavigate()
   const {
     sx,
     children
   } = props
   return (
-    <Box
-      sx={{ flexGrow: 1 }}
+    <AppBar
+      sx={{
+        display: 'flex',
+        alignItems: 'center',
+        width: '100vw',
+        height: '100px',
+        color: 'black',
+        position: 'fixed',
+        top: '0',
+        left: '0',
+        zIndex: '1',
+        flexGrow: 1,
+        ...sx
+      }}
     >
-      <AppBar
-        position={'static'}
-        sx={{ display: { xs: 'flex', sm: 'block' }, ...sx }}
+      <Box
+        sx={{
+          width: '80%',
+          margin: 'auto',
+          display: 'flex',
+          justifyContent: 'space-between',
+          alignItems: 'center',
+          ...sx
+        }}
+
       >
-        <Container maxWidth={'xl'}>
-          <Toolbar
-            disableGutters
-            sx={{ pt: '5px', pb: '5px', ...sx }}
+        <Box
+          onClick={() => navigate('/')}
+          sx={{ '&:hover': { cursor: 'pointer' } }}
+          color={shades.secondary[400]}
+        >
+          <Typography
+            variant={'h5'}
+            color={shades.primary[400]}
+            component={'div'}
+            sx={{
+              flexGrow: 1,
+              mr: 2,
+              display: { md: 'flex' },
+              fontWeight: 700,
+              letterSpacing: '.3rem',
+              textDecoration: 'none',
+              '&:hover': { cursor: 'pointer' },
+              '@media (max-width: 599.95px)': {
+                fontSize: '16px'
+              }
+            }}
           >
-            <RocketLaunchIcon
-              sx={{ fontSize: '45px', mr: 1, color: 'red' }}
-              edge={'start'}
-              color={'inherit'}
-            />
-            <Typography
-              variant={'h5'}
-              noWrap
-              component={'div'}
-              sx={{
-                flexGrow: 1,
-                mr: 2,
-                display: { md: 'flex' },
-                fontWeight: 700,
-                letterSpacing: '.3rem',
-                color: 'inherit',
-                textDecoration: 'none'
-              }}
-            >
-              TRAVEL WITH ME
-            </Typography>
-            {children}
-          </Toolbar>
-        </Container>
-      </AppBar>
-    </Box>
+            TRAVEL WITH ME
+          </Typography>
+        </Box>
+        <Box>
+          {children}
+        </Box>
+      </Box>
+    </AppBar>
   )
 }
 
