@@ -33,17 +33,18 @@ export function TravelCard (props) {
   return (
     <Box
       width={width}
-      component={Paper}
     >
       <Box
+        component={Paper}
+        elevation={16}
         position={'relative'}
         onMouseOver={() => setIsHovered(true)}
         onMouseOut={() => setIsHovered(false)}
       >
         <img
           alt={title}
-          width={'400px'}
-          height={'500px'}
+          width={'380px'}
+          height={'512px'}
           src={image}
           onClick={() => navigate(`/travel/${travel.id}`)}
           style={{ cursor: 'pointer' }}
@@ -94,14 +95,16 @@ export function TravelCard (props) {
       </Box>
       <Box mt={'3px'}>
         <Typography
-          variant={'subtitle2'}
+          variant={'h4'}
           color={'#000000'}
         >
+          {title}
+        </Typography>
+        <Typography>
           {category
             .replace(/([A-Z])/g, ' $1')
             .replace(/^./, (str) => str.toUpperCase())}
         </Typography>
-        <Typography>{title}</Typography>
         <Typography fontWeight={'bold'}>${price}</Typography>
       </Box>
     </Box>

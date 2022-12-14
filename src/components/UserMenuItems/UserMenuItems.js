@@ -21,7 +21,7 @@ export function UserMenuItems (props) {
   const [anchorElUser, setAnchorElUser] = useState('')
 
   const navigate = useNavigate()
-  const onClickAdminPanel = React.useCallback((travelId) => navigate('/admin'), [navigate])
+  const onClickAdminPanel = React.useCallback(() => navigate('/admin'), [navigate])
   const onClickProfile = React.useCallback(() => navigate('/profile'), [navigate])
 
   const dispatch = useDispatch()

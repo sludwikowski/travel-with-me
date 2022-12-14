@@ -1,22 +1,40 @@
 import * as React from 'react'
 import PropTypes from 'prop-types'
-import { Container, Grid } from '@mui/material'
+
+import { Box, Typography } from '@mui/material'
 import TravelCard, { TravelPropType } from '../TravelCard'
 
 export function TravelsList (props) {
   const {
+    sx,
     travels,
     onClickTravel
   } = props
   return (
-
-    <Container
-      sx={{ py: 2 }}
-      maxWidth={'xl'}
+    <Box
+      sx={{
+        width: '80%',
+        margin: '40px auto',
+        ...sx
+      }}
     >
-      <Grid
-        container
-        spacing={4}
+      <Typography
+        variant={'h3'}
+        textAlign={'center'}
+        paddingBottom={'25px'}
+      >
+        Our Featured <b>Products</b>
+      </Typography>
+      <Box
+        sx={{
+          margin: '0 auto',
+          display: 'grid',
+          gridTemplateColumns: 'repeat(auto-fill, 380px)',
+          justifyContent: 'space-around',
+          rowGap: '50px',
+          columnGap: '1.33%',
+          ...sx
+        }}
       >
         {
         (!travels || travels.length === 0) ?
@@ -32,13 +50,14 @@ export function TravelsList (props) {
             )
           })
           }
-      </Grid>
-    </Container>
+      </Box>
+    </Box>
 
   )
 }
 
 TravelsList.propTypes = {
+  sx: PropTypes.object,
   travels: PropTypes.arrayOf(TravelPropType),
   onClickTravel: PropTypes.func
 }

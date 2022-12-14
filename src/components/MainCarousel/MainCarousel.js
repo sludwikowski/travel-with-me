@@ -29,8 +29,9 @@ export const MainCarousel = (props) => {
   return (
     <Box
       component={Paper}
+      elevation={16}
       sx={{
-        pt: 13,
+        pt: 12,
         ...sx
       }}
       {...otherProps}

@@ -15,6 +15,7 @@ export function MenuAppBar (props) {
   } = props
   return (
     <AppBar
+      elevation={10}
       sx={{
         display: 'flex',
         alignItems: 'center',
@@ -24,7 +25,7 @@ export function MenuAppBar (props) {
         position: 'fixed',
         top: '0',
         left: '0',
-        zIndex: '1',
+        zIndex: '999',
         flexGrow: 1,
         ...sx
       }}

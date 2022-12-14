@@ -7,6 +7,7 @@ import {
   Box,
   Button,
   TextField,
+  MenuItem,
   FormControl,
   InputLabel,
   OutlinedInput,
@@ -17,6 +18,32 @@ import {
 import DetailsSelect, { DetailOptionsPropType } from '../DetailsSelect'
 
 export const TravelForm = (props) => {
+  const categories = [
+    {
+      value: 'EUROPE',
+      label: 'EUROPE'
+    },
+    {
+      value: 'NORTH AMERICA',
+      label: 'NORTH AMERICA'
+    },
+    {
+      value: 'SOUTH AMERICA',
+      label: 'SOUTH AMERICA'
+    },
+    {
+      value: 'asia',
+      label: 'ASIA'
+    },
+    {
+      value: 'africa',
+      label: 'AFRICA'
+    },
+    {
+      value: 'australia',
+      label: 'AUSTRALIA'
+    }
+  ]
   const {
     sx,
     details,
@@ -53,11 +80,22 @@ export const TravelForm = (props) => {
             message: 'Category is required'
           }
         })}
+        id={'outlined-select-currency'}
+        select
         label={'Category'}
         sx={{ width: '100%', marginBottom: 2 }}
         error={Boolean(errors.category)}
         helperText={errors.category && errors.category.message}
-      />
+      >
+        {categories.map((option) => (
+          <MenuItem
+            key={option.value}
+            value={option.value}
+          >
+            {option.label}
+          </MenuItem>
+        ))}
+      </TextField>
       <TextField
         {...register('image', {
           required: {

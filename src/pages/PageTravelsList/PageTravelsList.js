@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 
 import { useNavigate } from 'react-router-dom'
 
-import { TextField } from '@mui/material'
+import { Paper, TextField } from '@mui/material'
 
 import MenuAppBar from '../../components/MenuAppBar'
 import UserMenuItems from '../../components/UserMenuItems'
@@ -74,6 +74,8 @@ export const PageTravelsList = (props) => {
       <MainCarousel/>
       <SearchBarContainer>
         <TextField
+          component={Paper}
+          elevation={8}
           fullWidth
           label={'Type to search'}
           id={'searchBar'}
