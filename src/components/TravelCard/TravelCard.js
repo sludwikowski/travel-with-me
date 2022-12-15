@@ -3,8 +3,6 @@ import PropTypes from 'prop-types'
 
 import { useDispatch } from 'react-redux'
 
-import { useNavigate } from 'react-router-dom'
-
 import { Box, Paper, Typography, Button, IconButton } from '@mui/material'
 import AddIcon from '@mui/icons-material/Add'
 import RemoveIcon from '@mui/icons-material/Remove'
@@ -14,7 +12,6 @@ import { addToCart } from '../../state/cartSlice'
 import { shades } from '../../theme'
 
 export function TravelCard (props) {
-  const navigate = useNavigate()
   const dispatch = useDispatch()
   const [count, setCount] = useState(1)
   const [isHovered, setIsHovered] = useState(false)
@@ -46,7 +43,7 @@ export function TravelCard (props) {
           width={'380px'}
           height={'512px'}
           src={image}
-          onClick={() => navigate(`/travel/${travel.id}`)}
+          onClick={onClick}
           style={{ cursor: 'pointer' }}
         />
         <Box
@@ -76,7 +73,6 @@ export function TravelCard (props) {
               </IconButton>
             </Box>
             <Button
-              disabled={!onClick}
               onClick={onClick}
               sx={{ backgroundColor: shades.primary[300], color: 'white' }}
             >

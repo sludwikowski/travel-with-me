@@ -1,20 +1,30 @@
-import React from 'react'
+import React, { useState } from 'react'
 import PropTypes from 'prop-types'
 
-import { useNavigate } from 'react-router-dom'
+import { useDispatch } from 'react-redux'
 
-import { Box, Button, Stack, Typography } from '@mui/material'
+import { Box, Button, Typography, IconButton } from '@mui/material'
+import AddIcon from '@mui/icons-material/Add'
+import RemoveIcon from '@mui/icons-material/Remove'
+
+import { addToCart } from '../../state/cartSlice'
 
 import { TravelPropType } from '../TravelCard'
 
+import { shades } from '../../theme'
+
+import { useNavigate } from 'react-router-dom'
+
 export const TravelTitle = (props) => {
+  const dispatch = useDispatch()
+  const [count, setCount] = useState(1)
   const {
     sx,
     travel,
     ...otherProps
   } = props
-
   const navigate = useNavigate()
+  const onClickGoBack = React.useCallback(() => navigate('/'), [navigate])
 
   return (
     <Box
@@ -23,54 +33,70 @@ export const TravelTitle = (props) => {
       }}
       {...otherProps}
     >
-      <Typography
-        component={'h1'}
-        variant={'h2'}
-        fontWeight={500}
-        align={'center'}
-        color={'text.primary'}
-        gutterBottom
+      <Box
+        flex={'1 1 50%'}
+        mb={'40px'}
       >
-        {travel.title}
-      </Typography>
-      <Typography
-        variant={'h6'}
-        align={'center'}
-        color={'text.secondary'}
-        paragraph
-      >
-        {travel.description}
-      </Typography>
-      <Typography
-        variant={'h6'}
-        align={'center'}
-        color={'text.secondary'}
-        paragraph
-      >
-        {travel.category}
-      </Typography>
-      <Typography
-        variant={'h6'}
-        align={'center'}
-        color={'text.secondary'}
-        paragraph
-      >
-        {travel.price + '$'}
-      </Typography>
-      <Stack
-        sx={{ pt: 4 }}
-        direction={'row'}
-        spacing={2}
-        justifyContent={'center'}
-      >
-        <Button
-          variant={'contained'}
-          onClick={() => navigate(travel.id)}
-          sx={{ width: '300px' }}
+        <Box
+          display={'flex'}
+          justifyContent={'space-between'}
         >
-          NEXT
-        </Button>
-      </Stack>
+          <Box>Home/Travel</Box>
+          <Button
+            variant={'text'}
+            color={'secondary'}
+            cursor={'pointer'}
+            onClick={onClickGoBack}
+          >
+            Go back
+          </Button>
+        </Box>
+        <Box m={'65px 0 25px 0'}>
+          <Typography variant={'h3'}>{travel.title}</Typography>
+          <Typography>${travel.price}</Typography>
+          <Typography sx={{ mt: '20px' }}>
+            {travel.description}
+          </Typography>
+        </Box>
+        <Box
+          display={'flex'}
+          alignItems={'center'}
+          minHeight={'50px'}
+        >
+          <Box
+            display={'flex'}
+            alignItems={'center'}
+            border={`1.5px solid ${shades.neutral[300]}`}
+            mr={'20px'}
+            p={'2px 5px'}
+          >
+            <IconButton onClick={() => setCount(Math.max(count - 1, 0))}>
+              <RemoveIcon />
+            </IconButton>
+            <Typography sx={{ p: '0 5px' }}>{count}</Typography>
+            <IconButton onClick={() => setCount(count + 1)}>
+              <AddIcon />
+            </IconButton>
+          </Box>
+          <Button
+            sx={{
+              backgroundColor: '#222222',
+              color: 'white',
+              borderRadius: 0,
+              minWidth: '150px',
+              padding: '10px 40px'
+            }}
+            onClick={() => dispatch(addToCart({ travel: { ...travel, count } }))}
+          >
+            ADD TO CART
+          </Button>
+        </Box>
+        <Box
+          mt={2}
+        >
+          <Typography>CATEGORIES: {travel.category}</Typography>
+        </Box>
+      </Box>
     </Box>
   )
 }

@@ -1,9 +1,18 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-import { useNavigate } from 'react-router-dom'
+// import Carousel from 'react-material-ui-carousel'
 
-import { Box, Button, ImageList, ImageListItem, ImageListItemBar } from '@mui/material'
+import { Box, ImageList, ImageListItem, ImageListItemBar } from '@mui/material'
+
+function srcset (image, size, rows = 1, cols = 1) {
+  return {
+    src: `${image}?w=${size * cols}&h=${size * rows}&fit=crop&auto=format`,
+    srcSet: `${image}?w=${size * cols}&h=${
+      size * rows
+    }&fit=crop&auto=format&dpr=2 2x`
+  }
+}
 
 export const DetailsList = (props) => {
   const {
@@ -13,40 +22,46 @@ export const DetailsList = (props) => {
     ...otherProps
   } = props
 
-  const navigate = useNavigate()
-  const onClickGoBack = React.useCallback(() => navigate('/'), [navigate])
   return (
-    <Box
-      sx={{
-        ...sx
-      }}
-      {...otherProps}
-    >
+    <Box>
       <ImageList
-        // variant={'masonry'}
+        style={{ overflow: 'hidden' }}
+        variant={'quilted'}
+        rowHeight={350}
         cols={2}
-        gap={8}
         sx={{
           '@media (max-width: 599.95px)': {
             display: 'flex',
             flexDirection: 'column',
             overflowY: 'scroll'
-          }
+          },
+          ...sx
         }}
+        {...otherProps}
       >
         {children}
         {
           details && details.map((detail) => {
             return (
-              <ImageListItem key={detail.content} >
+
+              <ImageListItem
+                key={detail.content}
+                cols={detail.cols || 1}
+                rows={detail.rows || 1}
+                sx={{
+                  opacity: '.9',
+                  transition: 'opacity .3s linear',
+                  cursor: 'pointer',
+                  '&:hover': { opacity: 1 }
+                }}
+              >
                 <img
-                  src={`${detail.content}?w=248&fit=crop&auto=format`}
-                  srcSet={`${detail.content}?w=248&fit=crop&auto=format&dpr=2 2x`}
+                  {...srcset(detail.content, detail.rows, detail.cols)}
                   alt={detail.title}
                   loading={'lazy'}
                 />
+
                 <ImageListItemBar
-                  position={'below'}
                   title={detail.title}
                 />
               </ImageListItem>
@@ -54,20 +69,6 @@ export const DetailsList = (props) => {
           })
         }
       </ImageList>
-      <Box
-        sx={{
-          display: 'flex', justifyContent: 'flex-end'
-        }}
-      >
-        <Button
-          color={'secondary'}
-          variant={'contained'}
-          onClick={onClickGoBack}
-          sx={{ width: '300px' }}
-        >
-          GO BACK
-        </Button>
-      </Box>
     </Box>
   )
 }

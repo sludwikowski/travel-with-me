@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 
 import { useNavigate, useParams, Outlet } from 'react-router-dom'
 
-import { Box, Container } from '@mui/material'
+import { Box } from '@mui/material'
 
 import UserMenuItems from '../../components/UserMenuItems'
 import MenuAppBar from '../../components/MenuAppBar'
@@ -18,11 +18,14 @@ import { get as getTravel } from '../../api/travels'
 import DetailsContextProvider from '../../contexts/DetailsContext'
 
 import { handleAsyncAction } from '../../handleAsyncAction'
+
+import { TravelPropType } from '../../components/TravelCard'
 import { CartMenu } from '../../components/CartMenu'
 
 export const PageTravel = (props) => {
   const {
     sx,
+    travels,
     children,
     ...otherProps
   } = props
@@ -74,6 +77,8 @@ export const PageTravel = (props) => {
   return (
     <Box
       sx={{
+        width: '80%',
+        m: '80px auto',
         ...sx
       }}
       {...otherProps}
@@ -85,6 +90,7 @@ export const PageTravel = (props) => {
           userAvatar={userAvatar}
         />
       </MenuAppBar>
+      <CartMenu/>
       <Box
         sx={{
           pt: 8,
@@ -101,11 +107,7 @@ export const PageTravel = (props) => {
         }
 
       </Box>
-      <Container
-        sx={{ py: 4 }}
-        maxWidth={'xl'}
-        height={'100vh'}
-      >
+      <Box >
         <DetailsContextProvider
           value={details}
         >
@@ -114,14 +116,14 @@ export const PageTravel = (props) => {
         <DetailsList
           details={details}
         />
-      </Container>
-      <CartMenu/>
+      </Box>
     </Box>
   )
 }
 
 PageTravel.propTypes = {
   sx: PropTypes.object,
+  travels: PropTypes.arrayOf(TravelPropType),
   onClick: PropTypes.func,
   onClickLogOut: PropTypes.func,
   children: PropTypes.node
