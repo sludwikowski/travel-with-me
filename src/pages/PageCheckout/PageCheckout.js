@@ -3,7 +3,13 @@ import PropTypes from 'prop-types'
 
 import { useNavigate } from 'react-router-dom'
 
-import { Box, Button, Typography, Stepper, Step, StepLabel } from '@mui/material'
+import {
+  Box, Button, Typography, Stepper, Step, StepLabel, Dialog,
+  DialogTitle,
+  DialogContent,
+  DialogContentText,
+  DialogActions
+} from '@mui/material'
 
 import CheckoutForm from '../../components/CheckoutForm'
 import MenuAppBar from '../../components/MenuAppBar'
@@ -26,6 +32,16 @@ export const PageCheckout = (props) => {
 
   const navigate = useNavigate()
   const onClickGoBack = React.useCallback(() => navigate('/home'), [navigate])
+
+  const [open, setOpen] = React.useState(false)
+
+  const handleClickOpen = () => {
+    setOpen(true)
+  }
+
+  const handleClose = () => {
+    setOpen(false)
+  }
 
   return (
     <Box
@@ -78,7 +94,6 @@ export const PageCheckout = (props) => {
           gap={'50px'}
         >
           <Button
-            onClick={onClickGoBack}
             fullWidth
             color={'primary'}
             variant={'contained'}
@@ -90,9 +105,38 @@ export const PageCheckout = (props) => {
               padding: '15px 40px',
               mt: 5
             }}
+            onClick={handleClickOpen}
           >
-            Booking
+            RESERVATION
           </Button>
+          <Dialog
+            open={open}
+            onClose={handleClose}
+            aria-labelledby={'alert-dialog-title'}
+            aria-describedby={'alert-dialog-description'}
+          >
+            <DialogTitle id={'alert-dialog-title'}>
+              Are you confirming your order?
+            </DialogTitle>
+            <DialogContent>
+              <DialogContentText id={'alert-dialog-description'}>
+                Thank you for trusting us
+              </DialogContentText>
+            </DialogContent>
+            <DialogActions>
+              <Button
+                onClick={onClickGoBack}
+              >
+                Yes
+              </Button>
+              <Button
+                onClick={handleClickOpen}
+                autoFocus
+              >
+                No
+              </Button>
+            </DialogActions>
+          </Dialog>
         </Box>
       </Box>
     </Box>

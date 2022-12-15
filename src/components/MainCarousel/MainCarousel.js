@@ -99,15 +99,13 @@ export const MainCarousel = (props) => {
               margin={isNonMobile ? undefined : '0 auto'}
               maxWidth={isNonMobile ? undefined : '240px'}
             >
-              <Typography color={shades.secondary[200]}>-- NEW ITEMS</Typography>
-              <Typography variant={'h2'}>Summer Sale</Typography>
               <Typography
-                fontWeight={'bold'}
+                variant={'h2'}
                 color={shades.secondary[300]}
-                sx={{ textDecoration: 'underline' }}
               >
-                Discover More
+                TRAVEL WITH US
               </Typography>
+              <Typography>PRICES QUOTED ARE PER PERSON</Typography>
             </Box>
           </Box>
         ))}

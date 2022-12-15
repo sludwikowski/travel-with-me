@@ -22,10 +22,10 @@ export const CheckoutForm = (props) => {
       }}
     >
       <TextField
+        required
         fullWidth
         type={'text'}
         label={'First Name'}
-        required
         sx={{ gridColumn: 'span 2' }}
       />
       <TextField
@@ -35,46 +35,46 @@ export const CheckoutForm = (props) => {
         sx={{ gridColumn: 'span 2' }}
       />
       <TextField
+        required
         fullWidth
         type={'text'}
         label={'Country'}
-        required
         sx={{ gridColumn: 'span 2' }}
 
       />
       <TextField
+        required
         fullWidth
         type={'text'}
         label={'Street Address'}
-        required
         sx={{ gridColumn: 'span 2' }}
       />
       <TextField
+        required
         fullWidth
         type={'text'}
         label={'Street Address 2 (optional)'}
-        required
         sx={{ gridColumn: 'span 2' }}
       />
       <TextField
+        required
         fullWidth
         type={'text'}
         label={'City'}
-        required
         sx={{ gridColumn: 'span 2' }}
       />
       <TextField
+        required
         fullWidth
         type={'text'}
         label={'State'}
-        required
         sx={{ gridColumn: '1fr' }}
       />
       <TextField
+        required
         fullWidth
         type={'text'}
         label={'Zip Code'}
-        required
         sx={{ gridColumn: '1fr' }}
       />
     </Box>
