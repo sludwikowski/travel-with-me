@@ -76,7 +76,7 @@ export const CartMenu = (props) => {
           height={'100%'}
         >
           <FlexBox mb={'15px'}>
-            <Typography variant={'h3'}>SHOPPING BAG ({cart.length})</Typography>
+            <Typography variant={'h3'}>SHOPPING CART ({cart.length})</Typography>
             <IconButton onClick={() => dispatch(setIsCartOpen({}))}>
               <CloseIcon />
             </IconButton>

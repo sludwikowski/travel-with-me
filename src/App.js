@@ -10,6 +10,7 @@ import PageCreateAccount from './pages/PageCreateAccount'
 import PageRecoverPassword from './pages/PageRecoverPassword'
 import PageProfile from './pages/PageProfile/PageProfile'
 import PageTravel from './pages/PageTravel'
+import PageCheckout from './pages/PageCheckout'
 import PageAdminMain from './pages/PageAdminMain'
 import PageAdminDetails from './pages/PageAdminDetails'
 import PageAdminDetailsNew from './pages/PageAdminDetailsNew'
@@ -50,6 +51,12 @@ export const App = () => {
               element={
                 <PageProfile/>
                   }
+            />
+            <Route
+              path={'/checkout'}
+              element={
+                <PageCheckout />
+              }
             />
             <Route
               path={'travels/:travelId'}
