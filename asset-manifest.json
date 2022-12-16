@@ -1,25 +1,25 @@
 {
   "files": {
-    "main.js": "/static/js/main.fa151ddd.chunk.js",
-    "main.js.map": "/static/js/main.fa151ddd.chunk.js.map",
-    "runtime-main.js": "/static/js/runtime-main.fdf7a9b9.js",
-    "runtime-main.js.map": "/static/js/runtime-main.fdf7a9b9.js.map",
-    "static/css/2.ed1298f3.chunk.css": "/static/css/2.ed1298f3.chunk.css",
-    "static/js/2.0c0682c5.chunk.js": "/static/js/2.0c0682c5.chunk.js",
-    "static/js/2.0c0682c5.chunk.js.map": "/static/js/2.0c0682c5.chunk.js.map",
-    "index.html": "/index.html",
-    "static/css/2.ed1298f3.chunk.css.map": "/static/css/2.ed1298f3.chunk.css.map",
-    "static/js/2.0c0682c5.chunk.js.LICENSE.txt": "/static/js/2.0c0682c5.chunk.js.LICENSE.txt",
-    "static/media/beach-1824855.jpg": "/static/media/beach-1824855.78c06176.jpg",
-    "static/media/north-star-2869817.jpg": "/static/media/north-star-2869817.6e01d82f.jpg",
-    "static/media/popeye-village-4158038.jpg": "/static/media/popeye-village-4158038.3493c2c7.jpg",
-    "static/media/road-7525091.jpg": "/static/media/road-7525091.ab92b0c9.jpg",
-    "static/media/white-4928115.jpg": "/static/media/white-4928115.76e6c463.jpg"
+    "main.js": "/travel-with-me/static/js/main.fa151ddd.chunk.js",
+    "main.js.map": "/travel-with-me/static/js/main.fa151ddd.chunk.js.map",
+    "runtime-main.js": "/travel-with-me/static/js/runtime-main.e6b5fbf7.js",
+    "runtime-main.js.map": "/travel-with-me/static/js/runtime-main.e6b5fbf7.js.map",
+    "static/css/2.ed1298f3.chunk.css": "/travel-with-me/static/css/2.ed1298f3.chunk.css",
+    "static/js/2.f6612211.chunk.js": "/travel-with-me/static/js/2.f6612211.chunk.js",
+    "static/js/2.f6612211.chunk.js.map": "/travel-with-me/static/js/2.f6612211.chunk.js.map",
+    "index.html": "/travel-with-me/index.html",
+    "static/css/2.ed1298f3.chunk.css.map": "/travel-with-me/static/css/2.ed1298f3.chunk.css.map",
+    "static/js/2.f6612211.chunk.js.LICENSE.txt": "/travel-with-me/static/js/2.f6612211.chunk.js.LICENSE.txt",
+    "static/media/beach-1824855.jpg": "/travel-with-me/static/media/beach-1824855.78c06176.jpg",
+    "static/media/north-star-2869817.jpg": "/travel-with-me/static/media/north-star-2869817.6e01d82f.jpg",
+    "static/media/popeye-village-4158038.jpg": "/travel-with-me/static/media/popeye-village-4158038.3493c2c7.jpg",
+    "static/media/road-7525091.jpg": "/travel-with-me/static/media/road-7525091.ab92b0c9.jpg",
+    "static/media/white-4928115.jpg": "/travel-with-me/static/media/white-4928115.76e6c463.jpg"
   },
   "entrypoints": [
-    "static/js/runtime-main.fdf7a9b9.js",
+    "static/js/runtime-main.e6b5fbf7.js",
     "static/css/2.ed1298f3.chunk.css",
-    "static/js/2.0c0682c5.chunk.js",
+    "static/js/2.f6612211.chunk.js",
     "static/js/main.fa151ddd.chunk.js"
   ]
 }
